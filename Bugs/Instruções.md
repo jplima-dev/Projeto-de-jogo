@@ -1,0 +1,1 @@
+instruções: pra deixar bem claro, tem a pasta dos bugs e a pasta das sugestões, nada de dar sugestões na pasta dos bugs nem falar bugs na pasta das sugestões, nessa pasta e a mesma coisa das sugestões uma pasta pra cada aspecto do jogo como cenário, player, inimigo etc, vc deixa anotado exatamente assim, quase igual as sugestões " Seunome-Bug1.md ".
