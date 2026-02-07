@@ -1,1 +1,1 @@
-a
+As suas instruções são um pouco diferente pra n pesar muito já que tu não trabalha programando o jogo em si, só joga as sprites aqui nessas pastas.
