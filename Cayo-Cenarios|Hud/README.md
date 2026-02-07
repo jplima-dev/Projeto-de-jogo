@@ -1,1 +1,0 @@
-Suas instruções mudam um pouco dos outros já que tu n programa diretamente o jogo, tu manda aqui as sprites nas respectivas pastas
