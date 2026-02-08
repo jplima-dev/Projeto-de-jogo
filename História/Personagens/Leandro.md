@@ -1,20 +1,57 @@
-## Nome: Leandro 
- Um professor de informática experienre, que sabe se virar nas situações mais desesperadoras.
-## Função no grupo: principal combatente
- Um guerreiro de curto/médio alcance que usa sua programação junto de seus poderes para infligir alto dano nos oponentes
-## Afinidade principal: Poo
- Alto domínio da programação orientada a objetos, consegue integra-la em seus poderes e criar métodos muito fortes e versáteis.
-## Poderes:
-– Magia de criação 
-  Uma magia muito versátil onde permite o usuário a criar várias coisas, normalmente Leandro usa para criar compiladores imaginarios que convertem seu código em realidade.
+# 🧠 Personagem — Leandro
 
-– Atribuição
-  E capaz de criar um método que e sempre ativo por 5 minutos, ele pode usar esse método em si mesmo nos seus aliados e até nos seus inimigos depende de sua vontade.
+## 👤 Nome
+**Leandro**
 
-## Habilidades passivas:
-– (Desbloqueavel) Consegue fazer mais de uma atribuição por vez, desde que sejam regras simples como, se o usuário sofrer dano ele recebera uma pequena regeneração.
+## 📝 Descrição
+Professor de informática experiente, calmo sob pressão e capaz de se virar mesmo nas situações mais desesperadoras.  
+Transforma lógica, código e criatividade em armas reais.
 
-## Limitações / custos:
-– Leandro cria terminais para realizar os métodos, se ele fechar esses terminais, todos só efeitos incluindo os da atribuição deram desfeitos, além disso obviamente Leandro não pode criar métodos que transpassem sua magia como algo que destruísse o universo ou burlasse a regra anterior.
-## Estado atual:
- Estavel
+---
+
+## ⚔️ Função no Grupo
+**Combatente Principal**  
+Guerreiro de curto/médio alcance que utiliza programação e poderes para causar alto dano e controlar o campo de batalha.
+
+---
+
+## 🧩 Afinidade Principal
+**POO — Programação Orientada a Objetos**  
+Domínio avançado de classes, métodos e atributos, integrando conceitos de POO diretamente em suas habilidades.  
+Seus poderes são modulares, reutilizáveis e altamente versáteis.
+
+---
+
+## ✨ Poderes
+
+### 🛠️ Magia de Criação
+Magia extremamente versátil que permite criar estruturas, objetos e conceitos temporários.  
+Leandro manifesta **compiladores imaginários**, capazes de converter seu código em efeitos reais no mundo físico.
+
+### 🧬 Atribuição
+Cria um método persistente com duração de **até 5 minutos**.  
+Pode ser aplicado em si mesmo, aliados ou inimigos, alterando regras, status ou respostas a eventos conforme sua vontade.
+
+---
+
+## 🧠 Habilidades Passivas
+
+### 🔓 Atribuição Múltipla *(Desbloqueável)*
+Permite manter mais de uma atribuição ativa ao mesmo tempo, desde que sejam regras simples.  
+Exemplo:
+- `Se sofrer dano → recebe pequena regeneração`
+
+---
+
+## ⚠️ Limitações & Custos
+
+- Leandro manifesta **terminais** para executar seus métodos.
+- Se um terminal for fechado, **todos os efeitos ativos são imediatamente desfeitos**, incluindo atribuições.
+- Seus métodos não podem ultrapassar os limites da própria magia:
+  - ❌ Não pode destruir o universo
+  - ❌ Não pode burlar suas próprias regras fundamentais
+
+---
+
+## 🟢 Estado Atual
+**Estável**
