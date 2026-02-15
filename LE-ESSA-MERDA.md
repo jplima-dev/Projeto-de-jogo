@@ -1,2 +1,0 @@
-instruções:
-como eu tinha dito naquela aula do Toni, cada um tem sua respectiva página dentro dela vc joga a pasta do jogo que vc modificou de preferência no .zip, junto com um arquivo de texto escrito " mudanças ", explicando oque vc mudou em relação a versão anterior, tentem levar em conta que esse joguinho que a gente tá fazendo pode servir para o currículo algum dia então levem um pouco a sério na hora de fazer as coisas e explicar as mudanças.
