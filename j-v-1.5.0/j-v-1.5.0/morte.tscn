@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://bti40blls6pdg"]
+
+[ext_resource type="Script" uid="uid://dxy5wwp6lnhf7" path="res://control.gd" id="1_6or3w"]
+
+[node name="Control" type="Control" unique_id=256549321]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="morte" type="Control" parent="." unique_id=1665886084]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_6or3w")
+
+[node name="ColorRect" type="ColorRect" parent="morte" unique_id=559493375]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 28.948002
+anchor_bottom = 16.197
+offset_right = -7.920044
+offset_bottom = -0.8800049
+color = Color(1, 0.100000024, 0, 1)
+
+[node name="Label" type="Label" parent="morte" unique_id=1145562411]
+layout_mode = 0
+offset_left = 536.0
+offset_top = 276.0
+offset_right = 1119.0
+offset_bottom = 348.0
+text = "tu morreu"
+
+[node name="Button" type="Button" parent="morte" unique_id=302085081]
+layout_mode = 0
+offset_left = 386.0
+offset_top = 317.0
+offset_right = 796.0
+offset_bottom = 440.0
+text = "
+
+reviver
+
+
+"

@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://d0p5sy5k6kqcx"]
+
+[ext_resource type="Script" uid="uid://cxh0tnxvbjqeb" path="res://main.gd" id="1_ig7tw"]
+
+[node name="main" type="Node" unique_id=658092615]
+script = ExtResource("1_ig7tw")
+
+[node name="SceneContainer" type="Control" parent="." unique_id=2020325337]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1961061171]
+
+[node name="Fade" type="ColorRect" parent="CanvasLayer" unique_id=1732830917]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://c61qcon7am5hi"]
+
+[ext_resource type="Script" uid="uid://cnwpq071s445" path="res://inimigo.gd" id="1_ulsdv"]
+[ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="2_m0m37"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aukci"]
+radius = 48.584976
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lvh7a"]
+size = Vector2(128, 128)
+
+[node name="Node2D" type="Node2D" unique_id=1586127463]
+
+[node name="coisadinho" type="Node2D" parent="." unique_id=1497345217]
+light_mask = 2
+visibility_layer = 2
+
+[node name="inimigo" type="CharacterBody2D" parent="coisadinho" unique_id=1648825675]
+z_index = 4096
+position = Vector2(-7, 1)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_ulsdv")
+
+[node name="jubiscreudo" type="Sprite2D" parent="coisadinho/inimigo" unique_id=979213966]
+position = Vector2(516, 258)
+texture = ExtResource("2_m0m37")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="coisadinho/inimigo" unique_id=1610899535]
+position = Vector2(692, 359)
+shape = SubResource("CircleShape2D_aukci")
+
+[node name="Area2D" type="Area2D" parent="coisadinho/inimigo" unique_id=2146092102]
+position = Vector2(-6440, 1618)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="coisadinho/inimigo/Area2D" unique_id=1541141223]
+shape = SubResource("RectangleShape2D_lvh7a")
+
+[connection signal="body_entered" from="coisadinho/inimigo/Area2D" to="coisadinho/inimigo" method="_on_area_2d_body_entered"]

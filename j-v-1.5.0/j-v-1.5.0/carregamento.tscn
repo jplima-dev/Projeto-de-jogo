@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://butsega2ook3t"]
+
+[ext_resource type="Script" uid="uid://bvuqlwlduhoa1" path="res://carregamento.gd" id="1_qaw4w"]
+
+[node name="Node2D" type="Node2D" unique_id=1380678349]
+script = ExtResource("1_qaw4w")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1424732637]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1634536968]
+offset_left = -377.0
+offset_top = -263.0
+offset_right = 1672.0
+offset_bottom = 885.0
+color = Color(0.24379998, 0.46, 0.4347767, 1)
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=1277041712]
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
