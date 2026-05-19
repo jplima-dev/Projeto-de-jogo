@@ -84,10 +84,16 @@ func _ready():
 # MOVIMENTO
 # ==============================
 func _physics_process(delta):
-	
+
 	if !pode_mexer:
+
 		velocity = Vector2.ZERO
 		move_and_slide()
+
+		# mostra apenas o sprite parado
+		$Sprite2D.visible = true
+		$AnimatedSprite2D.visible = false
+
 		return
 
 	var dir = Vector2(
@@ -107,7 +113,6 @@ func _physics_process(delta):
 		facing_direction = dir
 
 	var moving = dir.length() > 0 or is_dashing
-
 	# ==========================
 	# MOVIMENTO + DASH (não mexi)
 	# ==========================

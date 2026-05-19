@@ -3,7 +3,7 @@ extends Node2D
 # =========================
 # CENAS
 # =========================
-var player_scene = preload("res://leandro.tscn")
+var player_scene = preload("res://leandro2.tscn")
 var sala_scene = preload("res://cenario.tscn")
 
 # =========================
@@ -18,11 +18,13 @@ var sala
 # =========================
 func _ready():
 
+	print("CUTSCENE READY")
+
 	# =====================
 	# CONFIGURA FADE
 	# =====================
-	$Fade.z_index = 999
-	$Fade.modulate.a = 1.0
+	$CanvasLayer/Fade.z_index = 999
+	$CanvasLayer/Fade.modulate.a = 1.0
 
 	# =====================
 	# CARREGA O CENÁRIO
@@ -30,18 +32,31 @@ func _ready():
 	sala = sala_scene.instantiate()
 	add_child(sala)
 
+	print("CENÁRIO CARREGADO")
+
+	# =====================
+	# PEGA O PLAYER SPAWN
+	# =====================
+	var spawn = sala.get_node("PlayerSpawn")
+
 	# =====================
 	# CARREGA O PLAYER
 	# =====================
-	var player_container = player_scene.instantiate()
-	add_child(player_container)
+	player = player_scene.instantiate()
 
-	player = player_container.get_node("leandro")
+	add_child(player)
 
-	# posição inicial
-	player.global_position = Vector2(500, 300)
+	print("PLAYER:", player)
+	print("SCRIPT PLAYER:", player.get_script())
 
-	# impede movimentação
+	# =====================
+	# POSIÇÃO INICIAL
+	# =====================
+	player.global_position = spawn.global_position
+
+	# =====================
+	# TRAVA MOVIMENTO
+	# =====================
 	player.pode_mexer = false
 
 	# espera 1 frame
@@ -56,14 +71,15 @@ func _ready():
 # =========================
 func start_cutscene():
 
+	print("CUTSCENE INICIADA")
+
 	# =====================
 	# FADE IN
 	# =====================
-
 	var tween = create_tween()
 
 	tween.tween_property(
-		$Fade,
+		$CanvasLayer/Fade,
 		"modulate:a",
 		0.0,
 		3.0
@@ -71,11 +87,11 @@ func start_cutscene():
 
 	await tween.finished
 
+	print("FADE FINALIZADO")
 
 	# =====================
 	# PROFESSOR FALANDO
 	# =====================
-
 	print("Professor: turma, prestem atenção...")
 
 	await get_tree().create_timer(2.0).timeout
@@ -88,48 +104,42 @@ func start_cutscene():
 
 	await get_tree().create_timer(2.0).timeout
 
-
 	# =====================
 	# LUZ PISCANDO
 	# =====================
-
 	for i in range(3):
 
-		$Fade.modulate.a = 0.7
+		print("PISCANDO:", i)
+
+		$CanvasLayer/Fade.modulate.a = 0.7
 		await get_tree().create_timer(0.08).timeout
 
-		$Fade.modulate.a = 0.0
+		$CanvasLayer/Fade.modulate.a = 0.0
 		await get_tree().create_timer(0.08).timeout
-
 
 	# =====================
 	# APAGÃO TOTAL
 	# =====================
+	print("APAGÃO")
 
-	$Fade.modulate.a = 1.0
-
-	print("...")
+	$CanvasLayer/Fade.modulate.a = 1.0
 
 	await get_tree().create_timer(2.0).timeout
-
 
 	# =====================
 	# SOM ESTRANHO
 	# =====================
-
 	print("Algo caiu na sala...")
 
 	await get_tree().create_timer(1.5).timeout
 
-
 	# =====================
 	# VOLTA DA VISÃO
 	# =====================
-
 	var tween2 = create_tween()
 
 	tween2.tween_property(
-		$Fade,
+		$CanvasLayer/Fade,
 		"modulate:a",
 		0.0,
 		2.0
@@ -137,11 +147,11 @@ func start_cutscene():
 
 	await tween2.finished
 
+	print("VISÃO VOLTOU")
 
 	# =====================
 	# LIBERA PLAYER
 	# =====================
-
 	player.pode_mexer = true
 
-	print("Gameplay começou")
+	print("GAMEPLAY COMEÇOU")
