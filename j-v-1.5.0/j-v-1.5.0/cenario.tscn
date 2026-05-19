@@ -4284,4 +4284,7 @@ offset_right = 10567.0
 offset_bottom = 2492.0
 color = Color(0, 0, 0, 1)
 
-[connection signal="body_entered" from="proximacena" to="." method="_on_proximacena_body_entered"]
+[node name="Marker2D" type="Marker2D" parent="." unique_id=864363215]
+position = Vector2(735, 453)
+
+[connection signal="body_entered" from="proximacena" to="proximacena" method="_on_body_entered"]
