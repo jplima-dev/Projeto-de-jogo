@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://d30ybp2ig2uu3" path="res://proximacena.gd" id="4_bj8tx"]
 [ext_resource type="Texture2D" uid="uid://dqjv6sfuecr8v" path="res://chão.png" id="4_r0gk3"]
 [ext_resource type="AudioStream" uid="uid://hxva47axtvlb" path="res://musica.mp3" id="5_r0gk3"]
+[ext_resource type="Script" uid="uid://dtv3x43mp0l6k" path="res://escadas.gd" id="6_0nnsg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqljg"]
 size = Vector2(1109, 76.6875)
@@ -4260,19 +4261,14 @@ offset_right = 1043.0
 offset_bottom = 655.0
 color = Color(0, 0, 0, 1)
 
-[node name="proximacena" type="Area2D" parent="." unique_id=2063070143 node_paths=PackedStringArray("destino")]
+[node name="corredor2" type="Area2D" parent="." unique_id=2063070143 node_paths=PackedStringArray("destino")]
 script = ExtResource("4_bj8tx")
 destino = NodePath("../corredor")
 
-[node name="tpcorredor" type="CollisionShape2D" parent="proximacena" unique_id=259050756]
+[node name="tpcorredor" type="CollisionShape2D" parent="corredor2" unique_id=259050756]
 z_index = 2
 position = Vector2(1026, 18)
 shape = SubResource("RectangleShape2D_4qp2d")
-
-[node name="tpescadas" type="CollisionShape2D" parent="proximacena" unique_id=1321136594]
-z_index = 11
-position = Vector2(7575, 1779.5)
-shape = SubResource("RectangleShape2D_j14hu")
 
 [node name="corredor" type="Marker2D" parent="." unique_id=1633832903]
 position = Vector2(7075, -966)
@@ -4284,7 +4280,15 @@ offset_right = 10567.0
 offset_bottom = 2492.0
 color = Color(0, 0, 0, 1)
 
-[node name="Marker2D" type="Marker2D" parent="." unique_id=864363215]
+[node name="escadas2" type="Marker2D" parent="." unique_id=864363215]
 position = Vector2(735, 453)
 
-[connection signal="body_entered" from="proximacena" to="proximacena" method="_on_body_entered"]
+[node name="escadas" type="Area2D" parent="." unique_id=152146912]
+script = ExtResource("6_0nnsg")
+
+[node name="tpescadas" type="CollisionShape2D" parent="escadas" unique_id=2024027579]
+z_index = 11
+position = Vector2(7575, 1779.5)
+shape = SubResource("RectangleShape2D_j14hu")
+
+[connection signal="body_entered" from="corredor2" to="corredor2" method="_on_body_entered"]
