@@ -100,9 +100,12 @@ func _physics_process(delta):
 	if dir != Vector2.ZERO:
 		facing_direction = dir
 
+	var moving = dir.length() > 0 or is_dashing
+
 	# ==========================
-	# DASH AJUSTADO
+	# MOVIMENTO + DASH (não mexi)
 	# ==========================
+
 	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0 and dir != Vector2.ZERO:
 		is_dashing = true
 		dash_timer = DASH_DURATION
@@ -112,13 +115,12 @@ func _physics_process(delta):
 		if som_dash:
 			som_dash.play()
 
-		if has_node("AnimatedSprite2D"):
-			if dir.y < 0:
-				$AnimatedSprite2D.play("dash_cima")
-			elif dir.y > 0:
-				$AnimatedSprite2D.play("dash_baixo")
-			else:
-				$AnimatedSprite2D.play("dash")
+		if dir.y < 0:
+			$AnimatedSprite2D.play("dash_cima")
+		elif dir.y > 0:
+			$AnimatedSprite2D.play("dash_baixo")
+		else:
+			$AnimatedSprite2D.play("dash")
 
 	velocity = dash_direction * DASH_SPEED if is_dashing else dir * (SPEED * RUN_MULTIPLIER if Input.is_action_pressed("correr") else SPEED)
 
@@ -133,15 +135,14 @@ func _physics_process(delta):
 	move_and_slide()
 
 	# ==========================
-	# ANIMAÇÃO
+	# ANIMAÇÃO (CORRIGIDA)
 	# ==========================
-	var moving = dir.length() > 0 or is_dashing
 
 	if has_node("Sprite2D"):
 		$Sprite2D.visible = !moving
 
 	if has_node("AnimatedSprite2D"):
-		$AnimatedSprite2D.visible = moving
+		$AnimatedSprite2D.visible = true
 
 		if moving and !is_dashing:
 
@@ -163,19 +164,12 @@ func _physics_process(delta):
 				else:
 					$AnimatedSprite2D.play("andar")
 
+				if dir.x != 0:
+					$AnimatedSprite2D.flip_h = dir.x > 0
+
 		elif !moving:
-			$AnimatedSprite2D.stop()
-
-		if $AnimatedSprite2D.animation == "andar":
-			if dir.x != 0:
-				$AnimatedSprite2D.flip_h = dir.x > 0
-
-		if $AnimatedSprite2D.animation == "correr":
-			if dir.x != 0:
-				$AnimatedSprite2D.flip_h = dir.x < 0
-				
-		if $AnimatedSprite2D.animation == "dash":
-			$AnimatedSprite2D.flip_h = dash_direction.x < 0
+			$AnimatedSprite2D.play("parado_direcional")
+			$AnimatedSprite2D.flip_h = facing_direction.x > 0
 
 # ==============================
 # SINCRONIZAÇÃO DO SOM
@@ -203,7 +197,7 @@ func _input(event):
 		_do_attack()
 
 	if event.is_action_pressed("dano"):
-		take_damage(1000)
+		take_damage(10)
 
 	if event.is_action_pressed("cura"):
 		heal(10)

@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bqp81wskuym1f" path="res://pixilart-sprite (13).png" id="9_gmunj"]
 [ext_resource type="Texture2D" uid="uid://drsl5cv45wgqy" path="res://dashfront.png" id="10_koj8l"]
 [ext_resource type="Texture2D" uid="uid://c18ik3r1psafx" path="res://dashlado.png" id="11_1t4v4"]
+[ext_resource type="Texture2D" uid="uid://bshytcqr34xmm" path="res://esquerda_l.png" id="12_koj8l"]
 [ext_resource type="AudioStream" uid="uid://cuyiu8a20hkci" path="res://andar.mp3" id="13_hbjac"]
 [ext_resource type="AudioStream" uid="uid://bhx0yxdfp60dp" path="res://correr.mp3" id="14_kafe8"]
 [ext_resource type="AudioStream" uid="uid://boikmxkrwn6p7" path="res://dash.mp3" id="15_41enp"]
@@ -107,6 +108,10 @@ region = Rect2(0, 0, 1125, 1125)
 [sub_resource type="AtlasTexture" id="AtlasTexture_j1prp"]
 atlas = ExtResource("11_1t4v4")
 region = Rect2(1125, 0, 1125, 1125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5amt7"]
+atlas = ExtResource("12_koj8l")
+region = Rect2(0, 0, 869, 1125)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a1cyc"]
 animations = [{
@@ -217,6 +222,14 @@ animations = [{
 "loop": true,
 "name": &"dash_cima",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5amt7")
+}],
+"loop": true,
+"name": &"parado_direcional",
+"speed": 1.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_42v40"]
@@ -245,7 +258,7 @@ texture = ExtResource("2_j4v0s")
 z_index = 4096
 scale = Vector2(0.12, 0.12283635)
 sprite_frames = SubResource("SpriteFrames_a1cyc")
-animation = &"andar"
+animation = &"parado_direcional"
 
 [node name="Camera2D" type="Camera2D" parent="leandro" unique_id=1012954193]
 zoom = Vector2(1.5, 1.5)
@@ -290,6 +303,7 @@ layout_mode = 2
 icon = ExtResource("5_kafe8")
 
 [node name="ataque" type="Area2D" parent="leandro" unique_id=860361819]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="leandro/ataque" unique_id=1298673967]
 shape = SubResource("RectangleShape2D_42v40")
