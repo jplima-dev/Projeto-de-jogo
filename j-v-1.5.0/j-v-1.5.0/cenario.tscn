@@ -4281,10 +4281,11 @@ color = Color(0, 0, 0, 1)
 
 [node name="pretosala" type="ColorRect" parent="." unique_id=1982831238]
 z_index = 11
-offset_left = -233.0
-offset_top = 540.0
-offset_right = 1043.0
-offset_bottom = 655.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="taparlogo" type="ColorRect" parent="." unique_id=1591650742]

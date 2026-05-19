@@ -8,6 +8,7 @@ const RUN_MULTIPLIER = 2.0
 const DASH_SPEED = 2500.0
 const DASH_DURATION = 0.2
 const DASH_COOLDOWN = 1.0
+var pode_mexer = true
 
 # ==============================
 # VARIÁVEIS DE DASH
@@ -27,7 +28,7 @@ var health = 100
 # ==============================
 # DIREÇÃO E INVENCIBILIDADE
 # ==============================
-var facing_direction = Vector2.RIGHT
+var facing_direction = Vector2.ZERO
 var invincible = false
 var invincible_time = 0.5
 
@@ -83,6 +84,11 @@ func _ready():
 # MOVIMENTO
 # ==============================
 func _physics_process(delta):
+	
+	if !pode_mexer:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 
 	var dir = Vector2(
 		Input.get_action_strength("move-right") - Input.get_action_strength("move-left"),
@@ -168,8 +174,17 @@ func _physics_process(delta):
 					$AnimatedSprite2D.flip_h = dir.x > 0
 
 		elif !moving:
-			$AnimatedSprite2D.play("parado_direcional")
-			$AnimatedSprite2D.flip_h = facing_direction.x > 0
+
+			if facing_direction.x != 0:
+				$AnimatedSprite2D.visible = true
+				$Sprite2D.visible = false
+
+				$AnimatedSprite2D.play("parado_direcional")
+				$AnimatedSprite2D.flip_h = facing_direction.x > 0
+
+			else:
+				$AnimatedSprite2D.visible = false
+				$Sprite2D.visible = true
 
 # ==============================
 # SINCRONIZAÇÃO DO SOM

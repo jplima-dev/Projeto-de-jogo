@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var next_scene: String = "res://cenario.tscn"
+@export var next_scene: String = "res://cutscene_inicial.tscn"
 
 @onready var fade: ColorRect = $CanvasLayer/ColorRect
 @onready var bar: ProgressBar = $CanvasLayer/ProgressBar

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dj3co5gf6rg5y"]
+
+[ext_resource type="Script" uid="uid://dkt0f3rqg5pli" path="res://cutscene_inicial.gd" id="1_6vowx"]
+
+[node name="Node2D" type="Node2D" unique_id=2117827981]
+script = ExtResource("1_6vowx")
+
+[node name="Fade" type="ColorRect" parent="." unique_id=1061020768]
+offset_left = -491.0
+offset_top = -418.0
+offset_right = 1650.0
+offset_bottom = 950.0
+color = Color(0, 0, 0, 1)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1716123570]
+position = Vector2(398, 197)
+zoom = Vector2(1.5, 1.5)

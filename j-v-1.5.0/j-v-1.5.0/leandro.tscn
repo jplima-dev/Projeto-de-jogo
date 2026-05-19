@@ -303,7 +303,6 @@ layout_mode = 2
 icon = ExtResource("5_kafe8")
 
 [node name="ataque" type="Area2D" parent="leandro" unique_id=860361819]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="leandro/ataque" unique_id=1298673967]
 shape = SubResource("RectangleShape2D_42v40")
