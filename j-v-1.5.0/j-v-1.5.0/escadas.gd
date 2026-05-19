@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var destino: Marker2D
+@onready var destino: Marker2D = $sala
 
 var can_tp = true
 

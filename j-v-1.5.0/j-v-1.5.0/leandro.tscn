@@ -251,22 +251,27 @@ animation = &"andar"
 zoom = Vector2(1.5, 1.5)
 
 [node name="inv" type="Control" parent="leandro" unique_id=1802779184]
+z_index = 4096
 layout_mode = 3
-anchors_preset = 0
-offset_left = 97.0
-offset_top = 285.0
-offset_right = 505.0
-offset_bottom = 409.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("4_6k8og")
+player = NodePath("..")
 
 [node name="GridContainer" type="GridContainer" parent="leandro/inv" unique_id=1706774833]
 layout_mode = 0
-offset_right = 451.0
-offset_bottom = 77.0
+offset_left = -198.0
+offset_top = -212.0
+offset_right = 218.0
+offset_bottom = -76.0
 columns = 3
 
 [node name="item1" type="Button" parent="leandro/inv/GridContainer" unique_id=104380556]
 layout_mode = 2
+icon = ExtResource("5_kafe8")
 
 [node name="TextureRect" type="TextureRect" parent="leandro/inv/GridContainer/item1" unique_id=569671532]
 layout_mode = 0
@@ -278,46 +283,21 @@ texture = ExtResource("5_kafe8")
 
 [node name="item2" type="Button" parent="leandro/inv/GridContainer" unique_id=859631789]
 layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="leandro/inv/GridContainer/item2" unique_id=1809458942]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 8.0
-anchor_right = 8.0
-offset_left = 52.0
-offset_top = -3.0
-offset_right = 180.0
-offset_bottom = 125.0
-texture = ExtResource("5_kafe8")
+icon = ExtResource("5_kafe8")
 
 [node name="item3" type="Button" parent="leandro/inv/GridContainer" unique_id=1049787460]
 layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="leandro/inv/GridContainer/item3" unique_id=1773302563]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 16.0
-anchor_top = -0.125
-anchor_right = 16.0
-anchor_bottom = -0.125
-offset_left = 104.0
-offset_top = -3.0
-offset_right = 232.0
-offset_bottom = 125.0
-texture = ExtResource("5_kafe8")
+icon = ExtResource("5_kafe8")
 
 [node name="ataque" type="Area2D" parent="leandro" unique_id=860361819]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="leandro/ataque" unique_id=1298673967]
-position = Vector2(291, 535)
 shape = SubResource("RectangleShape2D_42v40")
 disabled = true
 debug_color = Color(0.95199496, 2.9841065e-06, 0.56331646, 0.41960785)
 
 [node name="A" type="Sprite2D" parent="leandro/ataque" unique_id=1812195368]
 z_index = 4096
-position = Vector2(289, 533.50006)
 scale = Vector2(4.5, 3.6484377)
 texture = ExtResource("5_kafe8")
 
