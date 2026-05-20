@@ -4279,16 +4279,8 @@ offset_right = 10567.0
 offset_bottom = 2492.0
 color = Color(0, 0, 0, 1)
 
-[node name="pretosala" type="ColorRect" parent="." unique_id=1982831238]
-z_index = 11
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="taparlogo" type="ColorRect" parent="." unique_id=1591650742]
+[node name="pretosala" type="ColorRect" parent="." unique_id=1591650742]
+z_index = 9
 offset_left = -1435.0
 offset_top = -1200.0
 offset_right = 2149.0
@@ -4311,6 +4303,14 @@ shape = SubResource("RectangleShape2D_ecuka")
 
 [node name="escada" type="Marker2D" parent="irescadas" unique_id=1965232185]
 position = Vector2(-1454, -6067)
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=1707601770]
+z_index = 11
+offset_left = -243.0
+offset_top = 538.0
+offset_right = 985.0
+offset_bottom = 614.0
+color = Color(0, 0, 0, 1)
 
 [connection signal="body_entered" from="sair_sala" to="sair_sala" method="_on_body_entered"]
 [connection signal="body_entered" from="voltar sala" to="voltar sala" method="_on_body_entered"]

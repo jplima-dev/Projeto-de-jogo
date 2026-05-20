@@ -5,10 +5,6 @@
 [node name="Node2D" type="Node2D" unique_id=2117827981]
 script = ExtResource("1_6vowx")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1716123570]
-position = Vector2(398, 197)
-zoom = Vector2(1.5, 1.5)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=87332344]
 layer = 10
 
