@@ -18,7 +18,7 @@ func _ready():
 	bar.min_value = 0
 	bar.max_value = 100
 	bar.value = 0
-	bar.visible = true
+	bar.visible = false
 
 	ResourceLoader.load_threaded_request(next_scene)
 

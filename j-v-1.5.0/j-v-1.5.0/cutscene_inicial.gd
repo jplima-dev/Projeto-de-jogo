@@ -94,15 +94,15 @@ func start_cutscene():
 	# =====================
 	print("Professor: turma, prestem atenção...")
 
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(0.0).timeout
 
 	print("Professor: hoje vamos aprender programação...")
 
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(0.0).timeout
 
 	print("Professor: programação pode mudar vidas...")
 
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(0.0).timeout
 
 	# =====================
 	# LUZ PISCANDO
@@ -111,7 +111,7 @@ func start_cutscene():
 
 		print("PISCANDO:", i)
 
-		$CanvasLayer/Fade.modulate.a = 0.7
+		$CanvasLayer/Fade.modulate.a = 0.6
 		await get_tree().create_timer(0.08).timeout
 
 		$CanvasLayer/Fade.modulate.a = 0.0
@@ -122,9 +122,9 @@ func start_cutscene():
 	# =====================
 	print("APAGÃO")
 
-	$CanvasLayer/Fade.modulate.a = 1.0
+	$CanvasLayer/Fade.modulate.a = 0.6
 
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(3.0).timeout
 
 	# =====================
 	# SOM ESTRANHO
@@ -142,7 +142,7 @@ func start_cutscene():
 		$CanvasLayer/Fade,
 		"modulate:a",
 		0.0,
-		2.0
+		0.0
 	)
 
 	await tween2.finished

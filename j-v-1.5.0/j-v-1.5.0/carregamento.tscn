@@ -12,7 +12,7 @@ offset_left = -377.0
 offset_top = -263.0
 offset_right = 1672.0
 offset_bottom = 885.0
-color = Color(0.24379998, 0.46, 0.4347767, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=1277041712]
 z_index = 1

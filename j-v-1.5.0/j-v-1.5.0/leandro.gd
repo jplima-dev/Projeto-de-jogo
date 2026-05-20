@@ -132,6 +132,7 @@ func _physics_process(delta):
 			$AnimatedSprite2D.play("dash_baixo")
 		else:
 			$AnimatedSprite2D.play("dash")
+			update_flip()
 
 	velocity = dash_direction * DASH_SPEED if is_dashing else dir * (SPEED * RUN_MULTIPLIER if Input.is_action_pressed("correr") else SPEED)
 
@@ -172,6 +173,7 @@ func _physics_process(delta):
 			else:
 				if Input.is_action_pressed("correr"):
 					$AnimatedSprite2D.play("correr")
+					update_flip()
 				else:
 					$AnimatedSprite2D.play("andar")
 
@@ -319,3 +321,13 @@ func set_color(c: Color):
 		$Sprite2D.modulate = c
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.modulate = c
+		
+func update_flip():
+	var anim = $AnimatedSprite2D.animation
+
+	if anim == "dash":
+		$AnimatedSprite2D.flip_h = facing_direction.x < 0
+		
+	if anim == "correr":
+		$AnimatedSprite2D.flip_h = facing_direction.x < 0
+		
