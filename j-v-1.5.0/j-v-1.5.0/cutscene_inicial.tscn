@@ -8,7 +8,38 @@ script = ExtResource("1_6vowx")
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=87332344]
 layer = 10
 
-[node name="Fade" type="ColorRect" parent="CanvasLayer" unique_id=485293105]
+[node name="DialogueBox" type="Control" parent="CanvasLayer" unique_id=1211176004]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/DialogueBox" unique_id=2065788657]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.04
+anchor_top = 0.78
+anchor_right = 0.38
+anchor_bottom = 0.95
+offset_right = 1151.0
+offset_bottom = 143.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/DialogueBox/Panel" unique_id=159237848]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/DialogueBox/Panel/MarginContainer" unique_id=2049653282]
+layout_mode = 2
+size_flags_vertical = 1
+autowrap_mode = 2
+
+[node name="Fade" type="ColorRect" parent="CanvasLayer" unique_id=1710865144]
 z_index = 2
 offset_left = -1207.0
 offset_top = -1048.0

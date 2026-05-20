@@ -12,6 +12,9 @@ var sala_scene = preload("res://cenario.tscn")
 var player: CharacterBody2D
 var sala
 
+@onready var dialogue_box = $CanvasLayer/DialogueBox
+@onready var dialogue_label = $CanvasLayer/DialogueBox/Panel/MarginContainer/Label
+
 
 # =========================
 # READY
@@ -25,6 +28,8 @@ func _ready():
 	# =====================
 	$CanvasLayer/Fade.z_index = 999
 	$CanvasLayer/Fade.modulate.a = 1.0
+
+	dialogue_box.visible = false
 
 	# =====================
 	# CARREGA O CENÁRIO
@@ -67,6 +72,19 @@ func _ready():
 
 
 # =========================
+# SISTEMA DE FALA
+# =========================
+func falar(texto: String, tempo := 2.0):
+
+	dialogue_box.visible = true
+	dialogue_label.text = texto
+
+	await get_tree().create_timer(tempo).timeout
+
+	dialogue_box.visible = false
+
+
+# =========================
 # CUTSCENE
 # =========================
 func start_cutscene():
@@ -92,17 +110,11 @@ func start_cutscene():
 	# =====================
 	# PROFESSOR FALANDO
 	# =====================
-	print("Professor: turma, prestem atenção...")
+	await falar("Leandro: Bom dia crianças!...", 3.0)
 
-	await get_tree().create_timer(0.0).timeout
+	await falar("Leandro: Hoje vamos ter uma aula de POO...", 3.5)
 
-	print("Professor: hoje vamos aprender programação...")
-
-	await get_tree().create_timer(0.0).timeout
-
-	print("Professor: programação pode mudar vidas...")
-
-	await get_tree().create_timer(0.0).timeout
+	await falar("Leandro: O POO, programação orientada a objeto...", 1.5)
 
 	# =====================
 	# LUZ PISCANDO
@@ -114,8 +126,9 @@ func start_cutscene():
 		$CanvasLayer/Fade.modulate.a = 0.6
 		await get_tree().create_timer(0.08).timeout
 
-		$CanvasLayer/Fade.modulate.a = 0.0
-		await get_tree().create_timer(0.08).timeout
+		if i < 2:
+			$CanvasLayer/Fade.modulate.a = 0.0
+			await get_tree().create_timer(0.08).timeout
 
 	# =====================
 	# APAGÃO TOTAL
@@ -129,25 +142,9 @@ func start_cutscene():
 	# =====================
 	# SOM ESTRANHO
 	# =====================
-	print("Algo caiu na sala...")
-
-	await get_tree().create_timer(1.5).timeout
-
-	# =====================
-	# VOLTA DA VISÃO
-	# =====================
-	var tween2 = create_tween()
-
-	tween2.tween_property(
-		$CanvasLayer/Fade,
-		"modulate:a",
-		0.0,
-		0.0
-	)
-
-	await tween2.finished
-
-	print("VISÃO VOLTOU")
+	await falar("Algo caiu na sala...", 1.5)
+	
+	await falar ("(Leandro: Preciso Descobrir oque foi isso...)")
 
 	# =====================
 	# LIBERA PLAYER
