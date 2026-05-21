@@ -46,3 +46,9 @@ offset_top = -1048.0
 offset_right = 2216.0
 offset_bottom = 1602.0
 color = Color(0, 0, 0, 1)
+
+[node name="pcleandro" type="Marker2D" parent="." unique_id=1457221822]
+position = Vector2(226, 3)
+
+[node name="lousa" type="Marker2D" parent="." unique_id=462037036]
+position = Vector2(460, 32)

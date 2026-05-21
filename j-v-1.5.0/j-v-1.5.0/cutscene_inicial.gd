@@ -15,6 +15,12 @@ var sala
 @onready var dialogue_box = $CanvasLayer/DialogueBox
 @onready var dialogue_label = $CanvasLayer/DialogueBox/Panel/MarginContainer/Label
 
+# =========================
+# MARKERS
+# =========================
+@onready var pc_leandro = $pcleandro
+@onready var lousa = $lousa
+
 
 # =========================
 # READY
@@ -40,11 +46,6 @@ func _ready():
 	print("CENÁRIO CARREGADO")
 
 	# =====================
-	# PEGA O PLAYER SPAWN
-	# =====================
-	var spawn = sala.get_node("PlayerSpawn")
-
-	# =====================
 	# CARREGA O PLAYER
 	# =====================
 	player = player_scene.instantiate()
@@ -57,12 +58,16 @@ func _ready():
 	# =====================
 	# POSIÇÃO INICIAL
 	# =====================
-	player.global_position = spawn.global_position
+	player.global_position = pc_leandro.global_position
 
 	# =====================
 	# TRAVA MOVIMENTO
 	# =====================
 	player.pode_mexer = false
+
+	# sprite parado inicial
+	player.get_node("Sprite2D").visible = true
+	player.get_node("AnimatedSprite2D").visible = false
 
 	# espera 1 frame
 	await get_tree().process_frame
@@ -108,17 +113,84 @@ func start_cutscene():
 	print("FADE FINALIZADO")
 
 	# =====================
+	# LEANDRO NO PC
+	# =====================
+	await get_tree().create_timer(2.0).timeout
+
+	# =====================
+	# LEANDRO VAI PRA LOUSA
+	# =====================
+
+	# ativa modo cutscene
+	player.em_cutscene = true
+
+	# libera movimentação interna
+	player.pode_mexer = true
+
+	# pega animação
+	var anim = player.get_node("AnimatedSprite2D")
+
+	# mostra animação
+	player.get_node("Sprite2D").visible = false
+	anim.visible = true
+
+	# toca animação
+	anim.play("andar")
+
+	while player.global_position.distance_to(lousa.global_position) > 5:
+
+		var direcao = (
+			lousa.global_position - player.global_position
+		).normalized()
+
+		# salva direção
+		player.facing_direction = direcao
+
+		# movimenta player
+		player.velocity = direcao * 120
+
+		# move usando physics
+		player.move_and_slide()
+
+		# flip automático
+		anim.flip_h = direcao.x > 0
+
+		await get_tree().process_frame
+
+	# para movimento
+	player.velocity = Vector2.ZERO
+
+	# desativa modo cutscene
+	player.em_cutscene = false
+
+	# trava novamente
+	player.pode_mexer = false
+
+	# =====================
+	# PARA NA LOUSA
+	# =====================
+
+	anim.stop()
+
+	anim.visible = false
+	player.get_node("Sprite2D").visible = true
+
+	player.facing_direction = Vector2.DOWN
+
+	# =====================
 	# PROFESSOR FALANDO
 	# =====================
+
 	await falar("Leandro: Bom dia crianças!...", 3.0)
 
 	await falar("Leandro: Hoje vamos ter uma aula de POO...", 3.5)
 
-	await falar("Leandro: O POO, programação orientada a objeto...", 1.5)
+	await falar("Leandro: O POO, programação orientada a objeto...", 3.0)
 
 	# =====================
 	# LUZ PISCANDO
 	# =====================
+
 	for i in range(3):
 
 		print("PISCANDO:", i)
@@ -133,22 +205,40 @@ func start_cutscene():
 	# =====================
 	# APAGÃO TOTAL
 	# =====================
+
 	print("APAGÃO")
 
 	$CanvasLayer/Fade.modulate.a = 0.6
 
-	await get_tree().create_timer(3.0).timeout
+	await get_tree().create_timer(2.5).timeout
 
 	# =====================
 	# SOM ESTRANHO
 	# =====================
+
 	await falar("Algo caiu na sala...", 1.5)
-	
-	await falar ("(Leandro: Preciso Descobrir oque foi isso...)")
+
+	await falar("(Leandro: Preciso descobrir o que foi isso...)", 3.0)
+
+	# =====================
+	# VOLTA VISÃO
+	# =====================
+
+	var tween2 = create_tween()
+
+	tween2.tween_property(
+		$CanvasLayer/Fade,
+		"modulate:a",
+		0.6,
+		0.6
+	)
+
+	await tween2.finished
 
 	# =====================
 	# LIBERA PLAYER
 	# =====================
+
 	player.pode_mexer = true
 
 	print("GAMEPLAY COMEÇOU")

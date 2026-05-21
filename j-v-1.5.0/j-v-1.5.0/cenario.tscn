@@ -4221,17 +4221,17 @@ shape = SubResource("RectangleShape2D_mqnm2")
 
 [node name="paredecimacorredor" type="CollisionShape2D" parent="colisao" unique_id=48490906]
 z_index = 11
-position = Vector2(7575.5, -1342)
+position = Vector2(7451, -763)
 shape = SubResource("RectangleShape2D_1tdcj")
 
 [node name="parededircorredor" type="CollisionShape2D" parent="colisao" unique_id=1863192700]
-z_index = 11
-position = Vector2(8237.5, 297.5)
+z_index = 13
+position = Vector2(7539, 342)
 shape = SubResource("RectangleShape2D_wy1w7")
 
 [node name="paredeesqcorredor" type="CollisionShape2D" parent="colisao" unique_id=730254501]
 z_index = 11
-position = Vector2(6817.5, 662)
+position = Vector2(6791, 662)
 shape = SubResource("RectangleShape2D_d7kam")
 
 [node name="PlayerSpawn" type="Node2D" parent="." unique_id=1443301712]
