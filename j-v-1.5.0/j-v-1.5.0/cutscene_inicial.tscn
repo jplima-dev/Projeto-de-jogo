@@ -37,6 +37,7 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/DialogueBox/Panel/MarginContainer" unique_id=2049653282]
 layout_mode = 2
 size_flags_vertical = 1
+theme_override_font_sizes/font_size = 32
 autowrap_mode = 2
 
 [node name="Fade" type="ColorRect" parent="CanvasLayer" unique_id=1710865144]
@@ -51,4 +52,4 @@ color = Color(0, 0, 0, 1)
 position = Vector2(226, 3)
 
 [node name="lousa" type="Marker2D" parent="." unique_id=462037036]
-position = Vector2(460, 32)
+position = Vector2(457, 7)

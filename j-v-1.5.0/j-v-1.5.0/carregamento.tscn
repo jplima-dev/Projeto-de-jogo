@@ -1,6 +1,29 @@
 [gd_scene format=3 uid="uid://butsega2ook3t"]
 
 [ext_resource type="Script" uid="uid://bvuqlwlduhoa1" path="res://carregamento.gd" id="1_qaw4w"]
+[ext_resource type="Texture2D" uid="uid://dw80p0q4fgpf7" path="res://leandrowalk.png" id="2_efv0i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrw2y"]
+atlas = ExtResource("2_efv0i")
+region = Rect2(0, 0, 1125, 1125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yep6e"]
+atlas = ExtResource("2_efv0i")
+region = Rect2(1125, 0, 1125, 1125)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t0m8a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yrw2y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yep6e")
+}],
+"loop": true,
+"name": &"digitando",
+"speed": 3.0
+}]
 
 [node name="Node2D" type="Node2D" unique_id=1380678349]
 script = ExtResource("1_qaw4w")
@@ -14,10 +37,10 @@ offset_right = 2888.0
 offset_bottom = 1628.0
 color = Color(0, 0, 0, 1)
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer" unique_id=1277041712]
-z_index = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="leandro" type="AnimatedSprite2D" parent="CanvasLayer" unique_id=640467499]
+z_index = 4096
+position = Vector2(1762.0001, 800)
+scale = Vector2(0.3, 0.29)
+sprite_frames = SubResource("SpriteFrames_t0m8a")
+animation = &"digitando"
+autoplay = "digitando"

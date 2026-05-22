@@ -3,7 +3,6 @@ extends Node2D
 @export var next_scene: String = "res://cutscene_inicial.tscn"
 
 @onready var fade: ColorRect = $CanvasLayer/ColorRect
-@onready var bar: ProgressBar = $CanvasLayer/ProgressBar
 
 var progress: Array[float] = []
 var loading_finished := false
@@ -15,11 +14,6 @@ func _ready():
 
 	fade.modulate.a = 1.0
 
-	bar.min_value = 0
-	bar.max_value = 100
-	bar.value = 0
-	bar.visible = false
-
 	ResourceLoader.load_threaded_request(next_scene)
 
 func _process(_delta):
@@ -27,9 +21,6 @@ func _process(_delta):
 		return
 
 	var status := ResourceLoader.load_threaded_get_status(next_scene, progress)
-
-	if progress.size() > 0:
-		bar.value = progress[0] * 100
 
 	match status:
 		ResourceLoader.THREAD_LOAD_IN_PROGRESS:

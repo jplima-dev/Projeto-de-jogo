@@ -61,6 +61,11 @@ func _ready():
 	player.global_position = pc_leandro.global_position
 
 	# =====================
+	# ESCONDE HUD
+	# =====================
+	player.get_node("HUD").visible = false
+
+	# =====================
 	# TRAVA MOVIMENTO
 	# =====================
 	player.pode_mexer = false
@@ -147,7 +152,7 @@ func start_cutscene():
 		player.facing_direction = direcao
 
 		# movimenta player
-		player.velocity = direcao * 120
+		player.velocity = direcao * 250
 
 		# move usando physics
 		player.move_and_slide()
@@ -234,6 +239,11 @@ func start_cutscene():
 	)
 
 	await tween2.finished
+
+	# =====================
+	# MOSTRA HUD
+	# =====================
+	player.get_node("HUD").visible = true
 
 	# =====================
 	# LIBERA PLAYER
