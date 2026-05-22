@@ -1,8 +1,14 @@
 [gd_scene format=3 uid="uid://bko3wyn364afj"]
 
+[ext_resource type="Script" uid="uid://3jgf7i1cdiqb" path="res://cenario_2.gd" id="1_sb1mh"]
+
 [node name="Node2D" type="Node2D" unique_id=1568477855]
+script = ExtResource("1_sb1mh")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1147708171]
 offset_right = 1267.0
 offset_bottom = 730.0
 color = Color(0, 1, 0.32156864, 1)
+
+[node name="PlayerSpawn" type="Node2D" parent="." unique_id=830413474]
+position = Vector2(49, 65)
