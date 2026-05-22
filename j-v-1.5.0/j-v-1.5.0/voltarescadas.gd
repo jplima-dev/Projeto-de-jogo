@@ -1,6 +1,6 @@
 extends Area2D
 
-@onready var destino: Marker2D = $escada
+@onready var destino: Marker2D = $corredorbaixo
 
 var can_tp = true
 

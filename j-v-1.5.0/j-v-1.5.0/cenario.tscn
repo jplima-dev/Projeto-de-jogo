@@ -7,6 +7,8 @@
 [ext_resource type="AudioStream" uid="uid://hxva47axtvlb" path="res://musica.mp3" id="5_r0gk3"]
 [ext_resource type="Script" uid="uid://dtv3x43mp0l6k" path="res://escadas.gd" id="6_0nnsg"]
 [ext_resource type="Script" uid="uid://cauw417ct4edi" path="res://irescadas.gd" id="7_vkdxw"]
+[ext_resource type="Script" uid="uid://bmk1hjnvpv0s4" path="res://voltarescadas.gd" id="8_4qp2d"]
+[ext_resource type="Script" uid="uid://dmjqdewdbonmy" path="res://ircena_2.gd" id="9_mqnm2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqljg"]
 size = Vector2(1109, 76.6875)
@@ -4175,7 +4177,13 @@ size = Vector2(162.5, 227.5)
 size = Vector2(425, 257.25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ecuka"]
-size = Vector2(1434, 323)
+size = Vector2(672, 323)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mitsp"]
+size = Vector2(999, 573)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g8jft"]
+size = Vector2(871, 978)
 
 [node name="Node2D" type="Node2D" unique_id=895806482]
 script = ExtResource("1_xwuul")
@@ -4298,11 +4306,12 @@ color = Color(0, 0, 0, 1)
 script = ExtResource("7_vkdxw")
 
 [node name="tpescada" type="CollisionShape2D" parent="irescadas" unique_id=1905713658]
-position = Vector2(7543, 1844)
+z_index = 13
+position = Vector2(7203, 1800)
 shape = SubResource("RectangleShape2D_ecuka")
 
 [node name="escada" type="Marker2D" parent="irescadas" unique_id=1965232185]
-position = Vector2(-1454, -6067)
+position = Vector2(-1421, -6147)
 
 [node name="ColorRect2" type="ColorRect" parent="." unique_id=1707601770]
 z_index = 11
@@ -4328,6 +4337,25 @@ offset_right = 7625.0
 offset_bottom = -665.0
 color = Color(0, 0, 0, 1)
 
+[node name="voltarescadas" type="Area2D" parent="." unique_id=2142202347]
+script = ExtResource("8_4qp2d")
+
+[node name="corredorbaixo" type="Marker2D" parent="voltarescadas" unique_id=426399487]
+position = Vector2(7205, 1602)
+
+[node name="tpcorredorbaixo" type="CollisionShape2D" parent="voltarescadas" unique_id=1786968875]
+position = Vector2(-1422, -6469)
+shape = SubResource("RectangleShape2D_mitsp")
+
+[node name="ircena2" type="Area2D" parent="." unique_id=1432412397]
+script = ExtResource("9_mqnm2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ircena2" unique_id=1248874438]
+position = Vector2(5375, -5700)
+shape = SubResource("RectangleShape2D_g8jft")
+
 [connection signal="body_entered" from="sair_sala" to="sair_sala" method="_on_body_entered"]
 [connection signal="body_entered" from="voltar sala" to="voltar sala" method="_on_body_entered"]
 [connection signal="body_entered" from="irescadas" to="irescadas" method="_on_body_entered"]
+[connection signal="body_entered" from="voltarescadas" to="voltarescadas" method="_on_body_entered"]
+[connection signal="body_entered" from="ircena2" to="ircena2" method="_on_body_entered"]
