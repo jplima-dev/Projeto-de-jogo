@@ -112,7 +112,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_aplru")
 expand_mode = 1
-stretch_mode = 6
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=870684049]
 layout_mode = 1
