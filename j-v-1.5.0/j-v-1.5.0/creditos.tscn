@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://cum0m4n324pwp"]
+
+[ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="1_7flbs"]
+[ext_resource type="Script" uid="uid://mm1iyjao8w2" path="res://voltar_menu_creditos.gd" id="1_ilafw"]
+
+[node name="creditos" type="Control" unique_id=1994929129]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=981375773]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="titulo" type="Label" parent="." unique_id=101219078]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32
+text = "CRÉDITOS"
+horizontal_alignment = 1
+
+[node name="texto" type="RichTextLabel" parent="." unique_id=851905786]
+layout_mode = 0
+offset_top = 220.0
+offset_right = 1151.0
+offset_bottom = 652.0
+text = "Obrigado por jogar
+
+
+DESENVOLVIMENTO
+Leandro
+
+PROGRAMAÇÃO
+Leandro
+
+ARTE
+Leandro
+
+ROTEIRO
+Leandro
+
+TESTES
+Leandro"
+horizontal_alignment = 1
+
+[node name="voltar" type="Button" parent="." unique_id=2141471412]
+z_index = 1
+layout_mode = 0
+offset_left = 1015.0
+offset_top = 520.0
+offset_right = 1151.0
+offset_bottom = 656.0
+icon = ExtResource("1_7flbs")
+script = ExtResource("1_ilafw")

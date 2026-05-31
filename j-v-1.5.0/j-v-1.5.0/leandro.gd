@@ -364,21 +364,9 @@ func heal(amount: int):
 # ==============================
 func die():
 
-	var death_screen = get_node("/root/main/morte")
-
-	if death_screen:
-		death_screen.visible = true
-
-	var hud = get_node("/root/main/hud")
-
-	if hud:
-		hud.visible = false
-
-	get_tree().paused = true
-
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://morte.tscn")
 	queue_free()
-
-
 # ==============================
 # BLINK
 # ==============================

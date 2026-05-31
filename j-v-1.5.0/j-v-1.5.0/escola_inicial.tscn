@@ -4384,6 +4384,22 @@ offset_right = -4460.0
 offset_bottom = 6445.0
 color = Color(0, 1, 0.16078432, 1)
 
+[node name="ColorRect7" type="ColorRect" parent="cenario_provisorio" unique_id=953349624]
+z_index = 10
+offset_left = -170.0
+offset_top = -332.0
+offset_right = 961.0
+offset_bottom = -210.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect8" type="ColorRect" parent="cenario_provisorio" unique_id=96632493]
+z_index = 10
+offset_left = -223.0
+offset_top = -223.0
+offset_right = -114.0
+offset_bottom = 565.0
+color = Color(0, 0, 0, 1)
+
 [connection signal="body_entered" from="sair_sala" to="sair_sala" method="_on_body_entered"]
 [connection signal="body_entered" from="voltar sala" to="voltar sala" method="_on_body_entered"]
 [connection signal="body_entered" from="irescadas" to="irescadas" method="_on_body_entered"]
