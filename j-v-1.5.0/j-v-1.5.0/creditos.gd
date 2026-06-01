@@ -2,11 +2,20 @@ extends Control
 
 @onready var scroll_container = $ScrollContainer
 
+var velocidade = 60.0
+
 
 func _ready():
-	var barra = scroll_container.get_v_scroll_bar()
-	barra.modulate.a = 0
-	barra.hide()
+	scroll_container.scroll_vertical = 0
 
-func _process(delta):
-	scroll_container.scroll_vertical += 60 * delta
+	var v_bar = scroll_container.get_v_scroll_bar()
+	v_bar.modulate.a = 0
+
+	var h_bar = scroll_container.get_h_scroll_bar()
+	h_bar.modulate.a = 0
+
+
+func _physics_process(delta):
+	scroll_container.set_v_scroll(
+		scroll_container.get_v_scroll() + velocidade * delta
+	)

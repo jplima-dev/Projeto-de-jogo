@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="1_7flbs"]
 [ext_resource type="Script" uid="uid://d0vxbu5sbj5oy" path="res://creditos.gd" id="1_alf7g"]
 [ext_resource type="Script" uid="uid://mm1iyjao8w2" path="res://voltar_menu_creditos.gd" id="1_ilafw"]
+[ext_resource type="Texture2D" uid="uid://ccj4l0gk2m2h6" path="res://tatlescreen/logo.jpg" id="4_3rtis"]
 
 [node name="creditos" type="Control" unique_id=1994929129]
 layout_mode = 3
@@ -22,17 +23,6 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="titulo" type="Label" parent="." unique_id=101219078]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-text = "CRÉDITOS"
-horizontal_alignment = 1
-
 [node name="voltar" type="Button" parent="." unique_id=2141471412]
 z_index = 10
 layout_mode = 1
@@ -46,68 +36,232 @@ offset_top = -136.0
 grow_horizontal = 0
 grow_vertical = 0
 icon = ExtResource("1_7flbs")
+expand_icon = true
 script = ExtResource("1_ilafw")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1680385088]
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 170.0
+offset_top = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
 [node name="texto" type="RichTextLabel" parent="ScrollContainer" unique_id=1340318100]
+z_index = 1
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
-text = "Desenvolvimento
+text = "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-Equipe-
+Juan Pablo
+Alvaro Carvalho
+Edilson Menezes
+Ravir Silva
+Cayo da Costa
+Ruan Pablo
+M.O: Gustavo Soares	
+
+
+-Programação-
 Juan Pablo
 Alvaro Carvalho
 Edilson Menezes
 Ravir Silva
 
-Programação
+
+-Game Design-
+Juan Pablo
+
+
+-Roteiro-
 Juan Pablo
 Alvaro Carvalho
-Edilson Menezes
-Ravir Silva
 
-Game Design
+
+-Level Design-
 Juan Pablo
 
-Roteiro
-Juan Pablo
 
-Level Design
-Juan Pablo
-
-Arte / Pixel Art
+-Arte / Pixel Art-
 Ruan Pablo
-Cayo Costa
+Cayo da Costa
 
-Animação
+
+-Animação-
 Ruan Pablo
 
-Interface (UI)
+
+-Interface (UI)-
 Ruan Pablo
+Cayo da Costa
 Juan Pablo
 
-Efeitos Sonoros
+
+-Efeitos Sonoros-
 Free Audio
 
-Trilha Sonora
+
+-Trilha Sonora-
 Free Audio
 
-Testes
+
+-Testes-
 Darkq
+Notekaka
 
-Agradecimentos Especiais
+
+-Agradecimentos Especiais-
 Francisco Leandro
 Alvaro Carvalho
 
-Obrigado por jogar."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Obrigado por jogar.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
 fit_content = true
 scroll_active = false
 horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2135930742]
+modulate = Color(1, 1, 1, 0.34901962)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_3rtis")

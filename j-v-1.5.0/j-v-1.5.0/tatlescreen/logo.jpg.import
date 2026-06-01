@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3yoas74vjgdw"
-path="res://.godot/imported/Logo aventureiro com espada mágica.png-ab38f0494edbf4830e5b683a3583ee1c.ctex"
+uid="uid://ccj4l0gk2m2h6"
+path="res://.godot/imported/logo.jpg-5b6ac860440d9b883ad799d44bacb4aa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tatlescreen/Logo aventureiro com espada mágica.png"
-dest_files=["res://.godot/imported/Logo aventureiro com espada mágica.png-ab38f0494edbf4830e5b683a3583ee1c.ctex"]
+source_file="res://tatlescreen/logo.jpg"
+dest_files=["res://.godot/imported/logo.jpg-5b6ac860440d9b883ad799d44bacb4aa.ctex"]
 
 [params]
 

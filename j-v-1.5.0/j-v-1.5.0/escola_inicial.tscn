@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cylcpw5kmy462"]
+[gd_scene format=3 uid="uid://gbl8wfuv5geb"]
 
 [ext_resource type="Script" uid="uid://ci1e04vp65h3b" path="res://cenario.gd" id="1_xwuul"]
 [ext_resource type="Texture2D" uid="uid://cch25spla6wpw" path="res://lab.leandro.png" id="3_xwuul"]
@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://cauw417ct4edi" path="res://irescadas.gd" id="7_vkdxw"]
 [ext_resource type="Script" uid="uid://bmk1hjnvpv0s4" path="res://voltarescadas.gd" id="8_4qp2d"]
 [ext_resource type="Script" uid="uid://dmjqdewdbonmy" path="res://ircena_2.gd" id="9_mqnm2"]
-[ext_resource type="Script" uid="uid://cvrlhw8emcxc7" path="res://descer_escadas.gd" id="10_wi06r"]
+[ext_resource type="Script" path="res://descer_escadas.gd" id="10_wi06r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqljg"]
 size = Vector2(1109, 76.6875)
