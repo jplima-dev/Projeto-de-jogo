@@ -8,7 +8,7 @@ func _ready() -> void:
 
 	background.set_anchors_preset(Control.PRESET_FULL_RECT)
 	background.size = get_viewport_rect().size
-
+	
 
 func _process(delta: float) -> void:
 	pass

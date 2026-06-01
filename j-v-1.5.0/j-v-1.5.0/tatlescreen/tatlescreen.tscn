@@ -103,6 +103,8 @@ grow_vertical = 2
 script = ExtResource("1_whngk")
 
 [node name="bg" type="TextureRect" parent="." unique_id=1709451120]
+self_modulate = Color(1, 1, 1, 0.34901962)
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -113,6 +115,7 @@ texture = ExtResource("3_whngk")
 expand_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=870684049]
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -168,6 +171,16 @@ flip_h = true
 [node name="Anim" type="AnimationPlayer" parent="." unique_id=1836646507]
 libraries/ = SubResource("AnimationLibrary_yubar")
 autoplay = &"new_animation"
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=339534838]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/start_btn" to="." method="_on_start_btn_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/credits_btn" to="." method="_on_credits_btn_pressed"]
