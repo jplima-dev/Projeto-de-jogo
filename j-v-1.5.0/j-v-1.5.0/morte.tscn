@@ -13,37 +13,54 @@ grow_vertical = 2
 
 [node name="morte" type="Control" parent="." unique_id=1665886084]
 z_index = 4096
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_6or3w")
 
 [node name="ColorRect" type="ColorRect" parent="morte" unique_id=559493375]
 z_index = 4096
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 28.948002
-anchor_bottom = 16.197
-offset_right = -7.920044
-offset_bottom = -0.8800049
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(1, 0.100000024, 0, 1)
 
 [node name="Label" type="Label" parent="morte" unique_id=1145562411]
 z_index = 4096
-layout_mode = 0
-offset_left = 536.0
-offset_top = 276.0
-offset_right = 1119.0
-offset_bottom = 348.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -291.5
+offset_top = -36.0
+offset_right = 291.5
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "tu morreu"
 
 [node name="Button" type="Button" parent="morte" unique_id=302085081]
 z_index = 4096
-layout_mode = 0
-offset_left = 386.0
-offset_top = 317.0
-offset_right = 796.0
-offset_bottom = 440.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -205.0
+offset_top = -61.5
+offset_right = 205.0
+offset_bottom = 61.5
+grow_horizontal = 2
+grow_vertical = 2
 text = "
 
 reviver

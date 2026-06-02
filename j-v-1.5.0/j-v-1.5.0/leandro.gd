@@ -279,7 +279,7 @@ func _input(event):
 		_do_attack()
 
 	if event.is_action_pressed("dano"):
-		take_damage(10)
+		take_damage(50)
 
 	if event.is_action_pressed("cura"):
 		heal(10)
