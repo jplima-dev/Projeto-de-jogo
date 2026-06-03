@@ -9,9 +9,6 @@ func _ready() -> void:
 	background.set_anchors_preset(Control.PRESET_FULL_RECT)
 	background.size = get_viewport_rect().size
 
-	background.modulate = Color(1, 1, 1, 89.0 / 255.0)
-
-	# anim.play("tela")
 
 
 func _on_start_btn_pressed() -> void:
