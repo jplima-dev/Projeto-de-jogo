@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bq6eqsyc3s7vg"]
 
 [ext_resource type="Script" uid="uid://co1mprpbrwcaa" path="res://tatlescreen/tatlescreen.gd" id="1_whngk"]
+[ext_resource type="Texture2D" uid="uid://boe5eojc1o3he" path="res://Last-Signal.png" id="2_arfoo"]
 [ext_resource type="Theme" uid="uid://dfu1jedlqg7gs" path="res://tatlescreen/tatlescreen.tres" id="3_cuyfg"]
 [ext_resource type="Script" uid="uid://dg5q5nj7qaskn" path="res://tatlescreen/start_btn.gd" id="4_whngk"]
 [ext_resource type="Script" uid="uid://dubg5f0mx0bmc" path="res://tatlescreen/credits_btn.gd" id="5_t2bvs"]
@@ -8,7 +9,7 @@
 [ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="7_yubar"]
 [ext_resource type="Texture2D" uid="uid://wrb4m8svv4na" path="res://Design sem nome.png" id="8_3aem0"]
 [ext_resource type="Script" uid="uid://linypst6q7xm" path="res://tatlescreen/quit_btn_4.gd" id="8_arfoo"]
-[ext_resource type="Texture2D" uid="uid://jrgxcu1ogk40" path="res://Logo jogo.png" id="8_nddo5"]
+[ext_resource type="VideoStream" uid="uid://dtdt7vjtme06e" path="res://pixel-art-64bit-less-pixelated.ogv" id="10_nddo5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_whngk"]
 
@@ -109,7 +110,7 @@ alignment = 1
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=383392353]
 layout_mode = 2
 size_flags_vertical = 2
-texture = ExtResource("8_nddo5")
+texture = ExtResource("2_arfoo")
 
 [node name="start_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=105580867]
 layout_mode = 2
@@ -173,6 +174,7 @@ color = Color(0, 0, 0, 1)
 libraries/ = SubResource("AnimationLibrary_3aem0")
 
 [node name="Label" type="Label" parent="." unique_id=1347629562]
+z_index = 5
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -196,6 +198,21 @@ offset_top = -48.0
 offset_right = 48.0
 grow_vertical = 0
 texture = ExtResource("8_3aem0")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1380788012]
+modulate = Color(1, 1, 1, 0.21176471)
+z_index = 4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stream = ExtResource("10_nddo5")
+autoplay = true
+expand = true
+loop = true
 
 [connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/start_btn" to="MarginContainer/HBoxContainer/VBoxContainer/start_btn" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/start_btn" to="MarginContainer/HBoxContainer/VBoxContainer/start_btn" method="_on_mouse_exited"]
