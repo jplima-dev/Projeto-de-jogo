@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dk8i5vtr2ng0d"]
 
 [ext_resource type="Script" uid="uid://c7aujmo3k5rv2" path="res://splash.gd" id="1_50j67"]
-[ext_resource type="Texture2D" uid="uid://ct4xmxqwfduar" path="res://unemployed devs studios.png" id="2_50j67"]
+[ext_resource type="Texture2D" uid="uid://dbpedoxwf0acg" path="res://Unemployed logo.png" id="2_50j67"]
 
 [sub_resource type="Animation" id="Animation_xoh7v"]
 length = 0.001

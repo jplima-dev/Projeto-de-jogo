@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://co1mprpbrwcaa" path="res://tatlescreen/tatlescreen.gd" id="1_whngk"]
 [ext_resource type="Theme" uid="uid://dfu1jedlqg7gs" path="res://tatlescreen/tatlescreen.tres" id="3_cuyfg"]
-[ext_resource type="Texture2D" uid="uid://ccj4l0gk2m2h6" path="res://tatlescreen/logo.jpg" id="3_whngk"]
 [ext_resource type="Script" uid="uid://dg5q5nj7qaskn" path="res://tatlescreen/start_btn.gd" id="4_whngk"]
 [ext_resource type="Script" uid="uid://dubg5f0mx0bmc" path="res://tatlescreen/credits_btn.gd" id="5_t2bvs"]
 [ext_resource type="Script" uid="uid://cpqbp27qjjms1" path="res://tatlescreen/quit_btn_3.gd" id="6_t2bvs"]
 [ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="7_yubar"]
 [ext_resource type="Texture2D" uid="uid://wrb4m8svv4na" path="res://Design sem nome.png" id="8_3aem0"]
 [ext_resource type="Script" uid="uid://linypst6q7xm" path="res://tatlescreen/quit_btn_4.gd" id="8_arfoo"]
+[ext_resource type="Texture2D" uid="uid://jrgxcu1ogk40" path="res://Logo jogo.png" id="8_nddo5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_whngk"]
 
@@ -17,7 +17,7 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3aem0"]
 
 [sub_resource type="Animation" id="Animation_t2bvs"]
-length = 0.001
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -74,7 +74,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_whngk")
 expand_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=870684049]
@@ -107,42 +106,47 @@ layout_mode = 2
 size_flags_horizontal = 6
 alignment = 1
 
-[node name="start_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=401355261]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=383392353]
+layout_mode = 2
+size_flags_vertical = 2
+texture = ExtResource("8_nddo5")
+
+[node name="start_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=105580867]
 layout_mode = 2
 theme = ExtResource("3_cuyfg")
 theme_override_font_sizes/font_size = 32
 flat = true
 script = ExtResource("4_whngk")
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1157157754]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1965231374]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_whngk")
 
-[node name="config_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1235416185]
+[node name="config_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1643089491]
 layout_mode = 2
 theme = ExtResource("3_cuyfg")
 theme_override_font_sizes/font_size = 32
 flat = true
 script = ExtResource("5_t2bvs")
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1737108467]
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1117531873]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_t2bvs")
 
-[node name="credits_btn2" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=181858679]
+[node name="credits_btn2" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1992090477]
 layout_mode = 2
 theme = ExtResource("3_cuyfg")
 theme_override_font_sizes/font_size = 32
 flat = true
 script = ExtResource("6_t2bvs")
 
-[node name="HSeparator3" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=704163673]
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=632591332]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_3aem0")
 
-[node name="quit_btn4" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=653395726]
+[node name="quit_btn4" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=738021089]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("7_yubar")
 theme_override_font_sizes/font_size = 32

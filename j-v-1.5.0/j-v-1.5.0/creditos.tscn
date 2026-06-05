@@ -59,6 +59,8 @@ z_index = 1
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_cysqe")
+theme_override_font_sizes/normal_font_size = 24
 text = "
 
 

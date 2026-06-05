@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgwet15he172f"
-path="res://.godot/imported/unemployed devs studios.svg-7d473fb6eaa4aee6aec3c687d1e25d28.ctex"
+uid="uid://jrgxcu1ogk40"
+path="res://.godot/imported/Logo jogo.png-e779e483d9610252fafd5fcd874295e3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://unemployed devs studios.svg"
-dest_files=["res://.godot/imported/unemployed devs studios.svg-7d473fb6eaa4aee6aec3c687d1e25d28.ctex"]
+source_file="res://Logo jogo.png"
+dest_files=["res://.godot/imported/Logo jogo.png-e779e483d9610252fafd5fcd874295e3.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
