@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cum0m4n324pwp"]
 
-[ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="1_7flbs"]
 [ext_resource type="Script" uid="uid://d0vxbu5sbj5oy" path="res://creditos.gd" id="1_alf7g"]
 [ext_resource type="Script" uid="uid://mm1iyjao8w2" path="res://voltar_menu_creditos.gd" id="1_ilafw"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="2_cysqe"]
 [ext_resource type="Texture2D" uid="uid://ccj4l0gk2m2h6" path="res://tatlescreen/logo.jpg" id="4_3rtis"]
 [ext_resource type="AudioStream" uid="uid://hxva47axtvlb" path="res://musica.mp3" id="5_cysqe"]
 
@@ -32,11 +32,14 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -136.0
-offset_top = -136.0
+offset_left = -8.0
+offset_top = -8.0
 grow_horizontal = 0
 grow_vertical = 0
-icon = ExtResource("1_7flbs")
+theme_override_fonts/font = ExtResource("2_cysqe")
+theme_override_font_sizes/font_size = 32
+text = "SAIR"
+flat = true
 expand_icon = true
 script = ExtResource("1_ilafw")
 
@@ -272,3 +275,6 @@ texture = ExtResource("4_3rtis")
 stream = ExtResource("5_cysqe")
 autoplay = true
 max_distance = 9.223372e+18
+
+[connection signal="mouse_entered" from="voltar" to="voltar" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="voltar" to="voltar" method="_on_mouse_exited"]

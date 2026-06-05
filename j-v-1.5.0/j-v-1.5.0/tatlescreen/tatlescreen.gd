@@ -9,15 +9,15 @@ func _ready() -> void:
 	background.set_anchors_preset(Control.PRESET_FULL_RECT)
 	background.size = get_viewport_rect().size
 
-
+	anim.play("fade_botões")
 
 func _on_start_btn_pressed() -> void:
 	get_tree().change_scene_to_file("res://carregamento.tscn")
 
 
-func _on_credits_btn_pressed() -> void:
+func _on_credits_btn_2_pressed() -> void:
 	get_tree().change_scene_to_file("res://creditos.tscn")
 
 
-func _on_quit_btn_3_pressed() -> void:
+func _on_quit_btn_4_pressed() -> void:
 	get_tree().quit()
