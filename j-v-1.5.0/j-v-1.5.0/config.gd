@@ -8,7 +8,7 @@ func _ready() -> void:
 
 
 func _on_controls_btn_pressed() -> void:
-	pass
+	get_tree().change_scene_to_file("res://teclado.tscn")
 
 
 func _on_audio_btn_pressed() -> void:
