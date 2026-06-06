@@ -23,6 +23,10 @@ config/icon="res://icon.svg"
 
 Loading="*uid://coobhhamwrt7t"
 
+[display]
+
+window/subwindows/embed_subwindows=false
+
 [input]
 
 move-left={

@@ -16,7 +16,7 @@ func _on_audio_btn_pressed() -> void:
 
 
 func _on_video_btn_2_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://videos.tscn")
 
 
 func _on_back_btn_pressed() -> void:
