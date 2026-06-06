@@ -1,6 +1,6 @@
 extends Button
 
-var texto_original := "VOLTAR"
+var texto_original := "Back"
 
 func _ready():
 	text = texto_original
@@ -11,7 +11,7 @@ func _pressed() -> void:
 
 
 func _on_mouse_entered():
-	text = "> VOLTAR <"
+	text = "> Back <"
 
 
 func _on_mouse_exited() -> void:

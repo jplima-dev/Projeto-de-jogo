@@ -15,6 +15,10 @@ func _on_start_btn_pressed() -> void:
 	get_tree().change_scene_to_file("res://carregamento.tscn")
 
 
+func _on_config_btn_pressed() -> void:
+	get_tree().change_scene_to_file("res://config.tscn")
+	
+	
 func _on_credits_btn_2_pressed() -> void:
 	get_tree().change_scene_to_file("res://creditos.tscn")
 

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dj3co5gf6rg5y"]
 
 [ext_resource type="Script" uid="uid://dkt0f3rqg5pli" path="res://cutscene_inicial.gd" id="1_6vowx"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="2_xw677"]
 
 [node name="Node2D" type="Node2D" unique_id=2117827981]
 script = ExtResource("1_6vowx")
@@ -37,6 +38,7 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/DialogueBox/Panel/MarginContainer" unique_id=2049653282]
 layout_mode = 2
 size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("2_xw677")
 theme_override_font_sizes/font_size = 32
 autowrap_mode = 2
 

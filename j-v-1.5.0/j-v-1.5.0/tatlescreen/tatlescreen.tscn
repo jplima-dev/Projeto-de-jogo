@@ -114,6 +114,7 @@ texture = ExtResource("2_arfoo")
 
 [node name="start_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=105580867]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme = ExtResource("3_cuyfg")
 theme_override_font_sizes/font_size = 32
 flat = true
@@ -126,6 +127,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_whngk")
 
 [node name="config_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1643089491]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme = ExtResource("3_cuyfg")
 theme_override_font_sizes/font_size = 32
 flat = true
@@ -138,6 +140,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_t2bvs")
 
 [node name="credits_btn2" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1992090477]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme = ExtResource("3_cuyfg")
 theme_override_font_sizes/font_size = 32
 flat = true
@@ -149,6 +152,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_3aem0")
 
 [node name="quit_btn4" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=738021089]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("7_yubar")
 theme_override_font_sizes/font_size = 32
 flat = true
@@ -219,6 +223,7 @@ loop = true
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/start_btn" to="." method="_on_start_btn_pressed"]
 [connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/config_btn" to="MarginContainer/HBoxContainer/VBoxContainer/config_btn" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/config_btn" to="MarginContainer/HBoxContainer/VBoxContainer/config_btn" method="_on_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/config_btn" to="." method="_on_config_btn_pressed"]
 [connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/credits_btn2" to="MarginContainer/HBoxContainer/VBoxContainer/credits_btn2" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/credits_btn2" to="MarginContainer/HBoxContainer/VBoxContainer/credits_btn2" method="_on_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/credits_btn2" to="." method="_on_credits_btn_2_pressed"]

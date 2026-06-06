@@ -1,12 +1,12 @@
 extends Button
 
-var texto_original := "Start"
+var texto_original := "Video"
 
 func _ready():
 	text = texto_original
 
 func _on_mouse_entered():
-	text = "> Start <"
+	text = "> Video <"
 
 func _on_mouse_exited():
 	text = texto_original
