@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://udsry717nydm" path="res://videos.gd" id="1_ep88h"]
 [ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="3_1w6lr"]
 [ext_resource type="Script" uid="uid://bk7nino1qb7hh" path="res://voltar_config.gd" id="4_mycd6"]
+[ext_resource type="AudioStream" uid="uid://c2j720vqk80fv" path="res://whvle-aboard-a-aurora-game-menu-pulse-203549.mp3" id="5_1w6lr"]
 [ext_resource type="VideoStream" uid="uid://dtdt7vjtme06e" path="res://pixel-art-64bit-less-pixelated.ogv" id="5_nt1mm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ytddi"]
@@ -155,6 +156,10 @@ mouse_filter = 2
 stream = ExtResource("5_nt1mm")
 autoplay = true
 loop = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1806492659]
+stream = ExtResource("5_1w6lr")
+autoplay = true
 
 [connection signal="mouse_entered" from="botões_principai/HBoxContainer/VBoxContainer/HBoxContainer/tela_cheia" to="." method="_on_tela_cheia_mouse_entered"]
 [connection signal="mouse_exited" from="botões_principai/HBoxContainer/VBoxContainer/HBoxContainer/tela_cheia" to="." method="_on_tela_cheia_mouse_exited"]

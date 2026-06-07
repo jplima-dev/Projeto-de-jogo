@@ -255,7 +255,7 @@ sprite_frames = SubResource("SpriteFrames_a1cyc")
 animation = &"parado_direcional"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1346231926]
-zoom = Vector2(1.5, 1.5)
+zoom = Vector2(2, 2)
 
 [node name="inv" type="Control" parent="." unique_id=717296490]
 z_index = 4096

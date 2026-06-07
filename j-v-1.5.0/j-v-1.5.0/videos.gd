@@ -58,12 +58,17 @@ func _on_resolução_pressed():
 	if resolucao_atual >= resolucoes.size():
 		resolucao_atual = 0
 
-	DisplayServer.window_set_size(
-		resolucoes[resolucao_atual]
-	)
+	var nova_resolucao = resolucoes[resolucao_atual]
+
+	DisplayServer.window_set_size(nova_resolucao)
+
+	# Centraliza a janela
+	var tela = DisplayServer.screen_get_size()
+	var posicao = (tela - nova_resolucao) / 2
+
+	DisplayServer.window_set_position(Vector2i(posicao))
 
 	atualizar_textos()
-
 
 func _on_back_btn_pressed() -> void:
 	get_tree().change_scene_to_file("res://config.tscn")
