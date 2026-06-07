@@ -1,0 +1,178 @@
+[gd_scene format=3 uid="uid://cvwp8xdyvbokl"]
+
+[ext_resource type="Script" uid="uid://edtxjj5sgrob" path="res://audio.gd" id="1_ybffx"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="2_p423y"]
+[ext_resource type="Script" uid="uid://bk7nino1qb7hh" path="res://voltar_config.gd" id="3_8w7rj"]
+[ext_resource type="VideoStream" uid="uid://dtdt7vjtme06e" path="res://pixel-art-64bit-less-pixelated.ogv" id="4_p423y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_74vr2"]
+
+[sub_resource type="Animation" id="Animation_t2bvs"]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("botões principai:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yubar"]
+resource_name = "fade_botões"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("botões principai:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8w7rj"]
+_data = {
+&"RESET": SubResource("Animation_t2bvs"),
+&"fade_botões": SubResource("Animation_yubar")
+}
+
+[node name="audio" type="Control" unique_id=2101431681]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ybffx")
+
+[node name="botoes_audio" type="MarginContainer" parent="." unique_id=1222947098]
+z_index = 4096
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -252.0
+offset_top = -320.00018
+offset_right = 252.0
+offset_bottom = 320.00018
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.0172968, 0.98051834)
+mouse_default_cursor_shape = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="botoes_audio" unique_id=852872120]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="botoes_audio/HBoxContainer" unique_id=1366563457]
+custom_minimum_size = Vector2(500, 600)
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="botoes_audio/HBoxContainer/VBoxContainer" unique_id=1011803304]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=521479737]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p423y")
+theme_override_font_sizes/font_size = 32
+text = "Geral"
+
+[node name="HSlider" type="HSlider" parent="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=373656801]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 100.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="botoes_audio/HBoxContainer/VBoxContainer" unique_id=1105457793]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1710625358]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p423y")
+theme_override_font_sizes/font_size = 32
+text = "Music"
+
+[node name="HSlider2" type="HSlider" parent="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=400254224]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 100.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="botoes_audio/HBoxContainer/VBoxContainer" unique_id=1797739195]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer3" unique_id=947513045]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p423y")
+theme_override_font_sizes/font_size = 32
+text = "Effects"
+
+[node name="HSlider3" type="HSlider" parent="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer3" unique_id=2019277398]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 100.0
+
+[node name="HSeparator3" type="HSeparator" parent="botoes_audio/HBoxContainer/VBoxContainer" unique_id=752095335]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_74vr2")
+
+[node name="back_btn" type="Button" parent="botoes_audio/HBoxContainer/VBoxContainer" unique_id=505661002]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_p423y")
+theme_override_font_sizes/font_size = 32
+flat = true
+script = ExtResource("3_8w7rj")
+
+[node name="leandro" type="TextureRect" parent="botoes_audio/HBoxContainer" unique_id=371216946]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+expand_mode = 2
+flip_h = true
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1237514114]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=398212339]
+libraries/ = SubResource("AnimationLibrary_8w7rj")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=197496407]
+modulate = Color(1, 1, 1, 0.21176471)
+z_index = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+stream = ExtResource("4_p423y")
+autoplay = true
+loop = true
+
+[connection signal="value_changed" from="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer2/HSlider2" to="." method="_on_h_slider_2_value_changed"]
+[connection signal="value_changed" from="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer3/HSlider3" to="." method="_on_h_slider_3_value_changed"]
+[connection signal="mouse_entered" from="botoes_audio/HBoxContainer/VBoxContainer/back_btn" to="botoes_audio/HBoxContainer/VBoxContainer/back_btn" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="botoes_audio/HBoxContainer/VBoxContainer/back_btn" to="botoes_audio/HBoxContainer/VBoxContainer/back_btn" method="_on_mouse_exited"]
+[connection signal="pressed" from="botoes_audio/HBoxContainer/VBoxContainer/back_btn" to="." method="_on_back_btn_pressed"]

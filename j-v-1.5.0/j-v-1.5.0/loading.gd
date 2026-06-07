@@ -11,6 +11,7 @@ func _ready():
 	add_child(menu_music)
 
 	menu_music.stream = preload("res://whvle-aboard-a-aurora-game-menu-pulse-203549.mp3")
+	menu_music.bus = "Music"
 	menu_music.volume_db = -5
 	menu_music.autoplay = false
 

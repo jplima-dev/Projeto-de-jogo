@@ -186,11 +186,11 @@ func start_cutscene():
 	# PROFESSOR FALANDO
 	# =====================
 
-	await falar("Leandro: Good morning, kids...", 3.0)
+	await falar("Good morning, kids...", 3.0)
 
-	await falar("Leandro: Today we're going to have a OOP class...", 3.5)
+	await falar("Today we're going to have a OOP class...", 3.5)
 
-	await falar("Leandro: The OOP, is a programming paradigm...", 3.0)
+	await falar("The OOP, is a programming paradigm...", 3.0)
 
 	# =====================
 	# LUZ PISCANDO
@@ -223,7 +223,7 @@ func start_cutscene():
 
 	await falar("Sometings fell in the classroom...", 1.5)
 
-	await falar("(Leandro: I need to find out what that was...)", 3.0)
+	await falar("(I need to find out what that was...)", 3.0)
 
 	# =====================
 	# VOLTA VISÃO
