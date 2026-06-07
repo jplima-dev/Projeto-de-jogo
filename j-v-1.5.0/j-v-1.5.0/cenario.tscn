@@ -4251,6 +4251,7 @@ position = Vector2(428, 41)
 stream = ExtResource("5_r0gk3")
 autoplay = true
 max_distance = 9.223372e+18
+bus = &"Music"
 
 [node name="TileMap" type="TileMap" parent="." unique_id=37637537]
 z_index = 10

@@ -297,6 +297,7 @@ layout_mode = 2
 icon = ExtResource("14_2p0cj")
 
 [node name="ataque" type="Area2D" parent="." unique_id=738166962]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ataque" unique_id=692084505]
 shape = SubResource("RectangleShape2D_42v40")
@@ -320,16 +321,22 @@ texture_progress = ExtResource("16_fygo5")
 position = Vector2(-85, 50)
 stream = ExtResource("17_3sy0s")
 max_distance = 9.223372e+18
+bus = &"SFX"
 
 [node name="correr" type="AudioStreamPlayer2D" parent="." unique_id=664464525]
 position = Vector2(-75, 2)
 stream = ExtResource("18_q8wjh")
 volume_db = -1.0
 max_distance = 10000000000.0
+bus = &"SFX"
 
 [node name="dash" type="AudioStreamPlayer2D" parent="." unique_id=1842000935]
 position = Vector2(-35, 66)
 stream = ExtResource("19_6hpjw")
 max_distance = 1000000000.0
+bus = &"SFX"
+
+[node name="Falapos" type="Marker2D" parent="." unique_id=448758335]
+position = Vector2(1, 77)
 
 [connection signal="body_entered" from="ataque" to="." method="_on_ataque_body_entered"]

@@ -188,6 +188,7 @@ offset_top = -33.0
 offset_right = 222.0
 offset_bottom = -10.0
 grow_vertical = 0
+theme_override_fonts/font = ExtResource("7_yubar")
 text = "© 2025. Uds "
 label_settings = SubResource("LabelSettings_3aem0")
 autowrap_mode = 3
@@ -217,6 +218,20 @@ stream = ExtResource("10_nddo5")
 autoplay = true
 expand = true
 loop = true
+
+[node name="Label2" type="Label" parent="." unique_id=338730555]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("7_yubar")
+text = "1.0"
 
 [connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/start_btn" to="MarginContainer/HBoxContainer/VBoxContainer/start_btn" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/start_btn" to="MarginContainer/HBoxContainer/VBoxContainer/start_btn" method="_on_mouse_exited"]

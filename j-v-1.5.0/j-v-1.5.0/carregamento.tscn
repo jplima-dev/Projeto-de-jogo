@@ -39,7 +39,7 @@ color = Color(0, 0, 0, 1)
 
 [node name="leandro" type="AnimatedSprite2D" parent="CanvasLayer" unique_id=640467499]
 z_index = 4096
-position = Vector2(1762.0001, 800)
+position = Vector2(1826.0001, 956.00006)
 scale = Vector2(0.3, 0.29)
 sprite_frames = SubResource("SpriteFrames_t0m8a")
 animation = &"digitando"

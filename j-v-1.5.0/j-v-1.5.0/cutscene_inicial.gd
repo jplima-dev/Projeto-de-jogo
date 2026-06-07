@@ -5,15 +5,12 @@ extends Node2D
 # =========================
 var player_scene = preload("res://leandro2.tscn")
 var sala_scene = preload("res://cenario.tscn")
-
+var dialogo_scene = preload("res://dialogo.tscn")
 # =========================
 # NÓS
 # =========================
 var player: CharacterBody2D
 var sala
-
-@onready var dialogue_box = $CanvasLayer/DialogueBox
-@onready var dialogue_label = $CanvasLayer/DialogueBox/Panel/MarginContainer/Label
 
 # =========================
 # MARKERS
@@ -26,6 +23,7 @@ var sala
 # READY
 # =========================
 func _ready():
+	
 
 	print("CUTSCENE READY")
 
@@ -34,8 +32,6 @@ func _ready():
 	# =====================
 	$CanvasLayer/Fade.z_index = 999
 	$CanvasLayer/Fade.modulate.a = 1.0
-
-	dialogue_box.visible = false
 
 	# =====================
 	# CARREGA O CENÁRIO
@@ -86,14 +82,19 @@ func _ready():
 # =========================
 func falar(texto: String, tempo := 2.0):
 
-	dialogue_box.visible = true
-	dialogue_label.text = texto
+	var dialogo = dialogo_scene.instantiate()
+
+	add_child(dialogo)
+
+	dialogo.iniciar(
+		texto,
+		player.get_node("Falapos")
+	)
 
 	await get_tree().create_timer(tempo).timeout
 
-	dialogue_box.visible = false
-
-
+	dialogo.queue_free()
+	
 # =========================
 # CUTSCENE
 # =========================

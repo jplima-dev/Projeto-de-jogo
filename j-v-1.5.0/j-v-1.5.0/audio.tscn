@@ -90,7 +90,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_p423y")
 theme_override_font_sizes/font_size = 32
-text = "Geral"
+text = "Geral                      "
 
 [node name="HSlider" type="HSlider" parent="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=373656801]
 layout_mode = 2
@@ -105,7 +105,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_p423y")
 theme_override_font_sizes/font_size = 32
-text = "Music"
+text = "Music                       "
 
 [node name="HSlider2" type="HSlider" parent="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=400254224]
 layout_mode = 2
@@ -120,7 +120,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_p423y")
 theme_override_font_sizes/font_size = 32
-text = "Effects"
+text = "Effects                 "
 
 [node name="HSlider3" type="HSlider" parent="botoes_audio/HBoxContainer/VBoxContainer/HBoxContainer3" unique_id=2019277398]
 layout_mode = 2

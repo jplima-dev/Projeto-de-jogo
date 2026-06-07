@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cp3ylm32gp78y"]
+
+[ext_resource type="Script" uid="uid://dwtcmf04ntlmu" path="res://dialogo.gd" id="1_7ebmd"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="2_cmsvf"]
+
+[node name="Dialogo" type="Node2D" unique_id=1670309999]
+z_index = 4096
+script = ExtResource("1_7ebmd")
+
+[node name="Panel" type="Panel" parent="." unique_id=1743207191]
+offset_left = -100.0
+offset_top = -40.0
+offset_right = 100.0
+offset_bottom = 10.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=174908247]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer" unique_id=279883654]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_cmsvf")
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
