@@ -47,8 +47,9 @@ var saved_mask = 0
 # ==============================
 # ATAQUE
 # ==============================
-@onready var attack_input: LineEdit = $ataque/CanvasLayer/Panel/LineEdit
-@onready var attack_panel: Panel = $ataque/CanvasLayer/Panel
+@onready var attack_input: LineEdit = $ataque/Panel/MarginContainer/Label
+@onready var attack_panel: Panel = $ataque/Panel
+@onready var alvo: Node2D = $ataque
 
 var digitando_comando := false
 
@@ -280,7 +281,7 @@ func _input(event):
 		
 	if digitando_comando:
 
-		if event.is_action_pressed("ui_accept"):
+		if event.is_action_pressed("atacar"):
 			fechar_comando()
 
 		return
@@ -422,6 +423,45 @@ func abrir_comando():
 	attack_panel.visible = true
 
 	attack_input.grab_focus()
+	
+		# centro do player
+	var centro_player = alvo.get_parent().global_position
+
+	# posição inicial
+	global_position = centro_player
+
+	# invisível e pequeno
+	scale = Vector2(0.1, 0.1)
+	modulate.a = 0.0
+
+	# animação de entrada
+	var tween = create_tween()
+
+	tween.set_parallel()
+
+	tween.tween_property(
+		self,
+		"modulate:a",
+		1.0,
+		0.15
+	)
+
+	tween.tween_property(
+		self,
+		"scale",
+		Vector2.ONE,
+		0.25
+	)
+
+	tween.tween_property(
+		self,
+		"global_position",
+		alvo.global_position,
+		0.25
+	)
+
+	await tween.finished
+
 
 
 func fechar_comando():

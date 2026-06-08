@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://boxcv56e083c" path="res://inv.gd" id="13_8v6mr"]
 [ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="14_2p0cj"]
 [ext_resource type="Texture2D" uid="uid://c2484td5o16u" path="res://barra.png" id="15_mk1u1"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="15_q4hqc"]
 [ext_resource type="Texture2D" uid="uid://d1vsgjusst0kf" path="res://frente_vida.png" id="16_fygo5"]
 [ext_resource type="AudioStream" uid="uid://cuyiu8a20hkci" path="res://andar.mp3" id="17_3sy0s"]
 [ext_resource type="AudioStream" uid="uid://bhx0yxdfp60dp" path="res://correr.mp3" id="18_q8wjh"]
@@ -293,18 +294,51 @@ icon = ExtResource("14_2p0cj")
 layout_mode = 2
 icon = ExtResource("14_2p0cj")
 
-[node name="ataque" type="Area2D" parent="." unique_id=738166962]
+[node name="ataque" type="Node2D" parent="." unique_id=1091587306]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="ataque" unique_id=701190978]
+[node name="Panel" type="Panel" parent="ataque" unique_id=760842974]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="ataque/CanvasLayer" unique_id=1685858877]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="MarginContainer" type="MarginContainer" parent="ataque/Panel" unique_id=1535692856]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = 50.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 0
 
-[node name="LineEdit" type="LineEdit" parent="ataque/CanvasLayer/Panel" unique_id=2102166677]
-layout_mode = 0
-offset_right = 68.5
-offset_bottom = 31.0
+[node name="Label" type="LineEdit" parent="ataque/Panel/MarginContainer" unique_id=528939189]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("15_q4hqc")
+theme_override_font_sizes/font_size = 12
+
+[node name="SkipLabel" type="Label" parent="ataque/Panel" unique_id=471911238]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("15_q4hqc")
+theme_override_font_sizes/font_size = 12
+text = ">"
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=451746296]
 
@@ -335,5 +369,3 @@ bus = &"SFX"
 
 [node name="Falapos" type="Marker2D" parent="." unique_id=448758335]
 position = Vector2(1, 77)
-
-[connection signal="body_entered" from="ataque" to="." method="_on_ataque_body_entered"]
