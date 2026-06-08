@@ -24,7 +24,7 @@ func _on_config_btn_pressed() -> void:
 	
 func _on_credits_btn_2_pressed() -> void:
 	get_tree().change_scene_to_file("res://creditos.tscn")
-
+	Loading.parar_menu()
 
 func _on_quit_btn_4_pressed() -> void:
 	get_tree().quit()

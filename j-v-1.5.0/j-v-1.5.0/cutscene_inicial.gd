@@ -80,18 +80,18 @@ func _ready():
 # =========================
 # SISTEMA DE FALA
 # =========================
-func falar(texto: String, tempo := 2.0):
+func falar(texto: String):
 
 	var dialogo = dialogo_scene.instantiate()
 
 	add_child(dialogo)
 
-	dialogo.iniciar(
+	await dialogo.iniciar(
 		texto,
 		player.get_node("Falapos")
 	)
 
-	await get_tree().create_timer(tempo).timeout
+	await dialogo.desaparecer()
 
 	dialogo.queue_free()
 	
@@ -187,11 +187,11 @@ func start_cutscene():
 	# PROFESSOR FALANDO
 	# =====================
 
-	await falar("Good morning, kids...", 3.0)
+	await falar("Good morning, kids...")
 
-	await falar("Today we're going to have a OOP class...", 3.5)
+	await falar("Today we're going to have a OOP class...")
 
-	await falar("The OOP, is a programming paradigm...", 3.0)
+	await falar("The OOP, is a programming paradigm...")
 
 	# =====================
 	# LUZ PISCANDO
@@ -222,9 +222,9 @@ func start_cutscene():
 	# SOM ESTRANHO
 	# =====================
 
-	await falar("Sometings fell in the classroom...", 1.5)
+	await falar("Sometings fell in the classroom...")
 
-	await falar("(I need to find out what that was...)", 3.0)
+	await falar("(I need to find out what that was...)")
 
 	# =====================
 	# VOLTA VISÃO

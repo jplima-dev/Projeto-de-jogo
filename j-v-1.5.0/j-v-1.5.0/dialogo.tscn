@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dwtcmf04ntlmu" path="res://dialogo.gd" id="1_7ebmd"]
 [ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="2_cmsvf"]
+[ext_resource type="AudioStream" uid="uid://dl3i0eqroaovg" path="res://voz_temp.mp3" id="3_cmsvf"]
 
 [node name="Dialogo" type="Node2D" unique_id=1670309999]
 z_index = 4096
@@ -24,7 +25,25 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="Panel/MarginContainer" unique_id=279883654]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
-size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_cmsvf")
 theme_override_font_sizes/font_size = 12
 autowrap_mode = 3
+
+[node name="SkipLabel" type="Label" parent="Panel" unique_id=464338905]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_cmsvf")
+theme_override_font_sizes/font_size = 12
+text = ">"
+
+[node name="Voz" type="AudioStreamPlayer2D" parent="." unique_id=1920024877]
+stream = ExtResource("3_cmsvf")
+bus = &"SFX"
