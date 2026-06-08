@@ -47,9 +47,10 @@ var saved_mask = 0
 # ==============================
 # ATAQUE
 # ==============================
-@onready var attack_area: Area2D = $ataque
-@onready var attack_sprite: Sprite2D = $ataque/A
-@export var attack_show_time: float = 0.15
+@onready var attack_input: LineEdit = $ataque/CanvasLayer/Panel/LineEdit
+@onready var attack_panel: Panel = $ataque/CanvasLayer/Panel
+
+var digitando_comando := false
 
 # ==============================
 # SONS
@@ -76,15 +77,11 @@ func _ready():
 	blink_timer.timeout.connect(_toggle_visibility)
 	add_child(blink_timer)
 
-	if attack_area:
-		attack_area.body_entered.connect(_on_AttackArea_body_entered)
-		attack_area.monitoring = false
-
-	if attack_sprite:
-		attack_sprite.hide()
 
 	$AnimatedSprite2D.frame_changed.connect(_on_frame_changed)
 
+	attack_input.visible = false
+	attack_panel.visible = false
 
 # ==============================
 # MOVIMENTO
@@ -276,7 +273,17 @@ func _input(event):
 		return
 
 	if event.is_action_pressed("ataque"):
-		_do_attack()
+		if !digitando_comando:
+			abrir_comando()
+
+		return
+		
+	if digitando_comando:
+
+		if event.is_action_pressed("ui_accept"):
+			fechar_comando()
+
+		return
 
 	if event.is_action_pressed("dano"):
 		take_damage(50)
@@ -288,17 +295,6 @@ func _input(event):
 # ==============================
 # ATAQUE
 # ==============================
-func _do_attack():
-
-	attack_sprite.show()
-	attack_area.monitoring = true
-
-	await get_tree().create_timer(attack_show_time).timeout
-
-	attack_sprite.hide()
-	attack_area.monitoring = false
-
-
 func _on_AttackArea_body_entered(body):
 
 	if body.is_in_group("enemies"):
@@ -414,3 +410,27 @@ func set_color(c: Color):
 
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.modulate = c
+		
+		
+func abrir_comando():
+
+	digitando_comando = true
+
+	attack_input.text = ""
+
+	attack_input.visible = true
+	attack_panel.visible = true
+
+	attack_input.grab_focus()
+
+
+func fechar_comando():
+
+	digitando_comando = false
+
+	print("COMANDO:", attack_input.text)
+
+	attack_input.release_focus()
+
+	attack_input.visible = false
+	attack_panel.visible = false

@@ -230,9 +230,6 @@ animations = [{
 "speed": 1.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_42v40"]
-size = Vector2(574, 456)
-
 [node name="leandro" type="CharacterBody2D" unique_id=1628815286]
 z_index = 1
 collision_mask = 2
@@ -297,17 +294,17 @@ layout_mode = 2
 icon = ExtResource("14_2p0cj")
 
 [node name="ataque" type="Area2D" parent="." unique_id=738166962]
-visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ataque" unique_id=692084505]
-shape = SubResource("RectangleShape2D_42v40")
-disabled = true
-debug_color = Color(0.95199496, 2.9841065e-06, 0.56331646, 0.41960785)
+[node name="CanvasLayer" type="CanvasLayer" parent="ataque" unique_id=701190978]
 
-[node name="A" type="Sprite2D" parent="ataque" unique_id=1650168562]
-z_index = 4096
-scale = Vector2(4.5, 3.6484377)
-texture = ExtResource("14_2p0cj")
+[node name="Panel" type="Panel" parent="ataque/CanvasLayer" unique_id=1685858877]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LineEdit" type="LineEdit" parent="ataque/CanvasLayer/Panel" unique_id=2102166677]
+layout_mode = 0
+offset_right = 68.5
+offset_bottom = 31.0
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=451746296]
 
