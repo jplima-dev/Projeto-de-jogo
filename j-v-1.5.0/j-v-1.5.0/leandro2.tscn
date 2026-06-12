@@ -231,6 +231,9 @@ animations = [{
 "speed": 1.0
 }]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q4hqc"]
+bg_color = Color(1, 1, 1, 1)
+
 [node name="leandro" type="CharacterBody2D" unique_id=1628815286]
 z_index = 1
 collision_mask = 2
@@ -242,12 +245,12 @@ z_index = 894
 shape = SubResource("RectangleShape2D_kt6ma")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1434664874]
-z_index = 4096
+z_index = 4
 scale = Vector2(0.06088888, 0.06266669)
 texture = ExtResource("2_q4hqc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=703724653]
-z_index = 4096
+z_index = 4
 scale = Vector2(0.12, 0.12283635)
 sprite_frames = SubResource("SpriteFrames_a1cyc")
 animation = &"parado_direcional"
@@ -294,51 +297,57 @@ icon = ExtResource("14_2p0cj")
 layout_mode = 2
 icon = ExtResource("14_2p0cj")
 
-[node name="ataque" type="Node2D" parent="." unique_id=1091587306]
+[node name="TerminalAtaque" type="Node2D" parent="." unique_id=1091587306]
+z_index = 5
 
-[node name="Panel" type="Panel" parent="ataque" unique_id=760842974]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
+[node name="CanvasLayer" type="CanvasLayer" parent="TerminalAtaque" unique_id=12826942]
 
-[node name="MarginContainer" type="MarginContainer" parent="ataque/Panel" unique_id=1535692856]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = 50.0
-offset_right = 100.0
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="Panel" type="Panel" parent="TerminalAtaque/CanvasLayer" unique_id=1536644621]
+offset_left = 591.0
+offset_top = 252.0
+offset_right = 1041.0
+offset_bottom = 502.0
+size_flags_horizontal = 3
 
-[node name="Label" type="LineEdit" parent="ataque/Panel/MarginContainer" unique_id=528939189]
-custom_minimum_size = Vector2(200, 50)
-layout_mode = 2
+[node name="BarraTopo" type="Panel" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=699227327]
+modulate = Color(0.9680262, 0.96639305, 0.9998867, 1)
+layout_mode = 0
+offset_right = 450.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_q4hqc")
+
+[node name="LabelTopo" type="Label" parent="TerminalAtaque/CanvasLayer/Panel/BarraTopo" unique_id=859562687]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 8.0
+offset_right = 173.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("15_q4hqc")
-theme_override_font_sizes/font_size = 12
+text = "Comands -- SOUL"
 
-[node name="SkipLabel" type="Label" parent="ataque/Panel" unique_id=471911238]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -8.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
+[node name="BotaoFechar" type="Button" parent="TerminalAtaque/CanvasLayer/Panel/BarraTopo" unique_id=118891926]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Prompt" type="Label" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=293082117]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 45.0
+offset_right = 50.0
+offset_bottom = 68.0
 theme_override_fonts/font = ExtResource("15_q4hqc")
-theme_override_font_sizes/font_size = 12
 text = ">"
+
+[node name="LineEdit" type="LineEdit" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=686585724]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 40.0
+offset_right = 415.0
+offset_bottom = 240.0
+theme_override_colors/selection_color = Color(0.26666668, 0.26666668, 0.26666668, 1)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=451746296]
 
@@ -368,4 +377,4 @@ max_distance = 1000000000.0
 bus = &"SFX"
 
 [node name="Falapos" type="Marker2D" parent="." unique_id=448758335]
-position = Vector2(1, 77)
+position = Vector2(128, -84)

@@ -47,9 +47,11 @@ var saved_mask = 0
 # ==============================
 # ATAQUE
 # ==============================
-@onready var attack_input: LineEdit = $ataque/Panel/MarginContainer/Label
-@onready var attack_panel: Panel = $ataque/Panel
-@onready var alvo: Node2D = $ataque
+@onready var terminal: Node2D = $TerminalAtaque
+
+@onready var attack_panel: Panel = $TerminalAtaque/CanvasLayer/Panel
+
+@onready var attack_input: LineEdit = $TerminalAtaque/CanvasLayer/Panel/LineEdit
 
 var digitando_comando := false
 
@@ -81,7 +83,6 @@ func _ready():
 
 	$AnimatedSprite2D.frame_changed.connect(_on_frame_changed)
 
-	attack_input.visible = false
 	attack_panel.visible = false
 
 # ==============================
@@ -419,58 +420,59 @@ func abrir_comando():
 
 	attack_input.text = ""
 
-	attack_input.visible = true
 	attack_panel.visible = true
 
 	attack_input.grab_focus()
-	
-		# centro do player
-	var centro_player = alvo.get_parent().global_position
 
-	# posição inicial
-	global_position = centro_player
+	terminal.scale = Vector2(0.1, 0.1)
+	terminal.modulate.a = 0.0
 
-	# invisível e pequeno
-	scale = Vector2(0.1, 0.1)
-	modulate.a = 0.0
-
-	# animação de entrada
 	var tween = create_tween()
 
 	tween.set_parallel()
 
 	tween.tween_property(
-		self,
-		"modulate:a",
-		1.0,
-		0.15
-	)
-
-	tween.tween_property(
-		self,
+		terminal,
 		"scale",
 		Vector2.ONE,
 		0.25
 	)
 
 	tween.tween_property(
-		self,
-		"global_position",
-		alvo.global_position,
+		terminal,
+		"modulate:a",
+		1.0,
 		0.25
 	)
 
 	await tween.finished
-
-
-
+	
 func fechar_comando():
 
 	digitando_comando = false
 
 	print("COMANDO:", attack_input.text)
 
+	var tween = create_tween()
+
+	tween.set_parallel()
+
+	tween.tween_property(
+		terminal,
+		"scale",
+		Vector2(0.1, 0.1),
+		0.2
+	)
+
+	tween.tween_property(
+		terminal,
+		"modulate:a",
+		0.0,
+		0.2
+	)
+
+	await tween.finished
+
 	attack_input.release_focus()
 
-	attack_input.visible = false
 	attack_panel.visible = false
