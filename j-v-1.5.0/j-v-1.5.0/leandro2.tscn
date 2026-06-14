@@ -14,10 +14,13 @@
 [ext_resource type="Texture2D" uid="uid://bshytcqr34xmm" path="res://esquerda_l.png" id="12_f7cd8"]
 [ext_resource type="Script" uid="uid://boxcv56e083c" path="res://inv.gd" id="13_8v6mr"]
 [ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="14_2p0cj"]
+[ext_resource type="Script" uid="uid://bwwavrmd6nm5l" path="res://habilidades.gd" id="15_gvfrn"]
 [ext_resource type="Texture2D" uid="uid://c2484td5o16u" path="res://barra.png" id="15_mk1u1"]
 [ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="15_q4hqc"]
 [ext_resource type="Texture2D" uid="uid://d1vsgjusst0kf" path="res://frente_vida.png" id="16_fygo5"]
 [ext_resource type="AudioStream" uid="uid://cuyiu8a20hkci" path="res://andar.mp3" id="17_3sy0s"]
+[ext_resource type="Texture2D" uid="uid://bxmnu2fdqa11h" path="res://barra_criatividade.png" id="17_6ectu"]
+[ext_resource type="Script" uid="uid://cr2qkk271f5su" path="res://barra_criatividade.gd" id="18_nqm1x"]
 [ext_resource type="AudioStream" uid="uid://bhx0yxdfp60dp" path="res://correr.mp3" id="18_q8wjh"]
 [ext_resource type="AudioStream" uid="uid://boikmxkrwn6p7" path="res://dash.mp3" id="19_6hpjw"]
 
@@ -234,6 +237,58 @@ animations = [{
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q4hqc"]
 bg_color = Color(1, 1, 1, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ectu"]
+atlas = ExtResource("17_6ectu")
+region = Rect2(0, 5, 128, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nqm1x"]
+atlas = ExtResource("17_6ectu")
+region = Rect2(0, 20, 128, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_advsy"]
+atlas = ExtResource("17_6ectu")
+region = Rect2(0, 35, 128, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_380i4"]
+atlas = ExtResource("17_6ectu")
+region = Rect2(0, 50, 128, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ml6l6"]
+atlas = ExtResource("17_6ectu")
+region = Rect2(0, 65, 128, 15)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xo43s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ectu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nqm1x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_advsy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_380i4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ml6l6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gvfrn"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqm1x"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ectu"]
+bg_color = Color(0, 0, 0, 1)
+
 [node name="leandro" type="CharacterBody2D" unique_id=1628815286]
 z_index = 1
 collision_mask = 2
@@ -299,55 +354,100 @@ icon = ExtResource("14_2p0cj")
 
 [node name="TerminalAtaque" type="Node2D" parent="." unique_id=1091587306]
 z_index = 5
+script = ExtResource("15_gvfrn")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="TerminalAtaque" unique_id=12826942]
 
 [node name="Panel" type="Panel" parent="TerminalAtaque/CanvasLayer" unique_id=1536644621]
-offset_left = 591.0
-offset_top = 252.0
-offset_right = 1041.0
-offset_bottom = 502.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -74.0
+offset_bottom = -74.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 
 [node name="BarraTopo" type="Panel" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=699227327]
 modulate = Color(0.9680262, 0.96639305, 0.9998867, 1)
-layout_mode = 0
-offset_right = 450.0
-offset_bottom = 40.0
+z_index = 3
+custom_minimum_size = Vector2(390, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -195.0
+offset_top = -15.0
+offset_right = 195.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_q4hqc")
 
 [node name="LabelTopo" type="Label" parent="TerminalAtaque/CanvasLayer/Panel/BarraTopo" unique_id=859562687]
 layout_mode = 0
-offset_left = 9.0
-offset_top = 8.0
-offset_right = 173.0
-offset_bottom = 31.0
+offset_right = 164.0
+offset_bottom = 23.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("15_q4hqc")
-text = "Comands -- SOUL"
 
 [node name="BotaoFechar" type="Button" parent="TerminalAtaque/CanvasLayer/Panel/BarraTopo" unique_id=118891926]
 modulate = Color(1, 1, 1, 0)
+z_index = 10
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="Prompt" type="Label" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=293082117]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 45.0
-offset_right = 50.0
-offset_bottom = 68.0
+offset_left = 361.0
+offset_top = 1.0
+offset_right = 390.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("15_q4hqc")
-text = ">"
+text = "X"
 
-[node name="LineEdit" type="LineEdit" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=686585724]
-layout_mode = 0
-offset_left = 25.0
-offset_top = 40.0
-offset_right = 415.0
-offset_bottom = 240.0
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="TerminalAtaque/CanvasLayer/Panel/BarraTopo" unique_id=607770442]
+position = Vector2(229.00003, 30)
+scale = Vector2(3.9047618, 3.6904762)
+sprite_frames = SubResource("SpriteFrames_xo43s")
+script = ExtResource("18_nqm1x")
+
+[node name="LineEdit" type="TextEdit" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=576892061]
+z_index = 2
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -194.99998
+offset_top = 15.0
+offset_right = 194.00002
+offset_bottom = 65.0
+grow_horizontal = 2
 theme_override_colors/selection_color = Color(0.26666668, 0.26666668, 0.26666668, 1)
+theme_override_fonts/font = ExtResource("15_q4hqc")
+theme_override_styles/normal = SubResource("StyleBoxFlat_gvfrn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_nqm1x")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_6ectu")
+caret_blink = true
+
+[node name="ColorRect" type="ColorRect" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=66310138]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -195.0
+offset_right = 195.0
+offset_bottom = 200.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Cursor" type="Label" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=941599059]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "█"
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=451746296]
 

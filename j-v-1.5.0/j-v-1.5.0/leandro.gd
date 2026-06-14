@@ -30,6 +30,13 @@ var max_health = 100
 var health = 100
 @onready var health_bar = $"../hud/TextureProgressBar"
 
+
+# ==============================
+# ATAQUE
+# ==============================
+
+@onready var habilidades = $TerminalAtaque
+
 # ==============================
 # DIREÇÃO E INVENCIBILIDADE
 # ==============================
@@ -43,17 +50,6 @@ var invincible_time = 0.5
 var blink_timer: Timer
 var blinking_color: Color = Color(1, 1, 1)
 var saved_mask = 0
-
-# ==============================
-# ATAQUE
-# ==============================
-@onready var terminal: Node2D = $TerminalAtaque
-
-@onready var attack_panel: Panel = $TerminalAtaque/CanvasLayer/Panel
-
-@onready var attack_input: LineEdit = $TerminalAtaque/CanvasLayer/Panel/LineEdit
-
-var digitando_comando := false
 
 # ==============================
 # SONS
@@ -82,8 +78,6 @@ func _ready():
 
 
 	$AnimatedSprite2D.frame_changed.connect(_on_frame_changed)
-
-	attack_panel.visible = false
 
 # ==============================
 # MOVIMENTO
@@ -266,25 +260,16 @@ func _on_frame_changed():
 				som_correr.play()
 
 
-# ==============================
-# INPUT
-# ==============================
 func _input(event):
+	
+	if event.is_action_pressed("ataque"):
+
+		if not habilidades.aberto:
+
+			habilidades.abrir($Falapos)
+			
 
 	if !pode_mexer:
-		return
-
-	if event.is_action_pressed("ataque"):
-		if !digitando_comando:
-			abrir_comando()
-
-		return
-		
-	if digitando_comando:
-
-		if event.is_action_pressed("atacar"):
-			fechar_comando()
-
 		return
 
 	if event.is_action_pressed("dano"):
@@ -292,15 +277,6 @@ func _input(event):
 
 	if event.is_action_pressed("cura"):
 		heal(10)
-
-
-# ==============================
-# ATAQUE
-# ==============================
-func _on_AttackArea_body_entered(body):
-
-	if body.is_in_group("enemies"):
-		body.take_damage(20)
 
 
 # ==============================
@@ -413,66 +389,3 @@ func set_color(c: Color):
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.modulate = c
 		
-		
-func abrir_comando():
-
-	digitando_comando = true
-
-	attack_input.text = ""
-
-	attack_panel.visible = true
-
-	attack_input.grab_focus()
-
-	terminal.scale = Vector2(0.1, 0.1)
-	terminal.modulate.a = 0.0
-
-	var tween = create_tween()
-
-	tween.set_parallel()
-
-	tween.tween_property(
-		terminal,
-		"scale",
-		Vector2.ONE,
-		0.25
-	)
-
-	tween.tween_property(
-		terminal,
-		"modulate:a",
-		1.0,
-		0.25
-	)
-
-	await tween.finished
-	
-func fechar_comando():
-
-	digitando_comando = false
-
-	print("COMANDO:", attack_input.text)
-
-	var tween = create_tween()
-
-	tween.set_parallel()
-
-	tween.tween_property(
-		terminal,
-		"scale",
-		Vector2(0.1, 0.1),
-		0.2
-	)
-
-	tween.tween_property(
-		terminal,
-		"modulate:a",
-		0.0,
-		0.2
-	)
-
-	await tween.finished
-
-	attack_input.release_focus()
-
-	attack_panel.visible = false
