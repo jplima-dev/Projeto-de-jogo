@@ -1,0 +1,1 @@
+Quando vc passa de uma maneira muito específica pelas portas e ataca ao mesmo tempo, tem chance do Leandro bugar e voltar o tp, fazendo com que ele atravesse o mapa
