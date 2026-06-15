@@ -290,7 +290,7 @@ bg_color = Color(0, 0, 0, 1)
 bg_color = Color(0, 0, 0, 1)
 
 [node name="leandro" type="CharacterBody2D" unique_id=1628815286]
-z_index = 1
+z_index = 10
 collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_puacl")
@@ -477,4 +477,4 @@ max_distance = 1000000000.0
 bus = &"SFX"
 
 [node name="Falapos" type="Marker2D" parent="." unique_id=448758335]
-position = Vector2(128, -84)
+position = Vector2(2, 86)
