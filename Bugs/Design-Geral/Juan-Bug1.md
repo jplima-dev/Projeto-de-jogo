@@ -1,0 +1,1 @@
+A parte que deveria diminuir da barra de vida n está diminuindo.
