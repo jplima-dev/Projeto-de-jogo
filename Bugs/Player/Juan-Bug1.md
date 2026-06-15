@@ -1,0 +1,1 @@
+O primeiro bug realmente grande que eu vejo e que o Leandro n ataca como deveria, o ">" n aparece no começo da linha quando aperta enter, e a textura de varinha de criatividade está bem pixelizada
