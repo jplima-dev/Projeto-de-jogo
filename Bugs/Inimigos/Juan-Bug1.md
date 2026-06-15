@@ -1,0 +1,1 @@
+O inimigo continua carente pelo canto superior direito do player, vai pra lá e n sai mais de jeito nenhum
