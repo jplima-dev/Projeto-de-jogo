@@ -6,7 +6,6 @@
 script = ExtResource("1_6vowx")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=87332344]
-layer = 10
 
 [node name="Fade" type="ColorRect" parent="CanvasLayer" unique_id=1710865144]
 z_index = 2
@@ -14,6 +13,7 @@ offset_left = -1207.0
 offset_top = -1048.0
 offset_right = 2216.0
 offset_bottom = 1602.0
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="pcleandro" type="Marker2D" parent="." unique_id=1457221822]

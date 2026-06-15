@@ -153,6 +153,7 @@ func _unhandled_input(event):
 			if texto.get_caret_column() <= 2:
 
 				get_viewport().set_input_as_handled()
+				
 func piscar_terminal():
 
 	for i in range(5):

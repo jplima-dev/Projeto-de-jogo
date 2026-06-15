@@ -6,6 +6,7 @@ extends Node2D
 var player_scene = preload("res://leandro2.tscn")
 var sala_scene = preload("res://cenario.tscn")
 var dialogo_scene = preload("res://dialogo.tscn")
+
 # =========================
 # NÓS
 # =========================
@@ -24,7 +25,6 @@ var sala
 # =========================
 func _ready():
 	
-
 	print("CUTSCENE READY")
 
 	# =====================

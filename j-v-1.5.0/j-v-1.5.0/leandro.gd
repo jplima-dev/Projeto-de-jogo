@@ -388,4 +388,3 @@ func set_color(c: Color):
 
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.modulate = c
-		
