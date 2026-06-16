@@ -117,3 +117,7 @@ func atualizar_slot(slot_node, numero_slot):
 		dados["horas"],
 		dados["minutos"]
 	]	
+
+
+func _on_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://tatlescreen/tatlescreen.tscn")

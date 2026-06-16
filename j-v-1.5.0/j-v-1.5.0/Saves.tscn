@@ -252,3 +252,4 @@ script = ExtResource("4_ybj5r")
 
 [connection signal="mouse_entered" from="MarginContainer/VBoxContainer/Button" to="MarginContainer/VBoxContainer/Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/VBoxContainer/Button" to="MarginContainer/VBoxContainer/Button" method="_on_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]

@@ -2,6 +2,8 @@ extends Node
 
 var slot_atual := 1
 
+var tempo_jogado := 0.0
+
 var dados = {
 	"vida": 100,
 	"max_vida": 100,
@@ -15,6 +17,15 @@ var dados = {
 	"horas": 0,
 	"minutos": 0
 }
+
+
+func _process(delta):
+
+	tempo_jogado += delta
+
+	dados["horas"] = int(tempo_jogado / 3600)
+
+	dados["minutos"] = int(tempo_jogado / 60) % 60
 
 
 func salvar():
@@ -52,5 +63,10 @@ func carregar():
 
 	if resultado != null:
 		dados = resultado
+
+		tempo_jogado = (
+			dados["horas"] * 3600 +
+			dados["minutos"] * 60
+		)
 
 	print("JOGO CARREGADO DO SLOT ", slot_atual)
