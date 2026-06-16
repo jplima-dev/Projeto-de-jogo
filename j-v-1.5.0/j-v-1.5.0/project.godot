@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Loading="*uid://coobhhamwrt7t"
+Saves="*uid://bkww4vdhbtukw"
 
 [display]
 

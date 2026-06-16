@@ -45,7 +45,7 @@ func parar_menu():
 	tween.tween_property(
 		menu_music,
 		"volume_db",
-		-20,
+		-60,
 		1.5
 	)
 

@@ -388,3 +388,15 @@ func set_color(c: Color):
 
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.modulate = c
+
+func salvar_jogo():
+
+	Saves.dados["vida"] = health
+
+	Saves.dados["max_vida"] = max_health
+
+	Saves.dados["posicao_x"] = global_position.x
+
+	Saves.dados["posicao_y"] = global_position.y
+
+	Saves.salvar()

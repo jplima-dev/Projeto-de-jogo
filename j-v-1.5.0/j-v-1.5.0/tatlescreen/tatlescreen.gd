@@ -13,8 +13,8 @@ func _ready() -> void:
 	Loading.tocar_menu()
 
 func _on_start_btn_pressed() -> void:
-	get_tree().change_scene_to_file("res://carregamento.tscn")
-	Loading.parar_menu()
+	get_tree().change_scene_to_file("res://Saves.tscn")
+
 	
 	
 

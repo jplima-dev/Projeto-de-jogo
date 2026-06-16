@@ -1,0 +1,254 @@
+[gd_scene format=3 uid="uid://631xdl434xd8"]
+
+[ext_resource type="VideoStream" uid="uid://dtdt7vjtme06e" path="res://pixel-art-64bit-less-pixelated.ogv" id="1_cjhoo"]
+[ext_resource type="Script" uid="uid://h01mysvc7cgk" path="res://anim_saves.gd" id="1_xcgp4"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="3_mjptg"]
+[ext_resource type="Script" uid="uid://dy44xkwlcm10r" path="res://voltar_tela_saves.gd" id="4_ybj5r"]
+
+[sub_resource type="Animation" id="Animation_t2bvs"]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yubar"]
+resource_name = "fade_botões"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xcgp4"]
+_data = {
+&"RESET": SubResource("Animation_t2bvs"),
+&"fade_botões": SubResource("Animation_yubar")
+}
+
+[node name="Control" type="Control" unique_id=1699251413]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xcgp4")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1157422768]
+modulate = Color(1, 1, 1, 0.21176471)
+z_index = 4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stream = ExtResource("1_cjhoo")
+autoplay = true
+expand = true
+loop = true
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=270932360]
+libraries/ = SubResource("AnimationLibrary_xcgp4")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=419933040]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2125589863]
+modulate = Color(1, 1, 1, 0)
+z_index = 11
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -300.0
+offset_right = 500.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1413118184]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=562478050]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Slot1" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1650621884]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+mouse_default_cursor_shape = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot1" unique_id=479766220]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelTitulo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot1/VBoxContainer" unique_id=2040189877]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 32
+text = "SLOT 1"
+horizontal_alignment = 1
+
+[node name="LabelCapitulo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot1/VBoxContainer" unique_id=402940338]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="LabelParte" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot1/VBoxContainer" unique_id=1208357519]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="LabelTempo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot1/VBoxContainer" unique_id=750233361]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot1/VBoxContainer" unique_id=793833558]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Slot2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=664700358]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+mouse_default_cursor_shape = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot2" unique_id=722505780]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelTitulo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot2/VBoxContainer" unique_id=1403010315]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 32
+text = "SLOT 2"
+horizontal_alignment = 1
+
+[node name="LabelCapitulo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot2/VBoxContainer" unique_id=1084703807]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="LabelParte" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot2/VBoxContainer" unique_id=101147562]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="LabelTempo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot2/VBoxContainer" unique_id=58566994]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot2/VBoxContainer" unique_id=1231291327]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Slot3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1131066115]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_default_cursor_shape = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot3" unique_id=35836817]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelTitulo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot3/VBoxContainer" unique_id=2063346533]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 32
+text = "SLOT 3"
+horizontal_alignment = 1
+
+[node name="LabelCapitulo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot3/VBoxContainer" unique_id=890697204]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="LabelParte" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot3/VBoxContainer" unique_id=1866063045]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="LabelTempo" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot3/VBoxContainer" unique_id=1643774849]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot3/VBoxContainer" unique_id=441987190]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=568922081]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer" unique_id=813721568]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_mjptg")
+theme_override_font_sizes/font_size = 32
+flat = true
+script = ExtResource("4_ybj5r")
+
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/Button" to="MarginContainer/VBoxContainer/Button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/Button" to="MarginContainer/VBoxContainer/Button" method="_on_mouse_exited"]
