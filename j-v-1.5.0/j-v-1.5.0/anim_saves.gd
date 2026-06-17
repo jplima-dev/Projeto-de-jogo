@@ -2,6 +2,7 @@ extends Control
 
 @onready var anim = $Anim
 
+
 func _ready():
 
 	anim.play("fade_botões")
@@ -20,22 +21,6 @@ func _ready():
 		$MarginContainer/VBoxContainer/HBoxContainer/Slot3,
 		3
 	)
-
-	$MarginContainer/VBoxContainer/HBoxContainer/Slot1.pressed.connect(_slot1)
-
-	$MarginContainer/VBoxContainer/HBoxContainer/Slot2.pressed.connect(_slot2)
-
-	$MarginContainer/VBoxContainer/HBoxContainer/Slot3.pressed.connect(_slot3)
-
-
-func _slot1():
-	criar_save(1)
-
-func _slot2():
-	criar_save(2)
-
-func _slot3():
-	criar_save(3)
 
 
 func criar_save(slot):
@@ -64,7 +49,7 @@ func criar_save(slot):
 	)
 
 	print("SAVE CRIADO NO SLOT ", slot)
-	
+
 	Loading.parar_menu()
 
 	get_tree().change_scene_to_file(
@@ -116,8 +101,74 @@ func atualizar_slot(slot_node, numero_slot):
 	tempo.text = "%02dh %02dmin" % [
 		dados["horas"],
 		dados["minutos"]
-	]	
+	]
 
 
 func _on_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://tatlescreen/tatlescreen.tscn")
+
+	get_tree().change_scene_to_file(
+		"res://tatlescreen/tatlescreen.tscn"
+	)
+
+
+func _on_slot_1_pressed():
+
+	var dados = carregar_slot(1)
+
+	if dados == null:
+
+		criar_save(1)
+		return
+
+	Saves.slot_atual = 1
+	Saves.carregar()
+
+	Saves.carregando_save = true
+
+	Loading.parar_menu()
+
+	get_tree().change_scene_to_file(
+		Saves.dados["cena"]
+	)
+
+
+func _on_slot_2_pressed():
+
+	var dados = carregar_slot(2)
+
+	if dados == null:
+
+		criar_save(2)
+		return
+
+	Saves.slot_atual = 2
+	Saves.carregar()
+
+	Saves.carregando_save = true
+
+	Loading.parar_menu()
+
+	get_tree().change_scene_to_file(
+		Saves.dados["cena"]
+	)
+
+
+func _on_slot_3_pressed():
+
+	var dados = carregar_slot(3)
+
+	if dados == null:
+
+		criar_save(3)
+		return
+
+	Saves.slot_atual = 3
+	Saves.carregar()
+
+	Saves.carregando_save = true
+
+	Loading.parar_menu()
+
+	get_tree().change_scene_to_file(
+		Saves.dados["cena"]
+	)

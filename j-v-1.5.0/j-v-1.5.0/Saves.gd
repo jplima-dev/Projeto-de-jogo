@@ -1,6 +1,7 @@
 extends Node
 
 var slot_atual := 1
+var carregando_save := false
 
 var tempo_jogado := 0.0
 

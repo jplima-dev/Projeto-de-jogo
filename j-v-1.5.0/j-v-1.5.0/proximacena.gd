@@ -6,29 +6,44 @@ var can_tp = true
 
 func _on_body_entered(body: Node2D) -> void:
 
-	if body.is_in_group("player") and can_tp and destino:
+	if !body.is_in_group("player"):
+		return
 
-		can_tp = false
+	if !can_tp:
+		return
 
-		var fade = get_tree().current_scene.get_node_or_null("CanvasLayer/Fade")
+	if destino == null:
+		return
 
-		if fade:
-			fade.hide()
+	can_tp = false
 
-		body.global_position = destino.global_position
+	var fade = get_tree().current_scene.get_node_or_null(
+		"CanvasLayer/Fade"
+	)
 
-		# espera 2 segundos
-		await get_tree().create_timer(2.0).timeout
+	if fade:
+		fade.hide()
 
-		# salva posição
-		Saves.dados["posicao_x"] = body.global_position.x
-		Saves.dados["posicao_y"] = body.global_position.y
+	body.global_position = destino.global_position
 
-		# salva cena atual
-		Saves.dados["cena"] = get_tree().current_scene.scene_file_path
+	# espera o player terminar de ser teleportado
+	await get_tree().create_timer(2.0).timeout
 
-		Saves.salvar()
+	Saves.dados["posicao_x"] = body.global_position.x
+	Saves.dados["posicao_y"] = body.global_position.y
 
-		print("CHECKPOINT SALVO")
+	Saves.dados["cena"] = (
+		get_tree().current_scene.scene_file_path
+	)
+	
+	print("SALVANDO POSIÇÃO:")
+	print(body.global_position)
 
-		can_tp = true
+	Saves.dados["posicao_x"] = body.global_position.x
+	Saves.dados["posicao_y"] = body.global_position.y
+
+	Saves.salvar()
+
+	print("CHECKPOINT SALVO")
+
+	can_tp = true

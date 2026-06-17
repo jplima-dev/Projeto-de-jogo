@@ -63,6 +63,15 @@ var saved_mask = 0
 # READY
 # ==============================
 func _ready():
+	
+	if Saves.carregando_save:
+
+		global_position = Vector2(
+			Saves.dados["posicao_x"],
+			Saves.dados["posicao_y"]
+		)
+
+		Saves.carregando_save = false
 
 	add_to_group("player")
 

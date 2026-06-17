@@ -31,22 +31,6 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0.100000024, 0, 1)
 
-[node name="Label" type="Label" parent="morte" unique_id=1145562411]
-z_index = 4096
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -291.5
-offset_top = -36.0
-offset_right = 291.5
-offset_bottom = 36.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "tu morreu"
-
 [node name="Button" type="Button" parent="morte" unique_id=302085081]
 z_index = 4096
 layout_mode = 1
@@ -67,3 +51,8 @@ reviver
 
 
 "
+
+[node name="VBoxContainer" type="VBoxContainer" parent="morte" unique_id=252471457]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
