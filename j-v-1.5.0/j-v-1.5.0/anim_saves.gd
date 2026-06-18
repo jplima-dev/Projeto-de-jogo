@@ -25,36 +25,34 @@ func _ready():
 
 func criar_save(slot):
 
-	var caminho = "user://slot%d.json" % slot
+	Saves.slot_atual = slot
 
-	var dados = {
-		"capitulo": 1,
-		"parte": 1,
-		"horas": 0,
-		"minutos": 0,
+	Saves.dados = {
+		"vida":100,
+		"max_vida":100,
 
-		"cena": "res://cutscene_inicial.tscn",
+		"posicao_x":0,
+		"posicao_y":0,
 
-		"posicao_x": 0,
-		"posicao_y": 0
+		"cena":"res://cutscene_inicial.tscn",
+
+		"habilidades":[],
+
+		"capitulo":1,
+		"parte":1,
+		"horas":0,
+		"minutos":0,
+
+		"cutscene_feita":false
 	}
 
-	var arquivo = FileAccess.open(
-		caminho,
-		FileAccess.WRITE
-	)
-
-	arquivo.store_string(
-		JSON.stringify(dados)
-	)
+	Saves.salvar()
 
 	print("SAVE CRIADO NO SLOT ", slot)
 
 	Loading.parar_menu()
 
-	get_tree().change_scene_to_file(
-		"res://carregamento.tscn"
-	)
+	get_tree().change_scene_to_file("res://carregamento.tscn")
 
 
 func carregar_slot(numero_slot):

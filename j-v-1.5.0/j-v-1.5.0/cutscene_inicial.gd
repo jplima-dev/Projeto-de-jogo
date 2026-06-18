@@ -24,7 +24,7 @@ var sala
 # READY
 # =========================
 func _ready():
-	
+
 	print("CUTSCENE READY")
 
 	# =====================
@@ -45,16 +45,10 @@ func _ready():
 	# CARREGA O PLAYER
 	# =====================
 	player = player_scene.instantiate()
-
 	add_child(player)
 
 	print("PLAYER:", player)
 	print("SCRIPT PLAYER:", player.get_script())
-
-	# =====================
-	# POSIÇÃO INICIAL
-	# =====================
-	player.global_position = pc_leandro.global_position
 
 	# =====================
 	# ESCONDE HUD
@@ -66,14 +60,47 @@ func _ready():
 	# =====================
 	player.pode_mexer = false
 
-	# sprite parado inicial
 	player.get_node("Sprite2D").visible = true
 	player.get_node("AnimatedSprite2D").visible = false
 
-	# espera 1 frame
+	# =====================
+	# VERIFICA SE É UM SAVE
+	# =====================
+
+	if Saves.dados["cutscene_feita"]:
+
+		player.global_position = Vector2(
+			Saves.dados["posicao_x"],
+			Saves.dados["posicao_y"]
+		)
+
+		player.get_node("HUD").visible = true
+		player.pode_mexer = true
+
+		# Faz o fade ao carregar um save
+		var tween = create_tween()
+
+		tween.tween_property(
+			$CanvasLayer/Fade,
+			"modulate:a",
+			0.0,
+			1.0
+		)
+
+		await tween.finished
+
+		print("SAVE CARREGADO")
+
+		return
+
+	# =====================
+	# PRIMEIRA VEZ
+	# =====================
+
+	player.global_position = pc_leandro.global_position
+
 	await get_tree().process_frame
 
-	# começa cutscene
 	await start_cutscene()
 
 
@@ -253,3 +280,6 @@ func start_cutscene():
 	player.pode_mexer = true
 
 	print("GAMEPLAY COMEÇOU")
+	
+	Saves.dados["cutscene_feita"] = true
+	Saves.salvar()

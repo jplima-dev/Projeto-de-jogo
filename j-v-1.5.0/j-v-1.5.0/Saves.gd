@@ -16,7 +16,9 @@ var dados = {
 	"capitulo": 1,
 	"parte": 1,
 	"horas": 0,
-	"minutos": 0
+	"minutos": 0,
+
+	"cutscene_feita": false
 }
 
 
@@ -71,3 +73,12 @@ func carregar():
 		)
 
 	print("JOGO CARREGADO DO SLOT ", slot_atual)
+	
+func salvar_jogo(player: Node2D):
+
+	dados["posicao_x"] = player.global_position.x
+	dados["posicao_y"] = player.global_position.y
+
+	dados["cena"] = get_tree().current_scene.scene_file_path
+
+	salvar()

@@ -15,6 +15,12 @@ func _on_resume_pressed():
 
 
 func _on_quit_pressed() -> void:
+
+	var player = get_tree().get_first_node_in_group("player")
+
+	if player:
+		Saves.salvar_jogo(player)
+
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://tatlescreen/tatlescreen.tscn")
 

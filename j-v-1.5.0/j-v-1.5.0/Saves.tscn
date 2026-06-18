@@ -3,7 +3,10 @@
 [ext_resource type="VideoStream" uid="uid://dtdt7vjtme06e" path="res://pixel-art-64bit-less-pixelated.ogv" id="1_cjhoo"]
 [ext_resource type="Script" uid="uid://h01mysvc7cgk" path="res://anim_saves.gd" id="1_xcgp4"]
 [ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="3_mjptg"]
+[ext_resource type="Texture2D" uid="uid://12l810hr7fmp" path="res://Imagem colada.png" id="4_ujh4h"]
 [ext_resource type="Script" uid="uid://dy44xkwlcm10r" path="res://voltar_tela_saves.gd" id="4_ybj5r"]
+[ext_resource type="Texture2D" uid="uid://vq7xnyrv30t4" path="res://tung.png" id="5_kgnmk"]
+[ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="6_dab3h"]
 
 [sub_resource type="Animation" id="Animation_t2bvs"]
 length = 0.5
@@ -110,6 +113,7 @@ size_flags_horizontal = 2
 mouse_default_cursor_shape = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot1" unique_id=479766220]
+z_index = 5
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -148,6 +152,20 @@ self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot1" unique_id=1973647049]
+self_modulate = Color(1, 1, 1, 0.19607843)
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_ujh4h")
+expand_mode = 1
+stretch_mode = 6
+
 [node name="Slot2" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=664700358]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
@@ -155,6 +173,7 @@ size_flags_horizontal = 6
 mouse_default_cursor_shape = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot2" unique_id=722505780]
+z_index = 5
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -193,6 +212,19 @@ self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot2" unique_id=577504991]
+self_modulate = Color(1, 1, 1, 0.19607843)
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_kgnmk")
+expand_mode = 1
+stretch_mode = 6
+
 [node name="Slot3" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1131066115]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
@@ -200,6 +232,7 @@ size_flags_horizontal = 10
 mouse_default_cursor_shape = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot3" unique_id=35836817]
+z_index = 5
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -238,6 +271,19 @@ self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Slot3" unique_id=707929502]
+self_modulate = Color(0.3137255, 0.3137255, 0.3137255, 0.19607843)
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_dab3h")
+expand_mode = 1
+stretch_mode = 6
+
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=568922081]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 50)
@@ -251,6 +297,8 @@ flat = true
 script = ExtResource("4_ybj5r")
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Slot1" to="." method="_on_slot_1_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Slot2" to="." method="_on_slot_2_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Slot3" to="." method="_on_slot_3_pressed"]
 [connection signal="mouse_entered" from="MarginContainer/VBoxContainer/Button" to="MarginContainer/VBoxContainer/Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/VBoxContainer/Button" to="MarginContainer/VBoxContainer/Button" method="_on_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
