@@ -14,18 +14,25 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="last signal"
+config/name="Last-Signal"
+config/version="1.0"
 run/main_scene="uid://dk8i5vtr2ng0d"
 config/features=PackedStringArray("4.6", "Forward Plus")
+run/max_fps=60
+boot_splash/show_image=false
+boot_splash/stretch_mode=0
+boot_splash/use_filter=false
 config/icon="res://icon.svg"
 
 [autoload]
 
 Loading="*uid://coobhhamwrt7t"
 Saves="*uid://bkww4vdhbtukw"
+Config="*uid://cdgqvw4j706du"
 
 [display]
 
+window/size/mode=3
 window/subwindows/embed_subwindows=false
 
 [input]

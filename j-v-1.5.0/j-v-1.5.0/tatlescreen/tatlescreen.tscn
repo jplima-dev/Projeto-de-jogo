@@ -111,6 +111,7 @@ alignment = 1
 layout_mode = 2
 size_flags_vertical = 2
 texture = ExtResource("2_arfoo")
+stretch_mode = 6
 
 [node name="start_btn" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=105580867]
 layout_mode = 2
@@ -157,12 +158,6 @@ theme_override_fonts/font = ExtResource("7_yubar")
 theme_override_font_sizes/font_size = 32
 flat = true
 script = ExtResource("8_arfoo")
-
-[node name="leandro" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=766100441]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-expand_mode = 2
-flip_h = true
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=339534838]
 layout_mode = 1

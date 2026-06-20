@@ -80,6 +80,7 @@ size_flags_vertical = 4
 custom_minimum_size = Vector2(500, 600)
 layout_mode = 2
 size_flags_horizontal = 6
+theme_override_constants/separation = 4
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=659046370]
@@ -140,7 +141,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_rejgo")
 theme_override_font_sizes/font_size = 32
-text = "Rigth"
+text = "Right"
 
 [node name="direita" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer4" unique_id=803851471]
 layout_mode = 2
@@ -150,12 +151,98 @@ theme_override_fonts/font = ExtResource("3_rejgo")
 theme_override_font_sizes/font_size = 32
 flat = true
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1797524442]
-modulate = Color(1, 1, 1, 0)
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1735506509]
+self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="back" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1356129279]
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer" unique_id=1321363997]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=932957764]
+custom_minimum_size = Vector2(500, 600)
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=1665750719]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer" unique_id=900617102]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Run"
+
+[node name="Run" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1503883410]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=1084828573]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2" unique_id=1918071268]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Dash"
+
+[node name="Dash" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2" unique_id=1653624408]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=1289274361]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3" unique_id=273838866]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Attack"
+
+[node name="Att" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3" unique_id=351431903]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=237216614]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4" unique_id=1656873015]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Inventory"
+
+[node name="Inv" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4" unique_id=2140744300]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=1222651481]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=912103633]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 2
+
+[node name="back" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2056311115]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("3_rejgo")
@@ -203,6 +290,18 @@ color = Color(0, 0, 0, 1)
 [connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer4/direita" to="." method="_on_direita_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer4/direita" to="." method="_on_direita_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer4/direita" to="." method="_on_direita_pressed"]
-[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/back" to="MarginContainer/HBoxContainer/VBoxContainer/back" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/back" to="MarginContainer/HBoxContainer/VBoxContainer/back" method="_on_mouse_exited"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/back" to="." method="_on_quit_btn_4_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Run" to="." method="_on_run_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Run" to="." method="_on_run_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Run" to="." method="_on_run_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Dash" to="." method="_on_dash_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Dash" to="." method="_on_dash_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Dash" to="." method="_on_dash_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3/Att" to="." method="_on_att_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3/Att" to="." method="_on_att_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3/Att" to="." method="_on_att_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4/Inv" to="." method="_on_inv_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4/Inv" to="." method="_on_inv_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4/Inv" to="." method="_on_inv_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/back" to="MarginContainer/VBoxContainer/back" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/back" to="MarginContainer/VBoxContainer/back" method="_on_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/back" to="." method="_on_back_pressed"]

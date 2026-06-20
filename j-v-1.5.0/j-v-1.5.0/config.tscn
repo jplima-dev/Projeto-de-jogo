@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://befiblfbx6a7y"]
 
-[ext_resource type="Script" uid="uid://ci4pl5fgxfq4w" path="res://config.gd" id="1_jdei0"]
+[ext_resource type="Script" uid="uid://ci4pl5fgxfq4w" path="res://tela_config.gd" id="1_jdei0"]
 [ext_resource type="VideoStream" uid="uid://dtdt7vjtme06e" path="res://pixel-art-64bit-less-pixelated.ogv" id="1_w2241"]
 [ext_resource type="Theme" uid="uid://dfu1jedlqg7gs" path="res://tatlescreen/tatlescreen.tres" id="3_jdei0"]
 [ext_resource type="Script" uid="uid://dmq5v1xqc83ru" path="res://controle_config.gd" id="4_g1boi"]

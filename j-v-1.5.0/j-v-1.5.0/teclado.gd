@@ -6,6 +6,10 @@ extends Control
 @onready var btn_baixo = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/baixo
 @onready var btn_esquerda = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/esquerda
 @onready var btn_direita = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer4/direita
+@onready var btn_run = $MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Run
+@onready var btn_dash = $MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Dash
+@onready var btn_attack = $MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3/Att
+@onready var btn_inventory = $MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4/Inv
 
 var esperando_tecla = false
 var acao_atual = ""
@@ -22,6 +26,10 @@ func _ready() -> void:
 	atualizar_botao(btn_baixo, "move-down")
 	atualizar_botao(btn_esquerda, "move-left")
 	atualizar_botao(btn_direita, "move-right")
+	atualizar_botao(btn_run, "correr")
+	atualizar_botao(btn_dash, "dash")
+	atualizar_botao(btn_attack, "ataque")
+	atualizar_botao(btn_inventory, "inv")
 
 func atualizar_botao(botao: Button, acao: String):
 
@@ -32,7 +40,7 @@ func atualizar_botao(botao: Button, acao: String):
 		var evento = eventos[0]
 
 		if evento is InputEventKey:
-			botao.text = char(evento.physical_keycode)
+			botao.text = OS.get_keycode_string(evento.physical_keycode)
 
 	else:
 		botao.text = "Nenhuma"
@@ -57,7 +65,7 @@ func _input(event):
 		InputMap.action_erase_events(acao_atual)
 		InputMap.action_add_event(acao_atual, event)
 
-		botao_atual.text = char(event.physical_keycode)
+		botao_atual.text = OS.get_keycode_string(event.physical_keycode)
 
 		salvar_controles()
 
@@ -81,9 +89,20 @@ func _on_direita_pressed():
 	iniciar_remapeamento("move-right", btn_direita)
 
 
-func _on_quit_btn_4_pressed() -> void:
+func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://config.tscn")
 	
+func _on_run_pressed():
+	iniciar_remapeamento("run", btn_run)
+
+func _on_dash_pressed():
+	iniciar_remapeamento("dash", btn_dash)
+
+func _on_att_pressed():
+	iniciar_remapeamento("attack", btn_attack)
+
+func _on_inv_pressed():
+	iniciar_remapeamento("inventory", btn_inventory)
 	
 func destacar_botao(botao: Button):
 	botao.text = "> " + botao.text
@@ -116,6 +135,30 @@ func _on_direita_mouse_entered():
 func _on_direita_mouse_exited():
 	remover_destaque(btn_direita)
 	
+func _on_run_mouse_entered():
+	destacar_botao(btn_run)
+
+func _on_run_mouse_exited():
+	remover_destaque(btn_run)
+
+func _on_dash_mouse_entered():
+	destacar_botao(btn_dash)
+
+func _on_dash_mouse_exited():
+	remover_destaque(btn_dash)
+
+func _on_att_mouse_entered():
+	destacar_botao(btn_attack)
+
+func _on_att_mouse_exited():
+	remover_destaque(btn_attack)
+
+func _on_inv_mouse_entered():
+	destacar_botao(btn_inventory)
+
+func _on_inv_mouse_exited():
+	remover_destaque(btn_inventory)
+	
 
 func salvar_acao(config: ConfigFile, acao: String):
 
@@ -141,6 +184,10 @@ func salvar_controles():
 	salvar_acao(config, "move-down")
 	salvar_acao(config, "move-left")
 	salvar_acao(config, "move-right")
+	salvar_acao(config, "run")
+	salvar_acao(config, "dash")
+	salvar_acao(config, "attack")
+	salvar_acao(config, "inventory")
 
 	config.save("user://controles.cfg")
 	
@@ -156,6 +203,10 @@ func carregar_controles():
 	carregar_acao(config, "move-down")
 	carregar_acao(config, "move-left")
 	carregar_acao(config, "move-right")
+	carregar_acao(config, "run")
+	carregar_acao(config, "dash")
+	carregar_acao(config, "attack")
+	carregar_acao(config, "inventory")
 
 
 func carregar_acao(config: ConfigFile, acao: String):

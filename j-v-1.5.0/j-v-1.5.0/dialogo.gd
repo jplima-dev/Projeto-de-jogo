@@ -144,6 +144,6 @@ func _unhandled_input(event):
 		
 func tocar_som_letra():
 
-	audio_letra.pitch_scale = randf_range(0.75, 0.90)
+	audio_letra.pitch_scale = randf_range(0.85, 1.0)
 
 	audio_letra.play()
