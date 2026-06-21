@@ -37,14 +37,14 @@ func iniciar(texto: String, alvo: Node2D):
 		self,
 		"position:y",
 		position.y - 45,
-		0.45
+		1.5
 	)
 
 	tween.parallel().tween_property(
 		self,
 		"modulate:a",
 		0.0,
-		0.25
+		1.5
 	)
 
 	await tween.finished

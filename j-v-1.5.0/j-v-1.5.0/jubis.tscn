@@ -23,11 +23,11 @@ collision_mask = 3
 script = ExtResource("1_ulsdv")
 
 [node name="jubiscreudo" type="Sprite2D" parent="coisadinho/inimigo" unique_id=979213966]
-position = Vector2(516, 258)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_m0m37")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="coisadinho/inimigo" unique_id=1610899535]
-position = Vector2(692, 359)
+scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_aukci")
 
 [node name="Area2D" type="Area2D" parent="coisadinho/inimigo" unique_id=2146092102]

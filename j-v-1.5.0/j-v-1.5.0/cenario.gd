@@ -7,7 +7,7 @@ var pause_scene = preload ("res://pause.tscn")
 
 
 func _ready():
-	#_spawn_enemy()
+	_spawn_enemy()
 	
 	pause_scene = pause_scene.instantiate()
 	add_child(pause_scene)
@@ -17,10 +17,10 @@ func _ready():
 	pause_scene.resume_requested.connect(_on_resume_requested)
 
 
-#func _spawn_enemy():
-	#var enemy := ENEMY.instantiate()
-	#add_child(enemy)
-	#enemy.global_position = enemy_spawn.global_position
+func _spawn_enemy():
+	var enemy := ENEMY.instantiate()
+	add_child(enemy)
+	enemy.global_position = enemy_spawn.global_position
 	
 func toggle_pause():
 	var state = !pause_scene.visible

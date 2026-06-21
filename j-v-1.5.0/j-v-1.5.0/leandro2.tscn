@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cpm3qqfd2j1r4" path="res://leandrorunLado.png" id="6_advsy"]
 [ext_resource type="Texture2D" uid="uid://bug7gpth5rd00" path="res://leandrorun.png" id="7_380i4"]
 [ext_resource type="Texture2D" uid="uid://cn805im4uma6i" path="res://leandrorunba.png" id="8_ml6l6"]
+[ext_resource type="Script" uid="uid://032dhdte73as" path="res://camera_2d.gd" id="10_gvfrn"]
 [ext_resource type="Texture2D" uid="uid://bshytcqr34xmm" path="res://esquerda_l.png" id="12_f7cd8"]
 [ext_resource type="Script" uid="uid://boxcv56e083c" path="res://inv.gd" id="13_8v6mr"]
 [ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="14_2p0cj"]
@@ -19,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://bxmnu2fdqa11h" path="res://barra_criatividade.png" id="17_6ectu"]
 [ext_resource type="Script" uid="uid://cr2qkk271f5su" path="res://barra_criatividade.gd" id="18_nqm1x"]
 [ext_resource type="AudioStream" uid="uid://bhx0yxdfp60dp" path="res://correr.mp3" id="18_q8wjh"]
-[ext_resource type="AudioStream" uid="uid://boikmxkrwn6p7" path="res://dash.mp3" id="19_6hpjw"]
+[ext_resource type="AudioStream" uid="uid://cxn6gvrqmk4d8" path="res://560124__steaq__a-teleportation.ogg" id="20_q4hqc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kt6ma"]
 size = Vector2(49, 84)
@@ -237,6 +238,7 @@ script = ExtResource("1_puacl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1967357645]
 z_index = 894
+scale = Vector2(0.7, 0.7)
 shape = SubResource("RectangleShape2D_kt6ma")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1434664874]
@@ -251,7 +253,8 @@ sprite_frames = SubResource("SpriteFrames_a1cyc")
 animation = &"andar"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1346231926]
-zoom = Vector2(2.5, 2.5)
+zoom = Vector2(2, 2)
+script = ExtResource("10_gvfrn")
 
 [node name="inv" type="Control" parent="." unique_id=717296490]
 z_index = 4096
@@ -412,7 +415,7 @@ bus = &"SFX"
 
 [node name="dash" type="AudioStreamPlayer2D" parent="." unique_id=1842000935]
 position = Vector2(-35, 66)
-stream = ExtResource("19_6hpjw")
+stream = ExtResource("20_q4hqc")
 max_distance = 1000000000.0
 bus = &"SFX"
 

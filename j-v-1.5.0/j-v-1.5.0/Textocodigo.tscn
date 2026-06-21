@@ -12,4 +12,4 @@ z_index = 4096
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_fonts/font = ExtResource("2_q207v")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16

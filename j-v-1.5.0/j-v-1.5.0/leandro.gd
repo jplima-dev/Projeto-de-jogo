@@ -6,11 +6,11 @@ const AFTER_IMAGE = preload("res://AfterImagem.tscn")
 # ==============================
 # ghost
 # ==============================
-@export var ghost_count := 10
+@export var ghost_count := 15
 @export var ghost_delay := 0.02
 @export var ghost_fade_speed := 100
 @export var ghost_scale := 0.1
-@export var ghost_color := Color(0.4,0.9,1,0.8)
+@export var ghost_color := Color(1,1,1,0.2)
 @export var ghost_disappear_delay := 0.02
 
 # ==============================
@@ -121,12 +121,12 @@ func _physics_process(delta):
 		Input.get_action_strength("move-down") - Input.get_action_strength("move-up")
 	)
 
-	if dir.x != 0 and dir.y != 0:
-
-		if abs(dir.x) > abs(dir.y):
-			dir.y = 0
-		else:
-			dir.x = 0
+	#if dir.x != 0 and dir.y != 0:
+#
+		#if abs(dir.x) > abs(dir.y):
+			#dir.y = 0
+		#else:
+			#dir.x = 0
 
 	dir = dir.normalized()
 
@@ -148,11 +148,6 @@ func _physics_process(delta):
 		if som_dash:
 			som_dash.play()
 
-		# mostra o texto
-		var texto = Textocodigo.instantiate()
-		get_tree().current_scene.add_child(texto)
-		texto.iniciar("L.E.O '@me TP 200px'", self)
-
 		# calcula início e destino
 		var inicio = global_position
 		var destino = inicio + facing_direction * DASH_DISTANCE
@@ -162,13 +157,23 @@ func _physics_process(delta):
 
 		# teleporta
 		global_position = destino
+		
+		var texto = Textocodigo.instantiate()
+		get_tree().current_scene.add_child(texto)
+		texto.iniciar("L.E.O '@me TP 200px'", self)
+		
+		$Camera2D.add_shake(1)
+		
+		dash_slowmo()
 
 
-	velocity = dir * (
+	var target_speed = dir * (
 		SPEED * RUN_MULTIPLIER
 		if Input.is_action_pressed("correr")
 		else SPEED
 	)
+
+	velocity = velocity.lerp(target_speed, 0.5)
 
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
@@ -442,3 +447,9 @@ func spawn_after_images(inicio: Vector2, fim: Vector2):
 		sprite.stop()
 
 		ghost.setup()
+		
+
+func dash_slowmo():
+	Engine.time_scale = 0.005  	
+	await get_tree().create_timer(0.05, true, false, true).timeout
+	Engine.time_scale = 1.0
