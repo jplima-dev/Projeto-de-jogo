@@ -1,13 +1,25 @@
 extends CharacterBody2D
 
+var Textocodigo = preload("res://Textocodigo.tscn")
+const AFTER_IMAGE = preload("res://AfterImagem.tscn")
+
+# ==============================
+# ghost
+# ==============================
+@export var ghost_count := 10
+@export var ghost_delay := 0.02
+@export var ghost_fade_speed := 100
+@export var ghost_scale := 0.1
+@export var ghost_color := Color(0.4,0.9,1,0.8)
+@export var ghost_disappear_delay := 0.02
+
 # ==============================
 # CONSTANTES DE MOVIMENTO
 # ==============================
 const SPEED = 500.0
 const RUN_MULTIPLIER = 2.0
-const DASH_SPEED = 2500.0
-const DASH_DURATION = 0.2
 const DASH_COOLDOWN = 1.0
+const DASH_DISTANCE = 220.0
 
 # ==============================
 # CONTROLE
@@ -18,10 +30,7 @@ var em_cutscene = false
 # ==============================
 # VARIÁVEIS DE DASH
 # ==============================
-var is_dashing = false
-var dash_timer = 0.0
 var dash_cooldown_timer = 0.0
-var dash_direction = Vector2.ZERO
 
 # ==============================
 # VIDA
@@ -124,41 +133,42 @@ func _physics_process(delta):
 	if dir != Vector2.ZERO:
 		facing_direction = dir
 
-	var moving = dir.length() > 0 or is_dashing
+	var moving = dir.length() > 0
 
 	# ==========================
 	# MOVIMENTO + DASH
 	# ==========================
-	if Input.is_action_just_pressed("dash") and dash_cooldown_timer <= 0 and dir != Vector2.ZERO:
+	if Input.is_action_just_pressed("dash") \
+	and dash_cooldown_timer <= 0 \
+	and facing_direction != Vector2.ZERO:
 
-		is_dashing = true
-		dash_timer = DASH_DURATION
 		dash_cooldown_timer = DASH_COOLDOWN
-		dash_direction = dir
 
+		# toca o som
 		if som_dash:
 			som_dash.play()
 
-		if dir.y < 0:
-			$AnimatedSprite2D.play("dash_cima")
+		# mostra o texto
+		var texto = Textocodigo.instantiate()
+		get_tree().current_scene.add_child(texto)
+		texto.iniciar("L.E.O '@me TP 200px'", self)
 
-		elif dir.y > 0:
-			$AnimatedSprite2D.play("dash_baixo")
+		# calcula início e destino
+		var inicio = global_position
+		var destino = inicio + facing_direction * DASH_DISTANCE
 
-		else:
-			$AnimatedSprite2D.play("dash")
-			update_flip()
+		# cria o rastro
+		spawn_after_images(inicio, destino)
 
-	velocity = dash_direction * DASH_SPEED if is_dashing else dir * (
-		SPEED * RUN_MULTIPLIER if Input.is_action_pressed("correr") else SPEED
+		# teleporta
+		global_position = destino
+
+
+	velocity = dir * (
+		SPEED * RUN_MULTIPLIER
+		if Input.is_action_pressed("correr")
+		else SPEED
 	)
-
-	if is_dashing:
-
-		dash_timer -= delta
-
-		if dash_timer <= 0:
-			is_dashing = false
 
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
@@ -184,7 +194,7 @@ func _physics_process(delta):
 
 		$AnimatedSprite2D.visible = true
 
-		if moving and !is_dashing:
+		if moving:
 
 			if dir.y < 0:
 
@@ -241,18 +251,11 @@ func update_flip():
 	if anim == "correr":
 		$AnimatedSprite2D.flip_h = facing_direction.x < 0
 
-	# dash
-	if anim == "dash":
-		$AnimatedSprite2D.flip_h = facing_direction.x < 0
-
 
 # ==============================
 # SOM DOS PASSOS
 # ==============================
 func _on_frame_changed():
-
-	if is_dashing:
-		return
 
 	if $AnimatedSprite2D.animation.begins_with("andar"):
 
@@ -409,3 +412,33 @@ func salvar_jogo():
 	Saves.dados["posicao_y"] = global_position.y
 
 	Saves.salvar()
+	
+func spawn_after_images(inicio: Vector2, fim: Vector2):
+
+	for i in range(ghost_count):
+
+		var ghost = AFTER_IMAGE.instantiate()
+
+		get_tree().current_scene.add_child(ghost)
+
+		var t = float(i) / max(ghost_count - 1, 1)
+
+		ghost.global_position = inicio.lerp(fim, t)
+		ghost.rotation = rotation
+		ghost.scale = scale
+
+		ghost.fade_speed = ghost_fade_speed
+		ghost.blur_scale = ghost_scale
+		ghost.ghost_color = ghost_color
+		ghost.fade_delay = i * ghost_disappear_delay
+
+		var sprite = ghost.get_node("AnimatedSprite2D")
+
+		sprite.sprite_frames = $AnimatedSprite2D.sprite_frames
+		sprite.animation = $AnimatedSprite2D.animation
+		sprite.play(sprite.animation)
+		sprite.frame = $AnimatedSprite2D.frame
+		sprite.flip_h = $AnimatedSprite2D.flip_h
+		sprite.stop()
+
+		ghost.setup()

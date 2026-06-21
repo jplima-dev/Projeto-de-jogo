@@ -8,9 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://cpm3qqfd2j1r4" path="res://leandrorunLado.png" id="6_advsy"]
 [ext_resource type="Texture2D" uid="uid://bug7gpth5rd00" path="res://leandrorun.png" id="7_380i4"]
 [ext_resource type="Texture2D" uid="uid://cn805im4uma6i" path="res://leandrorunba.png" id="8_ml6l6"]
-[ext_resource type="Texture2D" uid="uid://bqp81wskuym1f" path="res://pixilart-sprite (13).png" id="9_pqaqn"]
-[ext_resource type="Texture2D" uid="uid://drsl5cv45wgqy" path="res://dashfront.png" id="10_isj7h"]
-[ext_resource type="Texture2D" uid="uid://c18ik3r1psafx" path="res://dashlado.png" id="11_xo43s"]
 [ext_resource type="Texture2D" uid="uid://bshytcqr34xmm" path="res://esquerda_l.png" id="12_f7cd8"]
 [ext_resource type="Script" uid="uid://boxcv56e083c" path="res://inv.gd" id="13_8v6mr"]
 [ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="14_2p0cj"]
@@ -85,30 +82,6 @@ region = Rect2(0, 0, 1125, 1125)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kafe8"]
 atlas = ExtResource("8_ml6l6")
-region = Rect2(1125, 0, 1125, 1125)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ria1y"]
-atlas = ExtResource("9_pqaqn")
-region = Rect2(0, 0, 1125, 1125)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_50xuq"]
-atlas = ExtResource("9_pqaqn")
-region = Rect2(1125, 0, 1125, 1125)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yopyd"]
-atlas = ExtResource("10_isj7h")
-region = Rect2(0, 0, 1125, 1125)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0vecc"]
-atlas = ExtResource("10_isj7h")
-region = Rect2(1125, 0, 1125, 1125)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_b7ocx"]
-atlas = ExtResource("11_xo43s")
-region = Rect2(0, 0, 1125, 1125)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_j1prp"]
-atlas = ExtResource("11_xo43s")
 region = Rect2(1125, 0, 1125, 1125)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5amt7"]
@@ -194,39 +167,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ria1y")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_50xuq")
-}],
-"loop": true,
-"name": &"dash",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yopyd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0vecc")
-}],
-"loop": true,
-"name": &"dash_baixo",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b7ocx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_j1prp")
-}],
-"loop": true,
-"name": &"dash_cima",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_5amt7")
 }],
 "loop": true,
@@ -308,7 +248,7 @@ texture = ExtResource("2_q4hqc")
 z_index = 4
 scale = Vector2(0.12, 0.12283635)
 sprite_frames = SubResource("SpriteFrames_a1cyc")
-animation = &"parado_direcional"
+animation = &"andar"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1346231926]
 zoom = Vector2(2.5, 2.5)

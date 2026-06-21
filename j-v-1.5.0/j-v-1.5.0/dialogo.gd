@@ -78,7 +78,7 @@ func iniciar(texto: String, novo_alvo: Node2D):
 	# espera Enter ou 2 segundos
 	var tempo := 0.0
 
-	while tempo < 2.0:
+	while tempo < 0.5:
 
 		if avancar:
 			break
@@ -86,6 +86,8 @@ func iniciar(texto: String, novo_alvo: Node2D):
 		await get_tree().process_frame
 
 		tempo += get_process_delta_time()
+	
+	await desaparecer()
 
 
 func desaparecer():
