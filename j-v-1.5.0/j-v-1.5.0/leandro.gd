@@ -160,7 +160,7 @@ func _physics_process(delta):
 		
 		var texto = Textocodigo.instantiate()
 		get_tree().current_scene.add_child(texto)
-		texto.iniciar("L.E.O '@me TP 200px'", self)
+		texto.iniciar("L.E.O '@me TP 200px'", self, Color.WHITE, 16, 1, 0.5)
 		
 		$Camera2D.add_shake(1)
 		

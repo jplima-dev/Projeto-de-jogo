@@ -2,12 +2,25 @@ extends Area2D
 
 @onready var destino: Marker2D = $escada
 
-var can_tp = true
+var camera: Camera2D
+var can_tp := true
+
+
+func get_camera() -> Camera2D:
+	return get_tree().get_first_node_in_group("camera")
 
 
 func _on_body_entered(body: Node2D) -> void:
 	
 	if body.is_in_group("player") and can_tp and destino:
+		
+		camera = get_camera()
+		
+		print(camera)
+		
+		if camera:
+			if camera.has_method("camera_batalha"):
+				camera.camera_batalha()
 		
 		can_tp = false
 		
