@@ -11,7 +11,6 @@
 [ext_resource type="Script" uid="uid://032dhdte73as" path="res://camera_2d.gd" id="10_gvfrn"]
 [ext_resource type="Texture2D" uid="uid://bshytcqr34xmm" path="res://esquerda_l.png" id="12_f7cd8"]
 [ext_resource type="Script" uid="uid://boxcv56e083c" path="res://inv.gd" id="13_8v6mr"]
-[ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="14_2p0cj"]
 [ext_resource type="Script" uid="uid://bwwavrmd6nm5l" path="res://habilidades.gd" id="15_gvfrn"]
 [ext_resource type="Texture2D" uid="uid://c2484td5o16u" path="res://barra.png" id="15_mk1u1"]
 [ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="15_q4hqc"]
@@ -258,42 +257,89 @@ script = ExtResource("10_gvfrn")
 
 [node name="inv" type="Control" parent="." unique_id=717296490]
 z_index = 4096
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("13_8v6mr")
 player = NodePath("..")
 
-[node name="GridContainer" type="GridContainer" parent="inv" unique_id=1346655019]
-layout_mode = 0
-offset_left = -198.0
-offset_top = -212.0
-offset_right = 218.0
-offset_bottom = -76.0
-columns = 3
+[node name="VBoxContainer" type="VBoxContainer" parent="inv" unique_id=290942993]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="item1" type="Button" parent="inv/GridContainer" unique_id=1757976964]
+[node name="Habilidades" type="Control" parent="inv/VBoxContainer" unique_id=809949894]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-icon = ExtResource("14_2p0cj")
+size_flags_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="inv/GridContainer/item1" unique_id=584344516]
-layout_mode = 0
-offset_left = 1.0
-offset_top = -2.0
-offset_right = 129.0
-offset_bottom = 126.0
-texture = ExtResource("14_2p0cj")
+[node name="GridContainer" type="GridContainer" parent="inv/VBoxContainer/Habilidades" unique_id=939295081]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 4
 
-[node name="item2" type="Button" parent="inv/GridContainer" unique_id=423691164]
+[node name="Button" type="Button" parent="inv/VBoxContainer/Habilidades/GridContainer" unique_id=1289548012]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-icon = ExtResource("14_2p0cj")
 
-[node name="item3" type="Button" parent="inv/GridContainer" unique_id=144504620]
+[node name="Button2" type="Button" parent="inv/VBoxContainer/Habilidades/GridContainer" unique_id=100774810]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
-icon = ExtResource("14_2p0cj")
+
+[node name="Button3" type="Button" parent="inv/VBoxContainer/Habilidades/GridContainer" unique_id=1484623383]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="inv/VBoxContainer/Habilidades/GridContainer" unique_id=1284944103]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="Regras" type="Control" parent="inv/VBoxContainer" unique_id=2028318079]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="GridContainer" type="GridContainer" parent="inv/VBoxContainer/Regras" unique_id=1564954042]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 4
+
+[node name="Button5" type="Button" parent="inv/VBoxContainer/Regras/GridContainer" unique_id=1882476132]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="Button6" type="Button" parent="inv/VBoxContainer/Regras/GridContainer" unique_id=209602226]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="Button7" type="Button" parent="inv/VBoxContainer/Regras/GridContainer" unique_id=919277442]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="Button8" type="Button" parent="inv/VBoxContainer/Regras/GridContainer" unique_id=934129061]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
 
 [node name="TerminalAtaque" type="Node2D" parent="." unique_id=1091587306]
 z_index = 5
@@ -421,3 +467,24 @@ bus = &"SFX"
 
 [node name="Falapos" type="Marker2D" parent="." unique_id=448758335]
 position = Vector2(2, 86)
+
+[connection signal="mouse_entered" from="inv/VBoxContainer/Habilidades" to="inv" method="_on_habilidades_mouse_entered"]
+[connection signal="mouse_exited" from="inv/VBoxContainer/Habilidades" to="inv" method="_on_habilidades_mouse_exited"]
+[connection signal="mouse_entered" from="inv/VBoxContainer/Habilidades/GridContainer/Button" to="inv" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="inv/VBoxContainer/Habilidades/GridContainer/Button" to="inv" method="_on_button_mouse_exited"]
+[connection signal="mouse_entered" from="inv/VBoxContainer/Habilidades/GridContainer/Button2" to="inv" method="_on_button_2_mouse_entered"]
+[connection signal="mouse_exited" from="inv/VBoxContainer/Habilidades/GridContainer/Button2" to="inv" method="_on_button_2_mouse_exited"]
+[connection signal="mouse_entered" from="inv/VBoxContainer/Habilidades/GridContainer/Button3" to="inv" method="_on_button_3_mouse_entered"]
+[connection signal="mouse_exited" from="inv/VBoxContainer/Habilidades/GridContainer/Button3" to="inv" method="_on_button_3_mouse_exited"]
+[connection signal="mouse_entered" from="inv/VBoxContainer/Habilidades/GridContainer/Button4" to="inv" method="_on_button_4_mouse_entered"]
+[connection signal="mouse_exited" from="inv/VBoxContainer/Habilidades/GridContainer/Button4" to="inv" method="_on_button_4_mouse_exited"]
+[connection signal="mouse_entered" from="inv/VBoxContainer/Regras" to="inv" method="_on_regras_mouse_entered"]
+[connection signal="mouse_exited" from="inv/VBoxContainer/Regras" to="inv" method="_on_regras_mouse_exited"]
+[connection signal="mouse_entered" from="inv/VBoxContainer/Regras/GridContainer/Button5" to="inv" method="_on_button_5_mouse_entered"]
+[connection signal="mouse_exited" from="inv/VBoxContainer/Regras/GridContainer/Button5" to="inv" method="_on_button_5_mouse_exited"]
+[connection signal="mouse_entered" from="inv/VBoxContainer/Regras/GridContainer/Button6" to="inv" method="_on_button_6_mouse_entered"]
+[connection signal="mouse_exited" from="inv/VBoxContainer/Regras/GridContainer/Button6" to="inv" method="_on_button_6_mouse_exited"]
+[connection signal="mouse_entered" from="inv/VBoxContainer/Regras/GridContainer/Button7" to="inv" method="_on_button_7_mouse_entered"]
+[connection signal="mouse_exited" from="inv/VBoxContainer/Regras/GridContainer/Button7" to="inv" method="_on_button_7_mouse_exited"]
+[connection signal="mouse_entered" from="inv/VBoxContainer/Regras/GridContainer/Button8" to="inv" method="_on_button_8_mouse_entered"]
+[connection signal="mouse_exited" from="inv/VBoxContainer/Regras/GridContainer/Button8" to="inv" method="_on_button_8_mouse_exited"]

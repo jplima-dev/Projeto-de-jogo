@@ -30,7 +30,7 @@ func _ready() -> void:
 	atualizar_botao(btn_dash, "dash")
 	atualizar_botao(btn_attack, "ataque")
 	atualizar_botao(btn_inventory, "inv")
-
+	
 func atualizar_botao(botao: Button, acao: String):
 
 	var eventos = InputMap.action_get_events(acao)
@@ -93,16 +93,16 @@ func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://config.tscn")
 	
 func _on_run_pressed():
-	iniciar_remapeamento("run", btn_run)
+	iniciar_remapeamento("correr", btn_run)
 
 func _on_dash_pressed():
 	iniciar_remapeamento("dash", btn_dash)
 
 func _on_att_pressed():
-	iniciar_remapeamento("attack", btn_attack)
+	iniciar_remapeamento("ataque", btn_attack)
 
 func _on_inv_pressed():
-	iniciar_remapeamento("inventory", btn_inventory)
+	iniciar_remapeamento("inv", btn_inventory)
 	
 func destacar_botao(botao: Button):
 	botao.text = "> " + botao.text
@@ -184,13 +184,12 @@ func salvar_controles():
 	salvar_acao(config, "move-down")
 	salvar_acao(config, "move-left")
 	salvar_acao(config, "move-right")
-	salvar_acao(config, "run")
+	salvar_acao(config, "correr")
 	salvar_acao(config, "dash")
-	salvar_acao(config, "attack")
-	salvar_acao(config, "inventory")
+	salvar_acao(config, "ataque")
+	salvar_acao(config, "inv")
 
 	config.save("user://controles.cfg")
-	
 	
 func carregar_controles():
 
@@ -203,10 +202,10 @@ func carregar_controles():
 	carregar_acao(config, "move-down")
 	carregar_acao(config, "move-left")
 	carregar_acao(config, "move-right")
-	carregar_acao(config, "run")
+	carregar_acao(config, "correr")
 	carregar_acao(config, "dash")
-	carregar_acao(config, "attack")
-	carregar_acao(config, "inventory")
+	carregar_acao(config, "ataque")
+	carregar_acao(config, "inv")
 
 
 func carregar_acao(config: ConfigFile, acao: String):
