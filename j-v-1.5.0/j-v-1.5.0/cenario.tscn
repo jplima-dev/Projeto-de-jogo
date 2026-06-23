@@ -10350,7 +10350,7 @@ shape = SubResource("RectangleShape2D_d7kam")
 position = Vector2(428, 41)
 
 [node name="EnemySpawn" type="Node2D" parent="." unique_id=1020815565]
-position = Vector2(-108, -5432)
+position = Vector2(1281, -5619)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1094142914]
 stream = ExtResource("5_r0gk3")

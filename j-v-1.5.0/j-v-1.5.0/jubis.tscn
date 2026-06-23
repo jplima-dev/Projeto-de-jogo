@@ -29,6 +29,7 @@ texture = ExtResource("2_m0m37")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="coisadinho/inimigo" unique_id=1610899535]
 scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_aukci")
+disabled = true
 
 [node name="Area2D" type="Area2D" parent="coisadinho/inimigo" unique_id=2146092102]
 position = Vector2(-6440, 1618)
@@ -36,5 +37,6 @@ collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="coisadinho/inimigo/Area2D" unique_id=1541141223]
 shape = SubResource("RectangleShape2D_lvh7a")
+disabled = true
 
 [connection signal="body_entered" from="coisadinho/inimigo/Area2D" to="coisadinho/inimigo" method="_on_area_2d_body_entered"]
