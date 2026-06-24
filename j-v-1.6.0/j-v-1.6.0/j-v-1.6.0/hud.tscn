@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cji84xhbacftu"]
+
+[ext_resource type="Texture2D" uid="uid://c2484td5o16u" path="res://barra.png" id="1_64ctp"]
+[ext_resource type="Texture2D" uid="uid://d1vsgjusst0kf" path="res://frente_vida.png" id="2_8sq4i"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="hud" type="CanvasLayer" parent="."]
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="hud"]
+offset_right = 221.0
+offset_bottom = 150.0
+texture_under = ExtResource("1_64ctp")
+texture_progress = ExtResource("2_8sq4i")

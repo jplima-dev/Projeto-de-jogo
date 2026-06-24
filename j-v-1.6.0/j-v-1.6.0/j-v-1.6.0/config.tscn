@@ -1,0 +1,178 @@
+[gd_scene format=3 uid="uid://befiblfbx6a7y"]
+
+[ext_resource type="Script" uid="uid://ci4pl5fgxfq4w" path="res://tela_config.gd" id="1_jdei0"]
+[ext_resource type="VideoStream" uid="uid://dtdt7vjtme06e" path="res://pixel-art-64bit-less-pixelated.ogv" id="1_w2241"]
+[ext_resource type="Theme" uid="uid://dfu1jedlqg7gs" path="res://tatlescreen/tatlescreen.tres" id="3_jdei0"]
+[ext_resource type="Script" uid="uid://dmq5v1xqc83ru" path="res://controle_config.gd" id="4_g1boi"]
+[ext_resource type="Script" uid="uid://bbilylpg4ilnb" path="res://audio_config.gd" id="5_jdei0"]
+[ext_resource type="Script" uid="uid://byctcflyomocb" path="res://video_config.gd" id="6_06qtd"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="7_1orqb"]
+[ext_resource type="Script" uid="uid://bk7nino1qb7hh" path="res://voltar_config.gd" id="8_2gltl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_63hsu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d1c66"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_71j7u"]
+
+[sub_resource type="Animation" id="Animation_t2bvs"]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("botões principai:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yubar"]
+resource_name = "fade_botões"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("botões principai:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g1boi"]
+_data = {
+&"RESET": SubResource("Animation_t2bvs"),
+&"fade_botões": SubResource("Animation_yubar")
+}
+
+[node name="config" type="Control" unique_id=26077650]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jdei0")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=1230244264]
+modulate = Color(1, 1, 1, 0.21176471)
+z_index = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+stream = ExtResource("1_w2241")
+autoplay = true
+loop = true
+
+[node name="botões principai" type="MarginContainer" parent="." unique_id=1088082702]
+modulate = Color(1, 1, 1, 0)
+z_index = 4096
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -252.0
+offset_top = -320.00018
+offset_right = 252.0
+offset_bottom = 320.00018
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.0172968, 0.98051834)
+mouse_default_cursor_shape = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="botões principai" unique_id=1421040543]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="botões principai/HBoxContainer" unique_id=1652224527]
+custom_minimum_size = Vector2(500, 600)
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 1
+
+[node name="controls_btn" type="Button" parent="botões principai/HBoxContainer/VBoxContainer" unique_id=1546012127]
+layout_mode = 2
+theme = ExtResource("3_jdei0")
+theme_override_font_sizes/font_size = 32
+flat = true
+script = ExtResource("4_g1boi")
+
+[node name="HSeparator" type="HSeparator" parent="botões principai/HBoxContainer/VBoxContainer" unique_id=256814735]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_63hsu")
+
+[node name="audio_btn" type="Button" parent="botões principai/HBoxContainer/VBoxContainer" unique_id=1505635129]
+layout_mode = 2
+theme = ExtResource("3_jdei0")
+theme_override_font_sizes/font_size = 32
+flat = true
+script = ExtResource("5_jdei0")
+
+[node name="HSeparator2" type="HSeparator" parent="botões principai/HBoxContainer/VBoxContainer" unique_id=1860238682]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_d1c66")
+
+[node name="video_btn2" type="Button" parent="botões principai/HBoxContainer/VBoxContainer" unique_id=1778359281]
+layout_mode = 2
+theme = ExtResource("3_jdei0")
+theme_override_font_sizes/font_size = 32
+flat = true
+script = ExtResource("6_06qtd")
+
+[node name="HSeparator3" type="HSeparator" parent="botões principai/HBoxContainer/VBoxContainer" unique_id=1662865771]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_71j7u")
+
+[node name="back_btn" type="Button" parent="botões principai/HBoxContainer/VBoxContainer" unique_id=262899407]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_1orqb")
+theme_override_font_sizes/font_size = 32
+flat = true
+script = ExtResource("8_2gltl")
+
+[node name="leandro" type="TextureRect" parent="botões principai/HBoxContainer" unique_id=809103860]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+expand_mode = 2
+flip_h = true
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=1746002179]
+libraries/ = SubResource("AnimationLibrary_g1boi")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2096961520]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="mouse_entered" from="botões principai/HBoxContainer/VBoxContainer/controls_btn" to="botões principai/HBoxContainer/VBoxContainer/controls_btn" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="botões principai/HBoxContainer/VBoxContainer/controls_btn" to="botões principai/HBoxContainer/VBoxContainer/controls_btn" method="_on_mouse_exited"]
+[connection signal="pressed" from="botões principai/HBoxContainer/VBoxContainer/controls_btn" to="." method="_on_controls_btn_pressed"]
+[connection signal="mouse_entered" from="botões principai/HBoxContainer/VBoxContainer/audio_btn" to="botões principai/HBoxContainer/VBoxContainer/audio_btn" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="botões principai/HBoxContainer/VBoxContainer/audio_btn" to="botões principai/HBoxContainer/VBoxContainer/audio_btn" method="_on_mouse_exited"]
+[connection signal="pressed" from="botões principai/HBoxContainer/VBoxContainer/audio_btn" to="." method="_on_audio_btn_pressed"]
+[connection signal="mouse_entered" from="botões principai/HBoxContainer/VBoxContainer/video_btn2" to="botões principai/HBoxContainer/VBoxContainer/video_btn2" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="botões principai/HBoxContainer/VBoxContainer/video_btn2" to="botões principai/HBoxContainer/VBoxContainer/video_btn2" method="_on_mouse_exited"]
+[connection signal="pressed" from="botões principai/HBoxContainer/VBoxContainer/video_btn2" to="." method="_on_video_btn_2_pressed"]
+[connection signal="mouse_entered" from="botões principai/HBoxContainer/VBoxContainer/back_btn" to="botões principai/HBoxContainer/VBoxContainer/back_btn" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="botões principai/HBoxContainer/VBoxContainer/back_btn" to="botões principai/HBoxContainer/VBoxContainer/back_btn" method="_on_mouse_exited"]
+[connection signal="pressed" from="botões principai/HBoxContainer/VBoxContainer/back_btn" to="." method="_on_back_btn_pressed"]
