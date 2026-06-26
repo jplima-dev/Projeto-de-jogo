@@ -31,10 +31,13 @@ var hit_color := Color(1, 0.3, 0.3)
 var normal_color := Color.WHITE
 var taking_damage := false
 
+var fase_50_ativada := false
+var fase_final := false
+
 
 func escolher_ataque():
 
-	var ataques = ["wave", "shot", "about", "cross_shot", "homing_spray"]
+	var ataques = ["shot", "about", "cross_shot", "homing_spray"]
 
 	var novo_ataque = ataques[randi() % ataques.size()]
 
@@ -99,8 +102,9 @@ func _physics_process(delta):
 
 	move_and_slide()
 	
-	if dist <= attack_distance and !is_attacking:
-		iniciar_ataque()
+	if !fase_final:
+		if dist <= attack_distance and !is_attacking:
+			iniciar_ataque()
 
 
 func atirar(direcao: Vector2):
@@ -339,6 +343,25 @@ func take_damage(amount: int):
 		1.0
 	)
 
+	# ======================
+	# FASE 50%
+	# ======================
+	if health <= max_health * 0.5 and !fase_50_ativada:
+
+		fase_50_ativada = true
+
+		if !fase_final:
+			iniciar_fase_50()
+
+	# ======================
+	# FASE 10%
+	# ======================
+	if health <= max_health * 0.1 and !fase_final:
+
+		fase_final = true
+
+		iniciar_fase_final()
+
 	if health <= 0:
 		die()
 
@@ -390,3 +413,21 @@ func set_enemy_visible(v: bool):
 
 	if has_node("jubiscreudo"):
 		$jubiscreudo.visible = v
+		
+func iniciar_fase_50():
+
+	is_attacking = true
+
+	await ataque_wave()
+
+	is_attacking = false
+	
+func iniciar_fase_final():
+
+	is_attacking = true
+
+	while health > 0:
+
+		await ataque_wave()
+
+		await get_tree().create_timer(0.5).timeout
