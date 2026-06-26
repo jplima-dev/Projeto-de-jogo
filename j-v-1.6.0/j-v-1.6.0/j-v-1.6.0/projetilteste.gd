@@ -36,6 +36,7 @@ func _process(delta):
 			var to_player = player.global_position - global_position
 
 			if to_player.length() > 0.01:
+
 				to_player = to_player.normalized()
 
 				direction = direction.lerp(
@@ -47,6 +48,8 @@ func _process(delta):
 
 
 func _on_body_entered(body):
+
 	if body.is_in_group("player"):
+
 		body.take_damage(15)
 		queue_free()

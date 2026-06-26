@@ -100,7 +100,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_koj8l")
 }],
-"loop": 1,
+"loop": true,
 "name": &"andar",
 "speed": 4.0
 }, {
@@ -111,7 +111,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_na6os")
 }],
-"loop": 1,
+"loop": true,
 "name": &"andar_baixo",
 "speed": 3.0
 }, {
@@ -122,7 +122,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_v0jtr")
 }],
-"loop": 1,
+"loop": true,
 "name": &"andar_cima",
 "speed": 3.0
 }, {
@@ -139,7 +139,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hwsny")
 }],
-"loop": 1,
+"loop": true,
 "name": &"correr",
 "speed": 5.0
 }, {
@@ -150,7 +150,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hbjac")
 }],
-"loop": 1,
+"loop": true,
 "name": &"correr_baixo",
 "speed": 5.0
 }, {
@@ -161,7 +161,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kafe8")
 }],
-"loop": 1,
+"loop": true,
 "name": &"correr_cima",
 "speed": 5.0
 }, {
@@ -169,7 +169,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5amt7")
 }],
-"loop": 1,
+"loop": true,
 "name": &"parado_direcional",
 "speed": 1.0
 }]
@@ -215,7 +215,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ml6l6")
 }],
-"loop": 1,
+"loop": true,
 "name": &"default",
 "speed": 5.0
 }]
@@ -233,6 +233,12 @@ bg_color = Color(0, 0, 0, 1)
 z_index = 10
 motion_mode = 1
 script = ExtResource("1_puacl")
+ghost_count = null
+ghost_delay = null
+ghost_fade_speed = null
+ghost_scale = null
+ghost_color = null
+ghost_disappear_delay = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1967357645]
 z_index = 894

@@ -26,6 +26,7 @@ const DASH_DISTANCE = 220.0
 # ==============================
 var pode_mexer = true
 var em_cutscene = false
+var movimento_scriptado = false
 
 # ==============================
 # VARIÁVEIS DE DASH
@@ -105,7 +106,7 @@ func _physics_process(delta):
 	# ==========================
 	# CUTSCENE
 	# ==========================
-	if !pode_mexer and !em_cutscene:
+	if !pode_mexer and !movimento_scriptado:
 
 		velocity = Vector2.ZERO
 		move_and_slide()
@@ -115,11 +116,15 @@ func _physics_process(delta):
 		$AnimatedSprite2D.visible = false
 
 		return
+		
+		var dir = Vector2.ZERO
 
-	var dir = Vector2(
-		Input.get_action_strength("move-right") - Input.get_action_strength("move-left"),
-		Input.get_action_strength("move-down") - Input.get_action_strength("move-up")
-	)
+		if !movimento_scriptado:
+
+			dir = Vector2(
+				Input.get_action_strength("move-right") - Input.get_action_strength("move-left"),
+				Input.get_action_strength("move-down") - Input.get_action_strength("move-up")
+			)
 
 	#if dir.x != 0 and dir.y != 0:
 #
@@ -279,11 +284,21 @@ func _on_frame_changed():
 
 func _input(event):
 	
+	if em_cutscene:
+		return
+	
 	if event.is_action_pressed("ataque"):
 
 		if not habilidades.aberto:
 
 			habilidades.abrir($Falapos)
+			
+	if event.is_action_pressed("tome"):
+
+		var inimigo = get_inimigo_mais_proximo()
+
+		if inimigo:
+			inimigo.take_damage(10)
 			
 
 	if !pode_mexer:
@@ -308,6 +323,18 @@ func take_damage(amount: int):
 
 	if health_bar:
 		health_bar.value = health
+		
+	var texto = Textocodigo.instantiate()
+	get_tree().current_scene.add_child(texto)
+
+	texto.iniciar(
+		"-" + str(amount),
+		self,
+		Color.RED,
+		20,
+		0.8,
+		1.0
+	)
 
 	if health <= 0:
 		die()
@@ -336,6 +363,18 @@ func heal(amount: int):
 
 	if health_bar:
 		health_bar.value = health
+	
+	var texto = Textocodigo.instantiate()
+	get_tree().current_scene.add_child(texto)
+		
+	texto.iniciar(
+		"+" + str(amount),
+		self,
+		Color.GREEN,
+		20,
+		0.8,
+		1.0
+	)
 
 	blinking_color = Color(0.3, 1, 0.3)
 
@@ -453,3 +492,23 @@ func dash_slowmo():
 	Engine.time_scale = 0.005  	
 	await get_tree().create_timer(0.05, true, false, true).timeout
 	Engine.time_scale = 1.0
+
+func get_inimigo_mais_proximo():
+
+	var inimigos = get_tree().get_nodes_in_group("enemies")
+
+	var mais_proximo = null
+	var menor_distancia = INF
+
+	for inimigo in inimigos:
+
+		var dist = global_position.distance_to(
+			inimigo.global_position
+		)
+
+		if dist < menor_distancia:
+
+			menor_distancia = dist
+			mais_proximo = inimigo
+
+	return mais_proximo

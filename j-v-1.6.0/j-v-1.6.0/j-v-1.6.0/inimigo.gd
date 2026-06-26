@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var chase_speed: float = 300.0
 @export var chase_distance: float = 800.0
-@export var attack_distance: float = 250.0
+@export var attack_distance: float = 1000.0
 @export var stop_distance: float = 1000.0
 
 @export var shoot_delay: float = 1
@@ -26,6 +26,10 @@ var shoot_timer := 0.0
 var falou := false
 var is_attacking := false
 var ultimo_ataque := ""
+
+var hit_color := Color(1, 0.3, 0.3)
+var normal_color := Color.WHITE
+var taking_damage := false
 
 
 func escolher_ataque():
@@ -271,28 +275,33 @@ func iniciar_ataque():
 
 func ataque_cross_shot():
 
-	var direcoes = [
-		Vector2.RIGHT,
-		Vector2.LEFT,
-		Vector2.UP,
-		Vector2.DOWN,
-		Vector2(1, 1).normalized(),
-		Vector2(-1, 1).normalized(),
-		Vector2(1, -1).normalized(),
-		Vector2(-1, -1).normalized()
-	]
+	for rodada in range(3):
 
-	for d in direcoes:
+		var offset = deg_to_rad(rodada * 60)
 
-		var bala = PROJETIL.instantiate()
-		get_tree().current_scene.add_child(bala)
+		var direcoes = [
+			Vector2.RIGHT.rotated(offset),
+			Vector2.LEFT.rotated(offset),
+			Vector2.UP.rotated(offset),
+			Vector2.DOWN.rotated(offset),
 
-		bala.global_position = global_position
-		bala.direction = d
+			Vector2(1,1).normalized().rotated(offset),
+			Vector2(-1,1).normalized().rotated(offset),
+			Vector2(1,-1).normalized().rotated(offset),
+			Vector2(-1,-1).normalized().rotated(offset)
+		]
 
-		bala.teleguiado = false
+		for d in direcoes:
 
-	await get_tree().create_timer(0.3).timeout
+			var bala = PROJETIL.instantiate()
+
+			get_tree().current_scene.add_child(bala)
+
+			bala.global_position = global_position
+			bala.direction = d
+			bala.teleguiado = false
+
+		await get_tree().create_timer(0.25).timeout
 	
 func ataque_homing_spray():
 
@@ -311,3 +320,73 @@ func ataque_homing_spray():
 		bala.player = player
 
 	await get_tree().create_timer(1.0).timeout
+	
+func take_damage(amount: int):
+
+	health -= amount
+
+	flash_damage()
+
+	var texto = Textocodigo.instantiate()
+	get_tree().current_scene.add_child(texto)
+
+	texto.iniciar(
+		"-" + str(amount),
+		self,
+		Color.RED,
+		20,
+		0.8,
+		1.0
+	)
+
+	if health <= 0:
+		die()
+
+func die():
+	queue_free()
+	
+func flash_damage():
+
+	if taking_damage:
+		return
+
+	taking_damage = true
+
+	set_enemy_color(hit_color)
+
+	for i in range(3):
+
+		set_enemy_visible(false)
+		await get_tree().create_timer(0.05).timeout
+
+		set_enemy_visible(true)
+		set_enemy_color(hit_color)
+		await get_tree().create_timer(0.05).timeout
+
+	set_enemy_color(normal_color)
+
+	taking_damage = false
+
+
+func set_enemy_color(c: Color):
+
+	if has_node("Sprite2D"):
+		$Sprite2D.modulate = c
+
+	if has_node("AnimatedSprite2D"):
+		$AnimatedSprite2D.modulate = c
+
+	if has_node("jubiscreudo"):
+		$jubiscreudo.modulate = c
+
+
+func set_enemy_visible(v: bool):
+
+	if has_node("Sprite2D"):
+		$Sprite2D.visible = v
+
+	if has_node("AnimatedSprite2D"):
+		$AnimatedSprite2D.visible = v
+
+	if has_node("jubiscreudo"):
+		$jubiscreudo.visible = v
