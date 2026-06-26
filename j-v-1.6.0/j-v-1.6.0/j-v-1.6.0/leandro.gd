@@ -116,15 +116,11 @@ func _physics_process(delta):
 		$AnimatedSprite2D.visible = false
 
 		return
-		
-		var dir = Vector2.ZERO
 
-		if !movimento_scriptado:
-
-			dir = Vector2(
-				Input.get_action_strength("move-right") - Input.get_action_strength("move-left"),
-				Input.get_action_strength("move-down") - Input.get_action_strength("move-up")
-			)
+	var dir = Vector2(
+		Input.get_action_strength("move-right") - Input.get_action_strength("move-left"),
+		Input.get_action_strength("move-down") - Input.get_action_strength("move-up")
+	)
 
 	#if dir.x != 0 and dir.y != 0:
 #
