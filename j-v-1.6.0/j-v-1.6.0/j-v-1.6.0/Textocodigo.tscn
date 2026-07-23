@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://epuo3k2p47qp"]
+
+[ext_resource type="Script" uid="uid://ckpf5un8cgpp6" path="res://textocodigo.gd" id="1_0anpc"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="2_q207v"]
+
+[node name="Node2D" type="Node2D" unique_id=1675323333]
+script = ExtResource("1_0anpc")
+
+[node name="Label" type="Label" parent="." unique_id=1451014860]
+modulate = Color(1, 1, 1, 0.5882353)
+z_index = 4096
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("2_q207v")
+theme_override_font_sizes/font_size = 16

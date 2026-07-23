@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cgpu6wcu46fxy"]
+
+[ext_resource type="Script" uid="uid://dyxoirthgw5p" path="res://Ataques/Fire/fire.gd" id="1_fl3td"]
+
+[node name="Fire" type="Node2D" unique_id=225729528]
+script = ExtResource("1_fl3td")

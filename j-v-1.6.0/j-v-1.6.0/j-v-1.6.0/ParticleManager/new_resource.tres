@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ParticleData" format=3 uid="uid://hhc42dad0y0u"]
+
+[ext_resource type="Script" uid="uid://dnmq8wws8eof5" path="res://ParticleManager/ParticleData.gd" id="1_q5mp0"]
+[ext_resource type="Texture2D" uid="uid://dd2t7ah6yvufs" path="res://pixil-frame-0 (5).png" id="2_nma7d"]
+
+[resource]
+script = ExtResource("1_q5mp0")
+texture = ExtResource("2_nma7d")
+start_color = Color(1, 1, 1, 0.43137255)
+start_scale = 0.3
+end_scale = 0.3
+lifetime = 0.3
+speed = 0.0
+gravity = -600.0
+spread = 100.0
+amount = 2
+spawn_randomness = 10.0
+offset_right = Vector2(-15, 30)
+offset_left = Vector2(15, 30)
+offset_up = Vector2(0, 35)
+offset_down = Vector2(0, -35)
+metadata/_custom_type_script = "uid://dnmq8wws8eof5"

@@ -1,0 +1,296 @@
+[gd_scene format=3 uid="uid://cum0m4n324pwp"]
+
+[ext_resource type="Script" uid="uid://d0vxbu5sbj5oy" path="res://creditos.gd" id="1_alf7g"]
+[ext_resource type="Script" uid="uid://mm1iyjao8w2" path="res://voltar_menu_creditos.gd" id="1_ilafw"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="2_cysqe"]
+[ext_resource type="Texture2D" uid="uid://boe5eojc1o3he" path="res://Last-Signal.png" id="4_cysqe"]
+[ext_resource type="AudioStream" uid="uid://hxva47axtvlb" path="res://musica.mp3" id="5_cysqe"]
+
+[sub_resource type="Animation" id="Animation_3rbuu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cysqe"]
+resource_name = "fade_logo_creditos"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3rbuu"]
+_data = {
+&"RESET": SubResource("Animation_3rbuu"),
+&"fade_logo_creditos": SubResource("Animation_cysqe")
+}
+
+[node name="creditos" type="Control" unique_id=1994929129]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_alf7g")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=981375773]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="voltar" type="Button" parent="." unique_id=2141471412]
+z_index = 10
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_cysqe")
+theme_override_font_sizes/font_size = 32
+text = "SAIR"
+flat = true
+expand_icon = true
+script = ExtResource("1_ilafw")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1680385088]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="texto" type="RichTextLabel" parent="ScrollContainer" unique_id=1340318100]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_cysqe")
+theme_override_font_sizes/normal_font_size = 24
+text = "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-Equipe-
+Juan Pablo
+Alvaro Carvalho
+Edilson Menezes
+Ravir Silva
+Cayo da Costa
+Ruan Pablo
+M.O: Gustavo Soares	
+
+
+-Programação-
+Juan Pablo
+Alvaro Carvalho
+Edilson Menezes
+Ravir Silva
+
+
+-Game Design-
+Juan Pablo
+
+
+-Roteiro-
+Juan Pablo
+Alvaro Carvalho
+
+
+-Level Design-
+Juan Pablo
+
+
+-Arte / Pixel Art-
+Ruan Pablo
+Cayo da Costa
+
+
+-Animação-
+Ruan Pablo
+
+
+-Interface (UI)-
+Ruan Pablo
+Cayo da Costa
+Juan Pablo
+
+
+-Efeitos Sonoros-
+Free Audio
+
+
+-Trilha Sonora-
+Free Audio
+
+
+-Testes-
+Darkq
+Notekaka
+
+
+-Agradecimentos Especiais-
+Francisco Leandro
+Alvaro Carvalho
+Chatgpt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2135930742]
+modulate = Color(1, 1, 1, 0)
+z_index = 4096
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_cysqe")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=610221842]
+stream = ExtResource("5_cysqe")
+autoplay = true
+max_distance = 9.223372e+18
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2006167249]
+libraries/ = SubResource("AnimationLibrary_3rbuu")
+
+[connection signal="mouse_entered" from="voltar" to="voltar" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="voltar" to="voltar" method="_on_mouse_exited"]
