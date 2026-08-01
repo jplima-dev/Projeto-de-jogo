@@ -230,9 +230,6 @@ bg_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqm1x"]
 bg_color = Color(0, 0, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ectu"]
-bg_color = Color(0, 0, 0, 1)
-
 [node name="leandro" type="CharacterBody2D" unique_id=1628815286]
 z_index = 10
 motion_mode = 1
@@ -277,7 +274,6 @@ offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("13_8v6mr")
-player = NodePath("..")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="inv" unique_id=290942993]
 layout_mode = 1
@@ -408,7 +404,7 @@ scale = Vector2(3.9047618, 3.6904762)
 sprite_frames = SubResource("SpriteFrames_xo43s")
 script = ExtResource("18_nqm1x")
 
-[node name="LineEdit" type="TextEdit" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=576892061]
+[node name="LineEdit" type="TextEdit" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=360277936]
 z_index = 2
 layout_mode = 1
 anchors_preset = 5
@@ -417,14 +413,13 @@ anchor_right = 0.5
 offset_left = -194.99998
 offset_top = 15.0
 offset_right = 194.00002
-offset_bottom = 65.0
+offset_bottom = 200.0
 grow_horizontal = 2
 theme_override_colors/selection_color = Color(0.26666668, 0.26666668, 0.26666668, 1)
 theme_override_fonts/font = ExtResource("15_q4hqc")
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_gvfrn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_nqm1x")
-theme_override_styles/read_only = SubResource("StyleBoxFlat_6ectu")
-caret_blink = true
 
 [node name="ColorRect" type="ColorRect" parent="TerminalAtaque/CanvasLayer/Panel" unique_id=66310138]
 layout_mode = 1
@@ -481,19 +476,27 @@ script = ExtResource("24_advsy")
 [connection signal="mouse_exited" from="inv/VBoxContainer/Habilidades" to="inv" method="_on_habilidades_mouse_exited"]
 [connection signal="mouse_entered" from="inv/VBoxContainer/Habilidades/GridContainer/Button" to="inv" method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="inv/VBoxContainer/Habilidades/GridContainer/Button" to="inv" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="inv/VBoxContainer/Habilidades/GridContainer/Button" to="inv" method="_on_button_pressed"]
 [connection signal="mouse_entered" from="inv/VBoxContainer/Habilidades/GridContainer/Button2" to="inv" method="_on_button_2_mouse_entered"]
 [connection signal="mouse_exited" from="inv/VBoxContainer/Habilidades/GridContainer/Button2" to="inv" method="_on_button_2_mouse_exited"]
+[connection signal="pressed" from="inv/VBoxContainer/Habilidades/GridContainer/Button2" to="inv" method="_on_button_2_pressed"]
 [connection signal="mouse_entered" from="inv/VBoxContainer/Habilidades/GridContainer/Button3" to="inv" method="_on_button_3_mouse_entered"]
 [connection signal="mouse_exited" from="inv/VBoxContainer/Habilidades/GridContainer/Button3" to="inv" method="_on_button_3_mouse_exited"]
+[connection signal="pressed" from="inv/VBoxContainer/Habilidades/GridContainer/Button3" to="inv" method="_on_button_3_pressed"]
 [connection signal="mouse_entered" from="inv/VBoxContainer/Habilidades/GridContainer/Button4" to="inv" method="_on_button_4_mouse_entered"]
 [connection signal="mouse_exited" from="inv/VBoxContainer/Habilidades/GridContainer/Button4" to="inv" method="_on_button_4_mouse_exited"]
+[connection signal="pressed" from="inv/VBoxContainer/Habilidades/GridContainer/Button4" to="inv" method="_on_button_4_pressed"]
 [connection signal="mouse_entered" from="inv/VBoxContainer/Regras" to="inv" method="_on_regras_mouse_entered"]
 [connection signal="mouse_exited" from="inv/VBoxContainer/Regras" to="inv" method="_on_regras_mouse_exited"]
 [connection signal="mouse_entered" from="inv/VBoxContainer/Regras/GridContainer/Button5" to="inv" method="_on_button_5_mouse_entered"]
 [connection signal="mouse_exited" from="inv/VBoxContainer/Regras/GridContainer/Button5" to="inv" method="_on_button_5_mouse_exited"]
+[connection signal="pressed" from="inv/VBoxContainer/Regras/GridContainer/Button5" to="inv" method="_on_button_5_pressed"]
 [connection signal="mouse_entered" from="inv/VBoxContainer/Regras/GridContainer/Button6" to="inv" method="_on_button_6_mouse_entered"]
 [connection signal="mouse_exited" from="inv/VBoxContainer/Regras/GridContainer/Button6" to="inv" method="_on_button_6_mouse_exited"]
+[connection signal="pressed" from="inv/VBoxContainer/Regras/GridContainer/Button6" to="inv" method="_on_button_6_pressed"]
 [connection signal="mouse_entered" from="inv/VBoxContainer/Regras/GridContainer/Button7" to="inv" method="_on_button_7_mouse_entered"]
 [connection signal="mouse_exited" from="inv/VBoxContainer/Regras/GridContainer/Button7" to="inv" method="_on_button_7_mouse_exited"]
+[connection signal="pressed" from="inv/VBoxContainer/Regras/GridContainer/Button7" to="inv" method="_on_button_7_pressed"]
 [connection signal="mouse_entered" from="inv/VBoxContainer/Regras/GridContainer/Button8" to="inv" method="_on_button_8_mouse_entered"]
 [connection signal="mouse_exited" from="inv/VBoxContainer/Regras/GridContainer/Button8" to="inv" method="_on_button_8_mouse_exited"]
+[connection signal="pressed" from="inv/VBoxContainer/Regras/GridContainer/Button8" to="inv" method="_on_button_8_pressed"]

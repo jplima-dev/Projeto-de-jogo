@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 var Textocodigo = preload("res://Textocodigo.tscn")
 const AFTER_IMAGE = preload("res://AfterImagem.tscn")
-const PARTICLE = preload("res://ParticleManager/particle.tscn")
+const PARTICLE = preload("res://ParticleManager/Particle.tscn")
 
 @export var heal_particle: ParticleData
 @export var footstep_particle: ParticleData
@@ -26,6 +26,8 @@ const RUN_MULTIPLIER = 2.0
 const DASH_COOLDOWN = 1.0
 const DASH_DISTANCE = 220.0
 var footstep_timer := 0.0
+
+var pode_controlar := true
 
 # ==============================
 # CONTROLE
@@ -108,6 +110,12 @@ func _ready():
 # MOVIMENTO
 # ==============================
 func _physics_process(delta):
+	
+	if !pode_controlar:
+
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 
 	# ==========================
 	# CUTSCENE
@@ -294,8 +302,38 @@ func _on_frame_changed():
 
 func _input(event):
 	
+	if !pode_controlar:
+		return
+	
 	if em_cutscene:
 		return
+		
+	# ==========================
+	# SKILL BAR
+	# ==========================
+	if event.is_action_pressed("skill_1"):
+		SkilBar.usar(1, self)
+
+	if event.is_action_pressed("skill_2"):
+		SkilBar.usar(2, self)
+
+	if event.is_action_pressed("skill_3"):
+		SkilBar.usar(3, self)
+
+	if event.is_action_pressed("skill_4"):
+		SkilBar.usar(4, self)
+
+	if event.is_action_pressed("skill_5"):
+		SkilBar.usar(5, self)
+
+	if event.is_action_pressed("skill_6"):
+		SkilBar.usar(6, self)
+
+	if event.is_action_pressed("skill_7"):
+		SkilBar.usar(7, self)
+
+	if event.is_action_pressed("skill_8"):
+		SkilBar.usar(8, self)
 	
 	if event.is_action_pressed("ataque"):
 

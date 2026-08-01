@@ -20,27 +20,32 @@ func _ready():
 	texto.text = "> "
 
 
-func abrir(novo_alvo:Node2D):
+func abrir(novo_alvo: Node2D):
 
 	if aberto:
 		return
 
 	aberto = true
 	alvo = novo_alvo
+	
+	alvo.pode_controlar = false
 
 	$CanvasLayer.visible = true
 	panel.visible = true
 
 	texto.text = "> "
 
-	panel.scale = Vector2(0.1,0.1)
-	panel.modulate.a = 0
+	panel.scale = Vector2(0.1, 0.1)
+	panel.modulate.a = 0.0
 
 	var tween = create_tween()
 	tween.set_parallel()
+	tween.set_ignore_time_scale(true)
 
-	tween.tween_property(panel,"scale",Vector2.ONE,0.25)
-	tween.tween_property(panel,"modulate:a",1.0,0.25)
+	tween.tween_property(panel, "scale", Vector2.ONE, 0.25)
+	tween.tween_property(panel, "modulate:a", 1.0, 0.25)
+
+	mudar_time_scale(0.6)
 
 	await tween.finished
 
@@ -48,25 +53,32 @@ func abrir(novo_alvo:Node2D):
 
 	texto.grab_focus()
 
-	texto.set_caret_line(texto.get_line_count()-1)
+	texto.set_caret_line(texto.get_line_count() - 1)
 	texto.set_caret_column(2)
 
 
 func fechar():
+	
+	alvo.pode_controlar = true
 
 	if !aberto:
 		return
+		
+	if alvo:
+		alvo.pode_controlar = true
 
 	aberto = false
+
+	mudar_time_scale(1.0)
 
 	texto.release_focus()
 
 	var tween = create_tween()
-
 	tween.set_parallel()
+	tween.set_ignore_time_scale(true)
 
-	tween.tween_property(panel,"scale",Vector2(0.1,0.1),0.20)
-	tween.tween_property(panel,"modulate:a",0.0,0.20)
+	tween.tween_property(panel, "scale", Vector2(0.1, 0.1), 0.20)
+	tween.tween_property(panel, "modulate:a", 0.0, 0.20)
 
 	await tween.finished
 
@@ -74,6 +86,20 @@ func fechar():
 
 	panel.visible = false
 	$CanvasLayer.visible = false
+
+
+func mudar_time_scale(valor: float):
+
+	var tween = create_tween()
+	tween.set_ignore_time_scale(true)
+
+	tween.tween_method(
+		func(v):
+			Engine.time_scale = v,
+		Engine.time_scale,
+		valor,
+		0.15
+	)
 
 
 func _process(_delta):
@@ -89,7 +115,7 @@ func _process(_delta):
 
 func _forcar_ultima_linha():
 
-	var ultima = texto.get_line_count()-1
+	var ultima = texto.get_line_count() - 1
 
 	if texto.get_caret_line() < ultima:
 		texto.set_caret_line(ultima)
@@ -98,72 +124,96 @@ func _forcar_ultima_linha():
 		texto.set_caret_column(2)
 
 
-#func _unhandled_input(event):
-#
-	#if !aberto:
-		#return
-#
-	#if event.is_action_pressed("ui_cancel"):
-#
-		#fechar()
-		#get_viewport().set_input_as_handled()
-		#return
-#
-#
-	#if event is InputEventKey and event.pressed:
-#
-		#if event.keycode == KEY_ENTER or event.keycode == KEY_KP_ENTER:
-#
-			#executar_comando()
-#
-			#get_viewport().set_input_as_handled()
-			#return
-#
-		#if event.keycode == KEY_BACKSPACE:
-#
-			#if texto.get_caret_column() <= 2:
-				#get_viewport().set_input_as_handled()
-
-
 func executar_comando():
 
-	print("1")
-
 	var linhas = texto.text.split("\n")
-
-	print("2")
-
 	var comando = linhas[linhas.size() - 1]
-
-	print("3")
 
 	comando = comando.replace("> ", "")
 	comando = comando.strip_edges().to_lower()
 
-	print("Comando =", comando)
+	# =====================================================
+	# COMANDO DE EQUIPAR
+	# fire as 1
+	# heal as 2
+	# =====================================================
 
-	print("4")
+	if comando.contains(" as "):
+
+		var partes = comando.split(" as ")
+
+		if partes.size() == 2:
+
+			var habilidade = partes[0].strip_edges()
+			var slot = int(partes[1])
+
+			if SkilBar.equipar(habilidade, slot):
+
+				var teclas = [
+					"Y",
+					"U",
+					"I",
+					"O",
+					"H",
+					"J",
+					"K",
+					"L"
+				]
+
+				texto.insert_text_at_caret(
+					"\nRegistrando Skill..."
+				)
+
+				await get_tree().create_timer(0.45).timeout
+
+				texto.insert_text_at_caret(
+					"\nRegistrado no Slot %d (%s)." % [
+						slot,
+						teclas[slot - 1]
+					]
+				)
+
+				await get_tree().create_timer(0.8).timeout
+
+				await fechar()
+
+				return
+
+			else:
+
+				texto.insert_text_at_caret(
+					"\nERRO: Slot inválido."
+				)
+
+				return
+
+	# =====================================================
+	# EXECUTA ATAQUE
+	# =====================================================
 
 	var resultado = AttackManager.executar(comando, alvo)
 
-	print("Resultado =", resultado)
+	if resultado:
 
-	print("5")
+		await fechar()
 
-	await fechar()
+	else:
 
-	print("6")
+		texto.insert_text_at_caret(
+			"\nComando inexistente."
+		)
 
 
 func nova_linha_terminal():
 
 	texto.insert_text_at_caret("\n> ")
 
-	var ultima = texto.get_line_count()-1
+	var ultima = texto.get_line_count() - 1
 
 	texto.set_caret_line(ultima)
 	texto.set_caret_column(2)
-	
+
+
 func _input(event):
 
 	if !aberto:
@@ -172,8 +222,6 @@ func _input(event):
 	if event is InputEventKey and event.pressed:
 
 		if event.keycode == KEY_ENTER or event.keycode == KEY_KP_ENTER:
-
-			print("ENTER DETECTADO")
 
 			executar_comando()
 

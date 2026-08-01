@@ -8,7 +8,8 @@ func _ready():
 	if player == null:
 		player = get_tree().get_first_node_in_group("player")
 
-	body_entered.connect(_on_body_entered)
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

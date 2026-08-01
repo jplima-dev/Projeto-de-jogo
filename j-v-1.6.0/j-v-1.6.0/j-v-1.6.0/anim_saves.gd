@@ -50,7 +50,7 @@ func criar_save(slot):
 
 	print("SAVE CRIADO NO SLOT ", slot)
 
-	Loading.parar_menu()
+	Loading.parar()
 
 	get_tree().change_scene_to_file("res://carregamento.tscn")
 
