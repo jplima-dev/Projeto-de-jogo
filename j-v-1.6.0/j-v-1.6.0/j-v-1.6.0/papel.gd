@@ -1,6 +1,7 @@
 extends Area2D
 
 const DIALOGO = preload("res://Dialogo.tscn")
+const DOCUMENTO = preload("res://Documentos.tscn")
 
 var dialogo_aberto := false
 
@@ -45,9 +46,18 @@ func _on_body_entered(body):
 		body
 	)
 
-	# ===================================
-	# Aqui futuramente abriremos o documento
-	# ===================================
+	# ==========================
+	# Abre o documento
+	# ==========================
+
+	var documento = DOCUMENTO.instantiate()
+
+	get_tree().current_scene.add_child(documento)
+
+	documento.abrir("res://Papeis/.txt/fire.txt")
+
+	# Espera o jogador fechar o documento
+	await documento.tree_exited
 
 	body.pode_controlar = true
 
