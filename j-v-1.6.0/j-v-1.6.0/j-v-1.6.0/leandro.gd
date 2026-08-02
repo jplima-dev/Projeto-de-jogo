@@ -114,6 +114,24 @@ func _physics_process(delta):
 	if !pode_controlar:
 
 		velocity = Vector2.ZERO
+
+		if has_node("AnimatedSprite2D"):
+
+			if facing_direction.x != 0:
+
+				$AnimatedSprite2D.visible = true
+				$Sprite2D.visible = false
+
+				$AnimatedSprite2D.play("parado_direcional")
+				update_flip()
+
+			else:
+
+				$AnimatedSprite2D.stop()
+
+				$AnimatedSprite2D.visible = false
+				$Sprite2D.visible = true
+
 		move_and_slide()
 		return
 

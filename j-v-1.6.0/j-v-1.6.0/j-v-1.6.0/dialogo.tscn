@@ -7,6 +7,7 @@
 [node name="Dialogo" type="Node2D" unique_id=1670309999]
 z_index = 4096
 script = ExtResource("1_7ebmd")
+offset = Vector2(0, 90)
 
 [node name="Panel" type="Panel" parent="." unique_id=1743207191]
 offset_left = -100.0

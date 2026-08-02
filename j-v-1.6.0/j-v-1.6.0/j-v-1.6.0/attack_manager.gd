@@ -65,3 +65,7 @@ func executar(comando:String, player):
 		ataque.usar(player)
 
 	return true
+	
+func ataque_existe(nome:String) -> bool:
+
+	return ataques.has(nome.to_lower())

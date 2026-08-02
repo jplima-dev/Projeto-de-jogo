@@ -142,50 +142,57 @@ func executar_comando():
 
 		var partes = comando.split(" as ")
 
-		if partes.size() == 2:
+		if partes.size() != 2:
 
-			var habilidade = partes[0].strip_edges()
-			var slot = int(partes[1])
+			escrever_erro("Sintaxe inválida.")
+			return
 
-			if SkilBar.equipar(habilidade, slot):
+		var habilidade = partes[0].strip_edges().to_lower()
+		var slot = int(partes[1])
 
-				var teclas = [
-					"Y",
-					"U",
-					"I",
-					"O",
-					"H",
-					"J",
-					"K",
-					"L"
+		if !AttackManager.ataque_existe(habilidade):
+
+			escrever_erro("Skill \"" + habilidade + "\" não existe.")
+			return
+
+		if SkilBar.equipar(habilidade, slot):
+
+			var teclas = [
+				"Y",
+				"U",
+				"I",
+				"O",
+				"H",
+				"J",
+				"K",
+				"L"
+			]
+
+			escrever_sucesso("Registrando Skill...")
+
+			await get_tree().create_timer(0.45).timeout
+
+			escrever_sucesso(
+				"Registrado no Slot %d (%s)." % [
+					slot,
+					teclas[slot - 1]
 				]
+			)
+			
+			texto.insert_text_at_caret("\n> ")
 
-				texto.insert_text_at_caret(
-					"\nRegistrando Skill..."
-				)
 
-				await get_tree().create_timer(0.45).timeout
+			await get_tree().create_timer(0.8).timeout
 
-				texto.insert_text_at_caret(
-					"\nRegistrado no Slot %d (%s)." % [
-						slot,
-						teclas[slot - 1]
-					]
-				)
+			await fechar()
 
-				await get_tree().create_timer(0.8).timeout
+			return
 
-				await fechar()
+		else:
 
-				return
+			escrever_erro("Slot inválido.")
+			return
 
-			else:
-
-				texto.insert_text_at_caret(
-					"\nERRO: Slot inválido."
-				)
-
-				return
 
 	# =====================================================
 	# EXECUTA ATAQUE
@@ -199,10 +206,7 @@ func executar_comando():
 
 	else:
 
-		texto.insert_text_at_caret(
-			"\nComando inexistente."
-		)
-
+		escrever_erro("Comando inexistente.")
 
 func nova_linha_terminal():
 
@@ -232,3 +236,17 @@ func _input(event):
 			fechar()
 
 			get_viewport().set_input_as_handled()
+			
+func escrever_linha(msg:String):
+
+	texto.insert_text_at_caret("\n" + msg)
+
+
+func escrever_erro(msg:String):
+
+	escrever_linha("ERRO: " + msg)
+
+
+func escrever_sucesso(msg:String):
+
+	escrever_linha(msg)

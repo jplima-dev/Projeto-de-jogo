@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://cauw417ct4edi" path="res://irescadas.gd" id="7_vkdxw"]
 [ext_resource type="Script" uid="uid://bmk1hjnvpv0s4" path="res://voltarescadas.gd" id="8_4qp2d"]
 [ext_resource type="Script" uid="uid://dmjqdewdbonmy" path="res://ircena_2.gd" id="9_mqnm2"]
+[ext_resource type="Texture2D" uid="uid://de3c82hoiiv5q" path="res://Papeis/papel no mapa.png" id="10_1tdcj"]
+[ext_resource type="Script" uid="uid://wmx3wgtu2d00" path="res://papel.gd" id="11_wy1w7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqljg"]
 size = Vector2(1109, 76.6875)
@@ -10288,6 +10290,9 @@ size = Vector2(999, 573)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g8jft"]
 size = Vector2(871, 978)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5krud"]
+size = Vector2(108.592224, 108.61192)
+
 [node name="Node2D" type="Node2D" unique_id=895806482]
 script = ExtResource("1_xwuul")
 
@@ -10451,6 +10456,25 @@ script = ExtResource("9_mqnm2")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ircena2" unique_id=1248874438]
 position = Vector2(5375, -5700)
 shape = SubResource("RectangleShape2D_g8jft")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1602848001]
+script = ExtResource("11_wy1w7")
+
+[node name="TextureRect" type="TextureRect" parent="Area2D" unique_id=1530919705]
+z_index = 4096
+offset_left = 876.0
+offset_top = 439.00003
+offset_right = 1004.0
+offset_bottom = 567.0
+rotation = 0.6754447
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("10_1tdcj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1256822629]
+z_index = 4096
+position = Vector2(848.98065, 428.33435)
+rotation = -0.00676012
+shape = SubResource("RectangleShape2D_5krud")
 
 [connection signal="body_entered" from="sair_sala" to="sair_sala" method="_on_body_entered"]
 [connection signal="body_entered" from="voltar sala" to="voltar sala" method="_on_body_entered"]
