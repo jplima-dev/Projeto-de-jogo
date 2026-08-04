@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cwul2c72r2vid"]
+
+[ext_resource type="Script" uid="uid://cimxmaiej8hm3" path="res://after_imagem.gd" id="1_dnbv3"]
+
+[node name="Node2D" type="Node2D" unique_id=1944172068]
+script = ExtResource("1_dnbv3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=919275178]
+z_index = 4096

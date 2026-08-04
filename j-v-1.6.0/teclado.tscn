@@ -1,0 +1,307 @@
+[gd_scene format=3 uid="uid://uxm10n0pltpu"]
+
+[ext_resource type="Script" uid="uid://ci6shhs2a77rq" path="res://teclado.gd" id="1_007bw"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="3_rejgo"]
+[ext_resource type="Script" uid="uid://4p5pcpghmxv5" path="res://back.gd" id="3_uh245"]
+[ext_resource type="VideoStream" uid="uid://dtdt7vjtme06e" path="res://pixel-art-64bit-less-pixelated.ogv" id="4_uh245"]
+
+[sub_resource type="Animation" id="Animation_t2bvs"]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yubar"]
+resource_name = "fade_botões"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rejgo"]
+_data = {
+&"RESET": SubResource("Animation_t2bvs"),
+&"fade_botões": SubResource("Animation_yubar")
+}
+
+[node name="teclas" type="Control" unique_id=175920755]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_007bw")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=707544359]
+modulate = Color(1, 1, 1, 0)
+z_index = 5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -252.0
+offset_top = -320.00018
+offset_right = 252.0
+offset_bottom = 320.00018
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.0172968, 0.98051834)
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=955946337]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=135206399]
+custom_minimum_size = Vector2(500, 600)
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=659046370]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1654070483]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Up"
+
+[node name="cima" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=511129031]
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=53494077]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1598342129]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Down"
+
+[node name="baixo" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=379575005]
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1095642040]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3" unique_id=1147047237]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Left"
+
+[node name="esquerda" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3" unique_id=1453984446]
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=2090665525]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer4" unique_id=1859441138]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Right"
+
+[node name="direita" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer4" unique_id=803851471]
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1735506509]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer" unique_id=1321363997]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=932957764]
+custom_minimum_size = Vector2(500, 600)
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=1665750719]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer" unique_id=900617102]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Run"
+
+[node name="Run" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer" unique_id=1503883410]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=1084828573]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2" unique_id=1918071268]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Dash"
+
+[node name="Dash" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2" unique_id=1653624408]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=1289274361]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3" unique_id=273838866]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Attack"
+
+[node name="Att" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3" unique_id=351431903]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=237216614]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4" unique_id=1656873015]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+text = "Inventory"
+
+[node name="Inv" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4" unique_id=2140744300]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer2" unique_id=1222651481]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=912103633]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 2
+
+[node name="back" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2056311115]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_rejgo")
+theme_override_font_sizes/font_size = 32
+flat = true
+script = ExtResource("3_uh245")
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=1435299287]
+libraries/ = SubResource("AnimationLibrary_rejgo")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=487294598]
+modulate = Color(1, 1, 1, 0.21176471)
+z_index = 4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stream = ExtResource("4_uh245")
+autoplay = true
+expand = true
+loop = true
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=383894566]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/cima" to="." method="_on_cima_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/cima" to="." method="_on_cima_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/cima" to="." method="_on_cima_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/baixo" to="." method="_on_baixo_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/baixo" to="." method="_on_baixo_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/baixo" to="." method="_on_baixo_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/esquerda" to="." method="_on_esquerda_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/esquerda" to="." method="_on_esquerda_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer3/esquerda" to="." method="_on_esquerda_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer4/direita" to="." method="_on_direita_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer4/direita" to="." method="_on_direita_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer4/direita" to="." method="_on_direita_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Run" to="." method="_on_run_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Run" to="." method="_on_run_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer/Run" to="." method="_on_run_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Dash" to="." method="_on_dash_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Dash" to="." method="_on_dash_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Dash" to="." method="_on_dash_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3/Att" to="." method="_on_att_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3/Att" to="." method="_on_att_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer3/Att" to="." method="_on_att_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4/Inv" to="." method="_on_inv_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4/Inv" to="." method="_on_inv_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer4/Inv" to="." method="_on_inv_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/back" to="MarginContainer/VBoxContainer/back" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/back" to="MarginContainer/VBoxContainer/back" method="_on_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/back" to="." method="_on_back_pressed"]

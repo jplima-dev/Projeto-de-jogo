@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ParticleData" format=3 uid="uid://b2djvhw0b1icv"]
+
+[ext_resource type="Script" uid="uid://dnmq8wws8eof5" path="res://ParticleManager/ParticleData.gd" id="1_dohdl"]
+[ext_resource type="Texture2D" uid="uid://dupm1lmsjad4e" path="res://jogo no godot/tile-set/Foto de J_p.jpg" id="2_0hmix"]
+
+[resource]
+script = ExtResource("1_dohdl")
+texture = ExtResource("2_0hmix")
+start_color = Color(1, 0, 0, 1)
+end_color = Color(1, 0, 0, 0)
+start_scale = 0.1
+metadata/_custom_type_script = "uid://dnmq8wws8eof5"
