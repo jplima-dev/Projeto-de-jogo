@@ -1,7 +1,7 @@
 extends Area2D
 
-const DIALOGO = preload("res://Dialogo.tscn")
-const DOCUMENTO = preload("res://Documentos.tscn")
+const DIALOGO = preload("res://dialogo.tscn")
+const DOCUMENTO = preload("res://documentos.tscn")
 
 var dialogo_aberto := false
 
@@ -40,6 +40,10 @@ func _on_body_entered(body):
 
 	dialogo = DIALOGO.instantiate()
 	get_tree().current_scene.add_child(dialogo)
+	
+	print(body)
+	print(body.get_class())
+	print(body.name)
 
 	await dialogo.iniciar(
 		"Fire.leo...",
@@ -58,6 +62,8 @@ func _on_body_entered(body):
 
 	# Espera o jogador fechar o documento
 	await documento.tree_exited
+	
+	Skilldata.aprender("fire")
 
 	body.pode_controlar = true
 

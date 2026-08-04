@@ -115,10 +115,8 @@ func falar(texto: String):
 
 	await dialogo.iniciar(
 		texto,
-		player.get_node("Falapos")
+		player
 	)
-
-	await dialogo.desaparecer()
 
 	dialogo.queue_free()
 	

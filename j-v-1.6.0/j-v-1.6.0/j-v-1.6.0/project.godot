@@ -32,6 +32,7 @@ Config="*uid://cdgqvw4j706du"
 ParticleManager="*uid://dnebppfjereui"
 AttackManager="*uid://2gewo7d152pj"
 SkilBar="*uid://bmcp67jmvimn0"
+Skilldata="*uid://rm4r463yvggx"
 
 [display]
 

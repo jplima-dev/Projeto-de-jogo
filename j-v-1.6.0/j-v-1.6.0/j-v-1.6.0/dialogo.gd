@@ -13,6 +13,12 @@ var avancar := false
 
 
 func iniciar(texto: String, novo_alvo: Node2D):
+	
+	print("===================")
+	print("ALVO:", novo_alvo)
+	print("TIPO:", novo_alvo.get_class())
+	print("NOME:", novo_alvo.name)
+	print("===================")
 
 	alvo = novo_alvo
 

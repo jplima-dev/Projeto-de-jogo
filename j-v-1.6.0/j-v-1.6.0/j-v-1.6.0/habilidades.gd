@@ -150,9 +150,25 @@ func executar_comando():
 		var habilidade = partes[0].strip_edges().to_lower()
 		var slot = int(partes[1])
 
+		# ======================================
+		# Verifica se a Skill existe
+		# ======================================
+
 		if !AttackManager.ataque_existe(habilidade):
 
-			escrever_erro("Skill \"" + habilidade + "\" não existe.")
+			escrever_erro("'" + habilidade + "' is not recognized as an internal or external command.")
+			nova_linha_terminal()
+			return
+
+
+		# ======================================
+		# Verifica se o jogador aprendeu
+		# ======================================
+
+		if !Skilldata.tem(habilidade):
+
+			escrever_erro("'" + habilidade + "' is not recognized as an internal or external command.")
+			nova_linha_terminal()
 			return
 
 		if SkilBar.equipar(habilidade, slot):
@@ -244,9 +260,14 @@ func escrever_linha(msg:String):
 
 func escrever_erro(msg:String):
 
-	escrever_linha("ERRO: " + msg)
+	texto.insert_text_at_caret("\nERRO: " + msg)
+	texto.insert_text_at_caret("\n> ")
+
+	var ultima = texto.get_line_count() - 1
+	texto.set_caret_line(ultima)
+	texto.set_caret_column(2)
 
 
 func escrever_sucesso(msg:String):
 
-	escrever_linha(msg)
+	texto.insert_text_at_caret("\n" + msg)
