@@ -10291,7 +10291,7 @@ size = Vector2(999, 573)
 size = Vector2(871, 978)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5krud"]
-size = Vector2(108.592224, 108.61192)
+size = Vector2(67.20657, 64.72784)
 
 [node name="Node2D" type="Node2D" unique_id=895806482]
 script = ExtResource("1_xwuul")
@@ -10341,7 +10341,7 @@ shape = SubResource("RectangleShape2D_1tdcj")
 
 [node name="parededircorredor" type="CollisionShape2D" parent="colisao" unique_id=1863192700]
 z_index = 13
-position = Vector2(7539, 342)
+position = Vector2(7307, 422)
 shape = SubResource("RectangleShape2D_wy1w7")
 
 [node name="paredeesqcorredor" type="CollisionShape2D" parent="colisao" unique_id=730254501]
@@ -10472,8 +10472,8 @@ texture = ExtResource("10_1tdcj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1256822629]
 z_index = 4096
-position = Vector2(848.98065, 428.33435)
-rotation = -0.00676012
+position = Vector2(869.82135, 450.13602)
+rotation = -0.0067601195
 shape = SubResource("RectangleShape2D_5krud")
 
 [connection signal="body_entered" from="sair_sala" to="sair_sala" method="_on_body_entered"]
