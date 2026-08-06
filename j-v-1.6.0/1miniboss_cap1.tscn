@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cu43yptn8kjhw"]
+[gd_scene format=3 uid="uid://bhb07a8fep1fm"]
 
 [ext_resource type="Texture2D" uid="uid://cch25spla6wpw" path="res://lab.leandro.png" id="1_6fccd"]
 [ext_resource type="Script" uid="uid://cnj4br7it23ic" path="res://teste_de_bosses.gd" id="1_i80pr"]

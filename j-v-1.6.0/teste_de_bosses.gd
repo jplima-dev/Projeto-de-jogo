@@ -1,7 +1,7 @@
 extends Node2D
 
 const PLAYER = preload("res://leandro2.tscn")
-const BOSS = preload("res://1_cap1.tscn") # cena do mouse
+const BOSS = preload("res://cap1/bosses/1_cap1.tscn") # cena do mouse
 
 
 var player
@@ -19,6 +19,7 @@ func _ready():
 
 	# instancia boss
 	boss = BOSS.instantiate()
+	print(boss)
 	add_child(boss)
 
 	boss.global_position = $BossSpawn.global_position

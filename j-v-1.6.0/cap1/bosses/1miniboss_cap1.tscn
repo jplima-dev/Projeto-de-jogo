@@ -1,6 +1,8 @@
-[gd_scene format=3 uid="uid://b5lp2v1667trv"]
+[gd_scene format=3 uid="uid://cu43yptn8kjhw"]
 
 [ext_resource type="Texture2D" uid="uid://cch25spla6wpw" path="res://lab.leandro.png" id="1_6fccd"]
+[ext_resource type="Script" uid="uid://cnj4br7it23ic" path="res://teste_de_bosses.gd" id="1_i80pr"]
+[ext_resource type="Script" uid="uid://0l447vdhh8c5" path="res://camera_boss.gd" id="3_fwskl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i80pr"]
 texture = ExtResource("1_6fccd")
@@ -4112,7 +4114,20 @@ texture = ExtResource("1_6fccd")
 [sub_resource type="TileSet" id="TileSet_fwskl"]
 sources/0 = SubResource("TileSetAtlasSource_i80pr")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t13ft"]
+size = Vector2(934.5, 793)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i80pr"]
+size = Vector2(958, 646)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ku3a1"]
+size = Vector2(915, 258)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwskl"]
+size = Vector2(761, 933)
+
 [node name="Node2D" type="Node2D" unique_id=385897475]
+script = ExtResource("1_i80pr")
 
 [node name="TileMap" type="TileMap" parent="." unique_id=1787960578]
 tile_set = SubResource("TileSet_fwskl")
@@ -4121,8 +4136,28 @@ layer_0/tile_data = PackedInt32Array(131080, 262144, 8, 196616, 262144, 24, 2621
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1404865859]
 position = Vector2(487, 362)
+script = ExtResource("3_fwskl")
 
 [node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1693978419]
 position = Vector2(197, 114)
 
 [node name="BossSpawn" type="Marker2D" parent="." unique_id=362483352]
+position = Vector2(497, 379)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1552707523]
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D" unique_id=1267117769]
+position = Vector2(1296.75, 337)
+shape = SubResource("RectangleShape2D_t13ft")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1899097732]
+position = Vector2(469, -333)
+shape = SubResource("RectangleShape2D_i80pr")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D" unique_id=1268452802]
+position = Vector2(505.5, 798)
+shape = SubResource("RectangleShape2D_ku3a1")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=490254931]
+position = Vector2(-248.5, 332)
+shape = SubResource("RectangleShape2D_fwskl")
