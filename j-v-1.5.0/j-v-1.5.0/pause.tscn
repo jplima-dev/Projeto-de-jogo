@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://2cajifrrb6v3"]
+
+[ext_resource type="Script" uid="uid://npb72hyve8qv" path="res://pause.gd" id="1_6eyaj"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="1_45vjg"]
+[ext_resource type="Script" uid="uid://cq1mnurr6nwe6" path="res://resume_pause.gd" id="3_8u653"]
+[ext_resource type="Script" uid="uid://bf4h7mgtb1sku" path="res://config_pause.gd" id="4_8u653"]
+[ext_resource type="Script" uid="uid://cix6bymlq5lc7" path="res://quit_pause.gd" id="5_bwtow"]
+
+[node name="Control" type="Control" unique_id=2142590823]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6eyaj")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1254805738]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=1050405201]
+z_index = 1
+custom_minimum_size = Vector2(500, 600)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -76.0
+offset_top = -54.0
+offset_right = 76.0
+offset_bottom = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=1369204301]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="resume" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1027484872]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("1_45vjg")
+theme_override_font_sizes/font_size = 32
+flat = true
+script = ExtResource("3_8u653")
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1437340239]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="config" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=33773378]
+layout_mode = 2
+size_flags_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("1_45vjg")
+theme_override_font_sizes/font_size = 32
+flat = true
+script = ExtResource("4_8u653")
+
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=742088048]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="quit" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=135907258]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("1_45vjg")
+theme_override_font_sizes/font_size = 32
+flat = true
+script = ExtResource("5_bwtow")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1854189090]
+self_modulate = Color(1, 1, 1, 0.34901962)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="mouse_entered" from="CanvasLayer/MarginContainer/VBoxContainer/resume" to="CanvasLayer/MarginContainer/VBoxContainer/resume" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/MarginContainer/VBoxContainer/resume" to="CanvasLayer/MarginContainer/VBoxContainer/resume" method="_on_mouse_exited"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/resume" to="." method="_on_resume_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/MarginContainer/VBoxContainer/config" to="CanvasLayer/MarginContainer/VBoxContainer/config" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/MarginContainer/VBoxContainer/config" to="CanvasLayer/MarginContainer/VBoxContainer/config" method="_on_mouse_exited"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/config" to="." method="_on_config_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/MarginContainer/VBoxContainer/quit" to="CanvasLayer/MarginContainer/VBoxContainer/quit" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/MarginContainer/VBoxContainer/quit" to="CanvasLayer/MarginContainer/VBoxContainer/quit" method="_on_mouse_exited"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]

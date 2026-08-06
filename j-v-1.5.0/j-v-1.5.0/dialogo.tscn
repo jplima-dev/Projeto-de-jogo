@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cp3ylm32gp78y"]
+
+[ext_resource type="Script" uid="uid://dwtcmf04ntlmu" path="res://dialogo.gd" id="1_7ebmd"]
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="2_cmsvf"]
+[ext_resource type="AudioStream" uid="uid://dl3i0eqroaovg" path="res://voz_temp.mp3" id="3_cmsvf"]
+
+[node name="Dialogo" type="Node2D" unique_id=1670309999]
+z_index = 4096
+script = ExtResource("1_7ebmd")
+
+[node name="Panel" type="Panel" parent="." unique_id=1743207191]
+offset_left = -100.0
+offset_top = -40.0
+offset_right = 100.0
+offset_bottom = 10.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=174908247]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/MarginContainer" unique_id=279883654]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_cmsvf")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="SkipLabel" type="Label" parent="Panel" unique_id=464338905]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_cmsvf")
+theme_override_font_sizes/font_size = 12
+text = ">"
+
+[node name="Voz" type="AudioStreamPlayer2D" parent="." unique_id=1920024877]
+stream = ExtResource("3_cmsvf")
+bus = &"SFX"

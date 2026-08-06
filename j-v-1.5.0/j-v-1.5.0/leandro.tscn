@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dbwmpheg136bp"]
+
+[ext_resource type="PackedScene" uid="uid://c6vr3hjn4r2my" path="res://leandro2.tscn" id="1_180qh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ryern"]
+
+[node name="main" type="Node2D" unique_id=1129921103]
+material = SubResource("ShaderMaterial_ryern")
+use_parent_material = true
+
+[node name="leandro" parent="." unique_id=1628815286 instance=ExtResource("1_180qh")]

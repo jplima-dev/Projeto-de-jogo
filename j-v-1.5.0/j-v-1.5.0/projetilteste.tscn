@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://d3lu5eehfihiu"]
+
+[ext_resource type="Script" uid="uid://b6hwenhqord1v" path="res://projetilteste.gd" id="1_h2qv8"]
+
+[node name="Node2D" type="ColorRect" unique_id=166278804]
+z_index = 4096
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(1, 0, 0, 1)
+script = ExtResource("1_h2qv8")

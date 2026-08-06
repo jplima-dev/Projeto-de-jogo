@@ -1,0 +1,51 @@
+[gd_resource type="Theme" format=3 uid="uid://dfu1jedlqg7gs"]
+
+[ext_resource type="FontFile" uid="uid://6dt0kkknuhjl" path="res://tatlescreen/minecraft_font.ttf" id="1_451a3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_whngk"]
+bg_color = Color(0.8682326, 0.8293313, 1.540184e-06, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93333334, 0.4392157, 0, 1)
+expand_margin_top = 5.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2bvs"]
+bg_color = Color(0.8682326, 0.8293313, 1.540184e-06, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93333334, 0.4392157, 0, 1)
+expand_margin_top = 5.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yubar"]
+bg_color = Color(0.93333334, 0.4392157, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9245268, 0.29215786, 0, 1)
+expand_margin_top = 5.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3aem0"]
+bg_color = Color(0.8682326, 0.8293313, 1.540184e-06, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93333334, 0.4392157, 0, 1)
+expand_margin_top = 5.0
+expand_margin_bottom = 2.0
+
+[resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/fonts/font = ExtResource("1_451a3")
+Button/styles/focus = SubResource("StyleBoxFlat_whngk")
+Button/styles/hover = SubResource("StyleBoxFlat_t2bvs")
+Button/styles/normal = SubResource("StyleBoxFlat_yubar")
+Button/styles/pressed = SubResource("StyleBoxFlat_3aem0")
