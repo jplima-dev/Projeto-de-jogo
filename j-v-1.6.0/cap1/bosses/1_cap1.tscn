@@ -2,14 +2,13 @@
 
 [ext_resource type="Script" uid="uid://3ol0rfbao7hx" path="res://cap1/bosses/1_cap_1.gd" id="1_w6vbe"]
 [ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="2_q844t"]
-[ext_resource type="Script" uid="uid://bu22p6t022tnv" path="res://cap1/bosses/ponta do cabo.gd" id="3_tn2gi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q844t"]
 
 [node name="Node2D" type="CharacterBody2D" unique_id=1084212280]
 script = ExtResource("1_w6vbe")
-tempo_mira = 0.1
-tempo_tonto = 0.1
+tempo_mira = 0.001
+tempo_tonto = 0.05
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=467953092]
 scale = Vector2(0.8, 0.749)
@@ -22,14 +21,7 @@ shape = SubResource("RectangleShape2D_q844t")
 [node name="Timer" type="Timer" parent="." unique_id=1247509110]
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=1520069364]
+target_position = Vector2(-3, 125)
 collide_with_areas = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2059917481]
-
-[node name="Usbtip" type="Node2D" parent="." unique_id=1037913579]
-script = ExtResource("3_tn2gi")
-
-[node name="Sprite2D" type="Sprite2D" parent="Usbtip" unique_id=285409720]
-position = Vector2(114, 16)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_q844t")
