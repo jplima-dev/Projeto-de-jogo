@@ -12,8 +12,8 @@ enum Estado{
 var estado = Estado.IDLE
 
 @export var velocidade_dash := 1200.0
-@export var tempo_mira := 0.7
-@export var tempo_tonto := 1.0
+@export var tempo_mira := 0.01
+@export var tempo_tonto := 0.5
 @export var quantidade_pedras := 10
 
 # Ajuste dependendo de como o sprite foi desenhado
@@ -106,18 +106,84 @@ func _on_timer_timeout():
 		return
 
 	bateu = false
-
 	estado = Estado.MIRANDO
 
 	direcao = (
 		player.global_position - global_position
 	).normalized()
 
-	scale = Vector2(1.08, 0.92)
+	# ==========================
+	# RECUO ANTES DO DASH
+	# ==========================
 
-	await get_tree().create_timer(tempo_mira).timeout
+	var pos_original = global_position
 
-	scale = Vector2.ONE
+	var tween = create_tween()
+
+	# Dá um pequeno recuo
+	tween.set_parallel(true)
+
+	tween.tween_property(
+		self,
+		"global_position",
+		global_position - direcao * 20,
+		tempo_mira * 0.35
+	)
+
+	# Encolhe
+	tween.tween_property(
+		self,
+		"scale",
+		Vector2(0.80, 0.80),
+		tempo_mira * 0.35
+	)
+
+	await tween.finished
+
+	# ==========================
+	# IMPULSO
+	# ==========================
+
+	var tween2 = create_tween()
+
+	tween2.set_parallel(true)
+
+	# Volta para a posição original
+	tween2.tween_property(
+		self,
+		"global_position",
+		pos_original,
+		tempo_mira * 0.20
+	)
+
+	# Dá uma leve esticada
+	tween2.tween_property(
+		self,
+		"scale",
+		Vector2(1.0, 0.90),
+		tempo_mira * 0.20
+	)
+
+	await tween2.finished
+
+	# ==========================
+	# VOLTA AO NORMAL
+	# ==========================
+
+	var tween3 = create_tween()
+
+	tween3.tween_property(
+		self,
+		"scale",
+		Vector2.ONE,
+		tempo_mira * 0.15
+	)
+
+	await tween3.finished
+
+	# ==========================
+	# DASH
+	# ==========================
 
 	estado = Estado.DASH
 

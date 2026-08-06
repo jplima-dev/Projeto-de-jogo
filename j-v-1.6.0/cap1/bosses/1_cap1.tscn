@@ -7,8 +7,7 @@
 
 [node name="Node2D" type="CharacterBody2D" unique_id=1084212280]
 script = ExtResource("1_w6vbe")
-tempo_mira = 0.001
-tempo_tonto = 0.05
+tempo_mira = 0.7
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=467953092]
 scale = Vector2(0.8, 0.749)
