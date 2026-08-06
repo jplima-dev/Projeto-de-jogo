@@ -17,7 +17,7 @@ var estado = Estado.IDLE
 @export var quantidade_pedras := 10
 
 # Ajuste este valor dependendo da orientação do sprite
-@export var offset_rotacao := 90.0
+@export var offset_rotacao := 90s.0
 
 var player
 var direcao := Vector2.ZERO
