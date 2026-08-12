@@ -6,7 +6,6 @@
 
 [node name="a" type="Area2D" unique_id=473349582]
 script = ExtResource("1_h2qv8")
-life_time = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1376252536]
 position = Vector2(0, 10)

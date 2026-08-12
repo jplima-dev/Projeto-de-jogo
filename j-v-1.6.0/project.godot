@@ -39,6 +39,11 @@ Skilldata="*uid://rm4r463yvggx"
 window/size/mode=3
 window/subwindows/embed_subwindows=false
 
+[global_group]
+
+mouse=""
+usb=""
+
 [input]
 
 ui_cancel={

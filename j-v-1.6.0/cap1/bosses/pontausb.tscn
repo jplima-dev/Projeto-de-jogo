@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://et76seunv4bb"]
+
+[ext_resource type="Script" uid="uid://cxvlympvgy04l" path="res://cap1/bosses/pontausb.gd" id="1_yr434"]
+[ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="2_nnyyw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_85hvx"]
+
+[node name="PontaUsb" type="CharacterBody2D" unique_id=245607246 groups=["usb"]]
+collision_layer = 2
+script = ExtResource("1_yr434")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1926728536]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_nnyyw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1854052783]
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_85hvx")

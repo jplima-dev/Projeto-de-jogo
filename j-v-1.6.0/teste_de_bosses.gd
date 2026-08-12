@@ -1,30 +1,64 @@
 extends Node2D
 
+
 const PLAYER = preload("res://leandro2.tscn")
-const BOSS = preload("res://cap1/bosses/1_cap1.tscn") # cena do mouse
+const BOSS = preload("res://cap1/bosses/1_cap1.tscn")
+const PONTA_USB = preload("res://cap1/bosses/pontausb.tscn")
 
 
 var player
 var boss
+var ponta_usb
 
 
 func _ready():
 
-	# instancia player
+	# ==========================
+	# PLAYER
+	# ==========================
+
 	player = PLAYER.instantiate()
+
 	add_child(player)
 
 	player.global_position = $PlayerSpawn.global_position
+
+	# Desativa a câmera enquanto configuramos a cena
 	player.get_node("Camera2D").enabled = false
 
-	# instancia boss
+
+	# ==========================
+	# BOSS / MOUSE
+	# ==========================
+
 	boss = BOSS.instantiate()
-	print(boss)
+
+	print("Boss: ", boss)
+
 	add_child(boss)
 
 	boss.global_position = $BossSpawn.global_position
 
-	# faz a câmera seguir o player
+
+	# ==========================
+	# PONTA DO CABO USB
+	# ==========================
+
+	ponta_usb = PONTA_USB.instantiate()
+
+	add_child(ponta_usb)
+
+	# Começa próxima do mouse
+	ponta_usb.global_position = (
+		boss.global_position
+		+ Vector2(80, 0)
+	)
+
+
+	# ==========================
+	# CÂMERA DO PLAYER
+	# ==========================
+
 	var camera = player.get_node("Camera2D")
 
 	camera.enabled = true

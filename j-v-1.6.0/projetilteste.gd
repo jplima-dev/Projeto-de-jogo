@@ -4,14 +4,21 @@ extends Area2D
 @export var life_time := 5.0
 @export var turn_speed := 6.0
 
+# ==========================
 # TELEGUIADO
+# ==========================
+
 var teleguiado := false
 var player = null
 var homing_time := 0.5
 
+# ==========================
 # MOVIMENTO
+# ==========================
+
 var direction := Vector2.RIGHT
 var homing_timer := 0.0
+
 
 func _ready():
 
@@ -22,8 +29,19 @@ func _ready():
 
 	body_entered.connect(_on_body_entered)
 
+
+func iniciar_vida():
+
+	# Se o tempo for 0 ou menor,
+	# o projétil desaparece imediatamente.
+	if life_time <= 0.0:
+		queue_free()
+		return
+
 	await get_tree().create_timer(life_time).timeout
-	queue_free()
+
+	if is_instance_valid(self):
+		queue_free()
 
 
 func _process(delta):
@@ -31,6 +49,7 @@ func _process(delta):
 	if teleguiado and is_instance_valid(player):
 
 		if homing_timer > 0.0:
+
 			homing_timer -= delta
 
 			var to_player = player.global_position - global_position
@@ -51,5 +70,7 @@ func _on_body_entered(body):
 
 	if body.is_in_group("player"):
 
-		body.take_damage(15)
+		if body.has_method("take_damage"):
+			body.take_damage(15)
+
 		queue_free()

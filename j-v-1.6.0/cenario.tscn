@@ -10297,6 +10297,7 @@ size = Vector2(67.20657, 64.72784)
 script = ExtResource("1_xwuul")
 
 [node name="colisao" type="StaticBody2D" parent="." unique_id=1033002810]
+collision_layer = 7
 
 [node name="paredecimalab" type="CollisionShape2D" parent="colisao" unique_id=672391478]
 z_index = 4096
