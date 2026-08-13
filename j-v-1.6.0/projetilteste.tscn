@@ -23,6 +23,6 @@ offset_right = 40.0
 offset_bottom = 20.0
 grow_vertical = 2
 rotation = 0.7853982
-color = Color(1, 0, 0, 1)
+color = Color(0.7882353, 0.6745098, 0.31764707, 1)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
