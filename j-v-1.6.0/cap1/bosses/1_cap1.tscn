@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dy5wme5p377s5"]
 
 [ext_resource type="Script" uid="uid://3ol0rfbao7hx" path="res://cap1/bosses/1_cap_1.gd" id="1_w6vbe"]
-[ext_resource type="Texture2D" uid="uid://dgpexbfwqr75h" path="res://icon.svg" id="2_q844t"]
+[ext_resource type="Texture2D" uid="uid://hcxdlaarcaky" path="res://cap1/bosses/mouse.jpeg" id="2_rxypa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q844t"]
 
@@ -13,8 +13,8 @@ tempo_tonto = 0.3
 quantidade_pedras = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=467953092]
-scale = Vector2(0.8, 0.749)
-texture = ExtResource("2_q844t")
+scale = Vector2(0.3, 0.282)
+texture = ExtResource("2_rxypa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1890398286]
 scale = Vector2(4, 4)

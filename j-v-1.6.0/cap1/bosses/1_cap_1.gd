@@ -29,6 +29,7 @@ var estado = Estado.IDLE
 var dash_atual := 0
 
 
+
 # ==========================================================
 # PEDRAS
 # ==========================================================
@@ -89,6 +90,7 @@ var direcao := Vector2.ZERO
 
 # Impede múltiplas colisões no mesmo dash
 var bateu := false
+var sentido_rotacao := 1.0
 
 
 # ==========================================================
@@ -169,6 +171,17 @@ func _physics_process(delta):
 			# ==================================================
 
 			bateu = true
+			
+			var normal_parede: Vector2 = colisao.get_normal()
+
+			if abs(normal_parede.x) > abs(normal_parede.y):
+				# Parede lateral
+				if normal_parede.x > 0:
+					# Bateu na parede da esquerda
+					sentido_rotacao = 1.0
+				else:
+					# Bateu na parede da direita
+					sentido_rotacao = -1.0
 
 			await bateu_parede()
 
@@ -184,98 +197,7 @@ func _on_timer_timeout():
 	if estado != Estado.IDLE:
 		return
 
-	if !is_instance_valid(player):
-		return
-
-
-	bateu = false
-
-	dash_atual += 1
-
-	estado = Estado.MIRANDO
-
-
-	# Mira uma vez no player.
-	# Depois disso o boss não acompanha mais o player.
-
-	direcao = (
-		player.global_position - global_position
-	).normalized()
-
-
-	# ======================================================
-	# RECUO / ESTICADA
-	# ======================================================
-
-	var pos_original = global_position
-
-	var tween = create_tween()
-
-
-	# Encolhe
-	tween.tween_property(
-		self,
-		"scale",
-		Vector2(1.0, 1.0),
-		tempo_mira * 0.35
-	)
-
-	await tween.finished
-
-
-	# ======================================================
-	# IMPULSO
-	# ======================================================
-
-	var tween2 = create_tween()
-
-	tween2.set_parallel(true)
-
-
-	# Volta para a posição original
-
-	tween2.tween_property(
-		self,
-		"global_position",
-		pos_original,
-		tempo_mira * 0.20
-	)
-
-
-	# Dá uma leve esticada
-
-	tween2.tween_property(
-		self,
-		"scale",
-		Vector2(1.0, 0.90),
-		tempo_mira * 0.20
-	)
-
-	await tween2.finished
-
-
-	# ======================================================
-	# VOLTA AO NORMAL
-	# ======================================================
-
-	var tween3 = create_tween()
-
-	tween3.tween_property(
-		self,
-		"scale",
-		Vector2.ONE,
-		tempo_mira * 0.15
-	)
-
-	await tween3.finished
-
-
-	# ======================================================
-	# DASH
-	# ======================================================
-
-	estado = Estado.DASH
-
+	await iniciar_dash()
 
 # ==========================================================
 # BATEU NA PAREDE
@@ -284,146 +206,249 @@ func _on_timer_timeout():
 func bateu_parede():
 
 	estado = Estado.TONTO
-
 	velocity = Vector2.ZERO
 
 	print("BATEU PAREDE - DASH ", dash_atual)
 
 
 	# ======================================================
-	# 1º E 2º DASH
+	# TREMIDA DA CÂMERA
 	# ======================================================
 
-	if dash_atual < quantidade_dashes:
+	var viewport = get_viewport()
 
-		spawn_pedras()
+	if viewport != null:
+
+		var camera = viewport.get_camera_2d()
+
+		if camera != null and camera.has_method("tremer"):
+			camera.tremer(18)
+
+
+	# ======================================================
+	# ESPREMIDA
+	# ======================================================
+
+	var escala_original: Vector2 = scale
+
+	var tween_impacto = create_tween()
+
+	tween_impacto.tween_property(
+		self,
+		"scale",
+		Vector2(1.20, 0.70),
+		0.06
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	tween_impacto.tween_property(
+		self,
+		"scale",
+		Vector2(0.90, 1.08),
+		0.08
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	tween_impacto.tween_property(
+		self,
+		"scale",
+		escala_original,
+		0.10
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+
+	# ======================================================
+	# PEDRAS SAEM IMEDIATAMENTE
+	# ======================================================
+
+	spawn_pedras()
 
 
 	# ======================================================
 	# 3º DASH
 	# ======================================================
 
-	else:
+	if dash_atual >= quantidade_dashes:
 
 		await impacto_final()
 
-
-	# ======================================================
-	# ATORDOAMENTO
-	# ======================================================
-
-	await get_tree().create_timer(tempo_tonto).timeout
-
-
-	# ======================================================
-	# FINAL DOS 3 DASHES
-	# ======================================================
-
-	if dash_atual >= quantidade_dashes:
-
 		dash_atual = 0
-
+		bateu = false
 		estado = Estado.IDLE
 
-		bateu = false
+		await get_tree().create_timer(2.0).timeout
 
-		$Timer.start(2)
+		if estado == Estado.IDLE:
+			await iniciar_dash()
 
-	else:
-
-		estado = Estado.IDLE
-
-		bateu = false
-
-		# Próximo dash rapidamente
-		$Timer.start(0.2)
+		return
 
 
+	# ======================================================
+	# 1º E 2º DASH
+	# ======================================================
+
+	await tween_impacto.finished
+
+	await get_tree().create_timer(
+		tempo_tonto
+	).timeout
+
+	bateu = false
+	estado = Estado.IDLE
+
+	$Timer.start(0.2)
 # ==========================================================
 # IMPACTO FINAL DO TERCEIRO DASH
 # ==========================================================
 
 func impacto_final():
 
-	var camera = get_viewport().get_camera_2d()
-
-	if camera != null and camera.has_method("tremer"):
-		camera.tremer(22)
-
 	estado = Estado.RETORNANDO
+
 	velocity = Vector2.ZERO
 
-	var boss_spawn = get_tree().current_scene.get_node_or_null("BossSpawn")
 
-	if boss_spawn == null:
-		print("BossSpawn não encontrado!")
-		return
+	# ======================================================
+	# DISTÂNCIA DO RECUO
+	# ======================================================
 
-	var deslocamento: Vector2 = Vector2(
-		randf_range(-margem_retorno, margem_retorno),
-		randf_range(-margem_retorno, margem_retorno)
+	var distancia_recuo: float = 180.0
+
+	var destino: Vector2 = (
+		global_position - direcao * distancia_recuo
 	)
 
-	var destino: Vector2 = boss_spawn.global_position + deslocamento
 
-	var distancia: float = global_position.distance_to(destino)
-
-	var tempo_retorno: float = clamp(
-		distancia / 350.0,
-		0.5,
-		1.2
-	)
+	# ======================================================
+	# ROTAÇÃO
+	# ======================================================
 
 	var rotacao_inicial: float = rotation
 
-	# ==========================
-	# PREPARA A ORBITAL DO USB
-	# ==========================
 
-	if is_instance_valid(usb):
+	# ======================================================
+	# RECUO + ROTAÇÃO
+	# ======================================================
 
-		if usb.has_method("iniciar_orbita"):
-			usb.iniciar_orbita(
-				self,
-				distancia_orbita_usb
-			)
-
-	# ==========================
-	# RETORNO + ROTAÇÃO
-	# ==========================
+	var tempo_recuo: float = 0.8
 
 	var tween = create_tween()
 
 	tween.set_parallel(true)
 
+
+	# Vai um pouco para trás
 	tween.tween_property(
 		self,
 		"global_position",
 		destino,
-		tempo_retorno
-	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tempo_recuo
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
 
+
+	# Gira 3 voltas
 	tween.tween_property(
 		self,
 		"rotation",
-		rotacao_inicial + deg_to_rad(1080.0),
-		tempo_retorno
-	).set_trans(Tween.TRANS_LINEAR)
+		rotacao_inicial + deg_to_rad(25.0) * sentido_rotacao,
+		tempo_recuo
+	).set_trans(
+		Tween.TRANS_LINEAR
+	)
+
 
 	await tween.finished
+	
+	# ======================================================
+	# VOLTA PARA A POSIÇÃO PADRÃO
+	# ======================================================
 
-	# ==========================
-	# DESLIGA ORBITAL
-	# ==========================
+	var rotacao_padrao: float = deg_to_rad(0.0)
 
-	if is_instance_valid(usb):
+	var tween_padrao = create_tween()
 
-		if usb.has_method("parar_orbita"):
-			usb.parar_orbita()
+	tween_padrao.tween_property(
+		self,
+		"rotation",
+		rotacao_padrao,
+		0.10
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
 
-	# ==========================
+	await tween_padrao.finished
+	
+	await get_tree().create_timer(0.08).timeout
+	
+			# ======================================================
+	# CHACOALHADA CARTOON ANTES DO RETORNO
+	# ======================================================
+
+	var rot_original: float = rotation
+
+	var tween_chacoalhada = create_tween()
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rot_original + deg_to_rad(34.0),
+		0.05
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rot_original - deg_to_rad(32.0),
+		0.05
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rot_original + deg_to_rad(16.0),
+		0.04
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rot_original - deg_to_rad(8.0),
+		0.04
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rot_original,
+		0.08
+	)
+
+	await tween_chacoalhada.finished
+
+	# Pequena pausa antes de sair voando
+	await get_tree().create_timer(0.08).timeout
+
+
+	# ======================================================
 	# FREIADA CARTOON
-	# ==========================
+	# ======================================================
 
 	var tween_final = create_tween()
 
@@ -432,10 +457,14 @@ func impacto_final():
 		"rotation",
 		rotacao_inicial,
 		0.15
-	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
 
 	await tween_final.finished
-
+	
 # ==========================================================
 # PEDRAS
 # ==========================================================
@@ -593,6 +622,82 @@ func acertou_player():
 
 
 	$Timer.start(0.2)
+	
+func iniciar_dash():
+
+	if !is_instance_valid(player):
+		return
+
+	bateu = false
+
+	if dash_atual >= quantidade_dashes:
+		dash_atual = 0
+
+	dash_atual += 1
+
+	estado = Estado.MIRANDO
+
+	direcao = (
+		player.global_position - global_position
+	).normalized()
+
+	# ======================================================
+	# RECUO / ESTICADA
+	# ======================================================
+
+	var pos_original: Vector2 = global_position
+
+	var tween = create_tween()
+
+	tween.tween_property(
+		self,
+		"scale",
+		Vector2(1.0, 1.0),
+		tempo_mira * 0.35
+	)
+
+	await tween.finished
+
+	# ======================================================
+	# IMPULSO
+	# ======================================================
+
+	var tween2 = create_tween()
+
+	tween2.set_parallel(true)
+
+	tween2.tween_property(
+		self,
+		"global_position",
+		pos_original,
+		tempo_mira * 0.20
+	)
+
+	tween2.tween_property(
+		self,
+		"scale",
+		Vector2(1.0, 0.90),
+		tempo_mira * 0.20
+	)
+
+	await tween2.finished
+
+	# ======================================================
+	# VOLTA AO NORMAL
+	# ======================================================
+
+	var tween3 = create_tween()
+
+	tween3.tween_property(
+		self,
+		"scale",
+		Vector2.ONE,
+		tempo_mira * 0.15
+	)
+
+	await tween3.finished
+
+	estado = Estado.DASH
 
 
 # ==========================================================
