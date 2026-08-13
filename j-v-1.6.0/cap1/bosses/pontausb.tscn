@@ -6,6 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_85hvx"]
 
 [node name="PontaUsb" type="CharacterBody2D" unique_id=245607246 groups=["usb"]]
+z_index = 2
 collision_layer = 2
 script = ExtResource("1_yr434")
 

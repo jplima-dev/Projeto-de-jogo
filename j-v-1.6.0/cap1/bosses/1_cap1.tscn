@@ -6,6 +6,7 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rxypa"]
 
 [node name="Node2D" type="CharacterBody2D" unique_id=1084212280 groups=["mouse"]]
+z_index = 2
 collision_layer = 4
 script = ExtResource("1_w6vbe")
 tempo_mira = 0.1
