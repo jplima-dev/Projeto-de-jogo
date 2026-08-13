@@ -22,6 +22,8 @@ var estado = Estado.IDLE
 @export var velocidade_dash := 1200.0
 @export var tempo_mira := 0.01
 @export var tempo_tonto := 0.5
+@export var recuo_impacto := 50.0
+@export var tempo_recuo_impacto := 0.5
 
 # Quantidade de dashes antes de voltar ao meio
 @export var quantidade_dashes := 3
@@ -272,6 +274,32 @@ func bateu_parede():
 	# ======================================================
 
 	spawn_pedras()
+	
+	# ======================================================
+	# RECUO SUAVE DOS IMPACTOS
+	# ======================================================
+
+	# O último impacto NÃO faz esse recuo,
+	# pois ele já possui o recuo grande do impacto_final().
+	if dash_atual < quantidade_dashes:
+
+		var destino_recuo: Vector2 = (
+			global_position - direcao * recuo_impacto
+		)
+
+		var tween_recuo = create_tween()
+
+		tween_recuo.tween_property(
+			self,
+			"global_position",
+			destino_recuo,
+			tempo_recuo_impacto
+		).set_trans(
+			Tween.TRANS_QUAD
+		).set_ease(
+			Tween.EASE_OUT
+		)
+
 
 
 	# ======================================================
@@ -323,7 +351,7 @@ func impacto_final():
 	# DISTÂNCIA DO RECUO
 	# ======================================================
 
-	var distancia_recuo: float = 180.0
+	var distancia_recuo: float = 140.0
 
 	var destino: Vector2 = (
 		global_position - direcao * distancia_recuo
@@ -341,7 +369,7 @@ func impacto_final():
 	# RECUO + ROTAÇÃO
 	# ======================================================
 
-	var tempo_recuo: float = 0.8
+	var tempo_recuo: float = 0.5
 
 	var tween = create_tween()
 
@@ -365,7 +393,7 @@ func impacto_final():
 	tween.tween_property(
 		self,
 		"rotation",
-		rotacao_inicial + deg_to_rad(25.0) * sentido_rotacao,
+		rotacao_inicial + deg_to_rad(15.0) * sentido_rotacao,
 		tempo_recuo
 	).set_trans(
 		Tween.TRANS_LINEAR

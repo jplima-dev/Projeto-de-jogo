@@ -4136,6 +4136,7 @@ layer_0/tile_data = PackedInt32Array(131080, 262144, 8, 196616, 262144, 24, 2621
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1404865859]
 position = Vector2(487, 362)
+zoom = Vector2(1.4, 1.4)
 script = ExtResource("3_fwskl")
 
 [node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1693978419]

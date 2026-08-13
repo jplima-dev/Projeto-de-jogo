@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://xu8obass0qv3"]
+
+[ext_resource type="Script" uid="uid://b2d3lt1k3ujo" path="res://cap1/bosses/cabousb.gd" id="1_x1gnl"]
+
+[node name="Cabousb" type="Node2D" unique_id=1283096270]
+script = ExtResource("1_x1gnl")
+
+[node name="Cabo" type="Line2D" parent="." unique_id=833259495]
+z_index = 4096
+default_color = Color(0, 0, 0, 1)

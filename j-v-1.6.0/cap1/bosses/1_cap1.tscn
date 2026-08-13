@@ -27,3 +27,6 @@ target_position = Vector2(-3, 125)
 collide_with_areas = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2059917481]
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=317130399 groups=["cabo_ponto"]]
+position = Vector2(0, -53)

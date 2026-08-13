@@ -10400,10 +10400,10 @@ offset_bottom = 1619.0
 color = Color(0, 0, 0, 1)
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1622371210]
-offset_left = -3318.0
-offset_top = -9301.0
-offset_right = 5884.0
-offset_bottom = -3002.0
+offset_left = -3446.0
+offset_top = -9313.0
+offset_right = 5756.0
+offset_bottom = -3014.0
 color = Color(0, 0, 0, 1)
 
 [node name="irescadas" type="Area2D" parent="." unique_id=1324528400]

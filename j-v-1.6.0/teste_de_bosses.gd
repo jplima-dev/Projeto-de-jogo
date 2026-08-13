@@ -4,11 +4,13 @@ extends Node2D
 const PLAYER = preload("res://leandro2.tscn")
 const BOSS = preload("res://cap1/bosses/1_cap1.tscn")
 const PONTA_USB = preload("res://cap1/bosses/pontausb.tscn")
+const CABO_USB = preload("res://cap1/bosses/cabousb.tscn")
 
 
 var player
 var boss
 var ponta_usb
+var cabo_usb
 
 
 func _ready():
@@ -53,6 +55,15 @@ func _ready():
 		boss.global_position
 		+ Vector2(80, 0)
 	)
+
+
+	# ==========================
+	# CABO USB
+	# ==========================
+
+	cabo_usb = CABO_USB.instantiate()
+
+	add_child(cabo_usb)
 
 
 	# ==========================

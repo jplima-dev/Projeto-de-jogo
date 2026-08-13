@@ -43,6 +43,7 @@ window/subwindows/embed_subwindows=false
 
 mouse=""
 usb=""
+cabo_ponto=""
 
 [input]
 
