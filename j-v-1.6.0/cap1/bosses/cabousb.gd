@@ -5,11 +5,14 @@ extends Node2D
 # CONFIGURAÇÃO DA CORDA
 # ==========================================================
 
-@export var quantidade_pontos := 24
-@export var folga := 1
-@export var gravidade := 200.0
-@export var iteracoes_fisica := 10
-@export var amortecimento := 0.995
+@export var quantidade_pontos := 6
+
+# Distância desejada entre cada ponto da corda
+@export var distancia_entre_pontos := 35.0
+
+@export var gravidade := 50.0
+@export var iteracoes_fisica := 500
+@export var amortecimento := 0.0
 @export var deslocamento_maximo := 10.0
 
 
@@ -35,7 +38,7 @@ var ponto_b: Node2D
 var posicoes: Array[Vector2] = []
 var posicoes_anteriores: Array[Vector2] = []
 
-var comprimento_segmento := 0.0
+var comprimento_segmento: float = 0.0
 
 
 # ==========================================================
@@ -84,24 +87,10 @@ func _ready():
 
 
 	# ======================================================
-	# DISTÂNCIA INICIAL
+	# DISTÂNCIA ENTRE OS PONTOS
 	# ======================================================
 
-	var inicio: Vector2 = ponto_a.global_position
-	var fim: Vector2 = ponto_b.global_position
-
-	var distancia_inicial := inicio.distance_to(fim)
-
-
-	# ======================================================
-	# COMPRIMENTO DOS SEGMENTOS
-	# ======================================================
-
-	comprimento_segmento = (
-		distancia_inicial
-		* folga
-		/ float(quantidade_pontos - 1)
-	)
+	comprimento_segmento = distancia_entre_pontos
 
 
 	# ======================================================
@@ -124,6 +113,10 @@ func _ready():
 	posicoes_anteriores.clear()
 
 
+	var inicio: Vector2 = ponto_a.global_position
+	var fim: Vector2 = ponto_b.global_position
+
+
 	for i in range(quantidade_pontos):
 
 		var t: float = (
@@ -131,7 +124,10 @@ func _ready():
 			/ float(quantidade_pontos - 1)
 		)
 
-		var posicao := inicio.lerp(fim, t)
+		var posicao: Vector2 = inicio.lerp(
+			fim,
+			t
+		)
 
 		posicoes.append(posicao)
 		posicoes_anteriores.append(posicao)
@@ -161,12 +157,21 @@ func _physics_process(delta):
 
 
 	# ======================================================
-	# ATUALIZA VELOCIDADE DAS ÂNCORAS
+	# ATUALIZA POSIÇÃO DAS ÂNCORAS
 	# ======================================================
 
-	var nova_posicao_a := ponto_a.global_position
-	var nova_posicao_b := ponto_b.global_position
+	var nova_posicao_a: Vector2 = (
+		ponto_a.global_position
+	)
 
+	var nova_posicao_b: Vector2 = (
+		ponto_b.global_position
+	)
+
+
+	# ======================================================
+	# CALCULA VELOCIDADE DAS ÂNCORAS
+	# ======================================================
 
 	velocidade_a = (
 		nova_posicao_a
@@ -201,31 +206,40 @@ func _physics_process(delta):
 
 	for i in range(1, quantidade_pontos - 1):
 
-		var atual := posicoes[i]
-		var anterior := posicoes_anteriores[i]
+		var atual: Vector2 = posicoes[i]
+
+		var anterior: Vector2 = (
+			posicoes_anteriores[i]
+		)
 
 		posicoes_anteriores[i] = atual
 
 
-		var velocidade := (
+		# Movimento herdado do frame anterior
+		var velocidade: Vector2 = (
 			atual - anterior
 		) * amortecimento
 
 
-		var aceleracao := Vector2(
+		# Gravidade
+		var aceleracao: Vector2 = Vector2(
 			0.0,
 			gravidade
 		)
 
 
-		var nova_posicao : Vector2 = (
+		# Nova posição do ponto
+		var nova_posicao: Vector2 = (
 			atual
 			+ velocidade
-			+ aceleracao * delta * delta
+			+ aceleracao
+			* delta
+			* delta
 		)
 
 
-		var deslocamento := (
+		# Limite de deslocamento por frame
+		var deslocamento: Vector2 = (
 			nova_posicao - atual
 		)
 
@@ -267,52 +281,70 @@ func _physics_process(delta):
 
 	for _iteration in range(iteracoes_fisica):
 
+		# Mantém os extremos presos aos markers
 		posicoes[0] = nova_posicao_a
 		posicoes[-1] = nova_posicao_b
 
 
 		for i in range(quantidade_pontos - 1):
 
-			var atual := posicoes[i]
-			var proximo := posicoes[i + 1]
+			var atual: Vector2 = posicoes[i]
 
-			var vetor := (
+			var proximo: Vector2 = (
+				posicoes[i + 1]
+			)
+
+
+			# Vetor entre os dois pontos
+			var vetor: Vector2 = (
 				proximo - atual
 			)
 
-			var distancia := vetor.length()
+
+			var distancia: float = (
+				vetor.length()
+			)
 
 
 			if distancia <= 0.0001:
 				continue
 
 
-			var direcao := (
+			# Direção do segmento
+			var direcao: Vector2 = (
 				vetor / distancia
 			)
 
 
-			var erro := (
+			# Quanto a distância está diferente
+			# do tamanho desejado
+			var erro: float = (
 				distancia
 				- comprimento_segmento
 			)
 
 
-			var correcao := (
+			# Correção distribuída entre os dois pontos
+			var correcao: Vector2 = (
 				direcao
 				* erro
 				* 0.5
 			)
 
 
+			# Não move o primeiro ponto
 			if i != 0:
+
 				posicoes[i] += correcao
 
 
+			# Não move o último ponto
 			if i + 1 != quantidade_pontos - 1:
+
 				posicoes[i + 1] -= correcao
 
 
+		# Refixa as âncoras depois da iteração
 		posicoes[0] = nova_posicao_a
 		posicoes[-1] = nova_posicao_b
 

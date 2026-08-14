@@ -53,7 +53,7 @@ func _ready():
 	# Começa próxima do mouse
 	ponta_usb.global_position = (
 		boss.global_position
-		+ Vector2(80, 0)
+		+ Vector2(-80, 0)
 	)
 
 

@@ -21,7 +21,7 @@ var estado = Estado.IDLE
 
 @export var velocidade_dash := 1200.0
 @export var tempo_mira := 0.01
-@export var tempo_tonto := 0.5
+@export var tempo_tonto := 0.3
 @export var recuo_impacto := 50.0
 @export var tempo_recuo_impacto := 0.5
 
@@ -75,12 +75,14 @@ var usb = null
 
 
 # ==========================================================
-# ATAQUE 3
+# ATAQUE 3 - CHICOTE USB
 # ==========================================================
 
 @export var ataque_3_dano := 20
-@export var ataque_3_velocidade := 600.0
-@export var ataque_3_duracao := 3.0
+@export var ataque_3_velocidade := 1400.0
+@export var ataque_3_distancia_maxima := 500.0
+@export var ataque_3_tempo_preparacao := 0.4
+@export var ataque_3_tempo_recuperacao := 0.5
 
 
 # ==========================================================
@@ -274,17 +276,20 @@ func bateu_parede():
 	# ======================================================
 
 	spawn_pedras()
-	
+
+
 	# ======================================================
 	# RECUO SUAVE DOS IMPACTOS
 	# ======================================================
 
-	# O último impacto NÃO faz esse recuo,
-	# pois ele já possui o recuo grande do impacto_final().
+	# O terceiro impacto não usa esse recuo,
+	# pois possui o impacto_final().
+
 	if dash_atual < quantidade_dashes:
 
 		var destino_recuo: Vector2 = (
-			global_position - direcao * recuo_impacto
+			global_position
+			- direcao * recuo_impacto
 		)
 
 		var tween_recuo = create_tween()
@@ -301,22 +306,36 @@ func bateu_parede():
 		)
 
 
-
 	# ======================================================
 	# 3º DASH
 	# ======================================================
 
 	if dash_atual >= quantidade_dashes:
 
+		# Impacto final começa imediatamente.
 		await impacto_final()
+
+		# Tempo de stun depois do impacto final.
+		await get_tree().create_timer(
+			tempo_tonto
+		).timeout
+
+		# Escolhe ataque 2 ou 3.
+		await escolher_ataque_aleatorio()
+
+		# ==================================================
+		# REINICIA O CICLO
+		# ==================================================
 
 		dash_atual = 0
 		bateu = false
 		estado = Estado.IDLE
 
+		# Pequena espera antes do próximo conjunto.
 		await get_tree().create_timer(2.0).timeout
 
 		if estado == Estado.IDLE:
+
 			await iniciar_dash()
 
 		return
@@ -336,6 +355,7 @@ func bateu_parede():
 	estado = Estado.IDLE
 
 	$Timer.start(0.2)
+	
 # ==========================================================
 # IMPACTO FINAL DO TERCEIRO DASH
 # ==========================================================
@@ -746,7 +766,96 @@ func ataque_2():
 
 func ataque_3():
 
-	# Vazio por enquanto.
-	# A implementação será feita depois.
+	if !is_instance_valid(player):
+		return
 
-	pass
+	if !is_instance_valid(usb):
+
+		usb = get_tree().get_first_node_in_group("usb")
+
+	if !is_instance_valid(usb):
+		return
+
+	estado = Estado.TONTO
+
+	velocity = Vector2.ZERO
+
+
+	# ======================================================
+	# PREPARAÇÃO
+	# ======================================================
+
+	direcao = (
+		player.global_position
+		- global_position
+	).normalized()
+
+
+	var rotacao_alvo: float = (
+		direcao.angle()
+		+ deg_to_rad(offset_rotacao)
+	)
+
+
+	var tween = create_tween()
+
+	tween.tween_property(
+		self,
+		"rotation",
+		rotacao_alvo,
+		ataque_3_tempo_preparacao
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	await tween.finished
+
+
+	# ======================================================
+	# CHICOTE
+	# ======================================================
+
+	if usb.has_method("iniciar_chicote"):
+
+		usb.velocidade_chicote = (
+			ataque_3_velocidade
+		)
+
+		usb.distancia_maxima_chicote = (
+			ataque_3_distancia_maxima
+		)
+
+		usb.iniciar_chicote(
+			player
+		)
+
+
+	# ======================================================
+	# ESPERA O ATAQUE
+	# ======================================================
+
+	await get_tree().create_timer(
+		ataque_3_tempo_recuperacao
+	).timeout
+
+
+	estado = Estado.IDLE
+	
+func escolher_ataque_aleatorio():
+
+	if !is_instance_valid(player):
+		return
+
+	var ataque := randi_range(2, 3)
+
+	print("Ataque escolhido: ", ataque)
+
+	match ataque:
+
+		2:
+			await ataque_2()
+
+		3:
+			await ataque_3()

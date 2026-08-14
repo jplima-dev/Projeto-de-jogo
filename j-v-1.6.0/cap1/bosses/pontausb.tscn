@@ -19,4 +19,4 @@ scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_85hvx")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=299263993 groups=["cabo_ponto"]]
-position = Vector2(0, 16)
+position = Vector2(0, 24)

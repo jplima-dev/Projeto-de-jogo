@@ -10,7 +10,6 @@ z_index = 2
 collision_layer = 4
 script = ExtResource("1_w6vbe")
 tempo_mira = 0.1
-tempo_tonto = 0.3
 quantidade_pedras = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=467953092]
@@ -30,4 +29,4 @@ collide_with_areas = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2059917481]
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=317130399 groups=["cabo_ponto"]]
-position = Vector2(0, -76)
+position = Vector2(0, -71)
