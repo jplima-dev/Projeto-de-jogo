@@ -769,30 +769,39 @@ func ataque_3():
 	if !is_instance_valid(player):
 		return
 
+
 	if !is_instance_valid(usb):
 
 		usb = get_tree().get_first_node_in_group("usb")
 
+
 	if !is_instance_valid(usb):
 		return
 
-	estado = Estado.TONTO
 
+	estado = Estado.TONTO
 	velocity = Vector2.ZERO
 
 
 	# ======================================================
-	# PREPARAÇÃO
+	# GUARDA A ROTAÇÃO ORIGINAL
 	# ======================================================
 
-	direcao = (
+	var rotacao_original: float = rotation
+
+
+	# ======================================================
+	# MIRA NO PLAYER
+	# ======================================================
+
+	var direcao_ataque: Vector2 = (
 		player.global_position
 		- global_position
 	).normalized()
 
 
 	var rotacao_alvo: float = (
-		direcao.angle()
+		direcao_ataque.angle()
 		+ deg_to_rad(offset_rotacao)
 	)
 
@@ -814,26 +823,54 @@ func ataque_3():
 
 
 	# ======================================================
-	# CHICOTE
+	# CONFIGURA O CHICOTE
+	# ======================================================
+
+	usb.velocidade_chicote = ataque_3_velocidade
+	usb.distancia_maxima_chicote = ataque_3_distancia_maxima
+	usb.dano_chicote = ataque_3_dano
+
+
+	# ======================================================
+	# LANÇA O CHICOTE
 	# ======================================================
 
 	if usb.has_method("iniciar_chicote"):
 
-		usb.velocidade_chicote = (
-			ataque_3_velocidade
-		)
-
-		usb.distancia_maxima_chicote = (
-			ataque_3_distancia_maxima
-		)
-
-		usb.iniciar_chicote(
-			player
-		)
+		usb.iniciar_chicote(player)
 
 
 	# ======================================================
-	# ESPERA O ATAQUE
+	# ESPERA O CHICOTE VOLTAR
+	# ======================================================
+
+	if usb.has_signal("chicote_finalizado"):
+
+		await usb.chicote_finalizado
+
+
+	# ======================================================
+	# VOLTA PARA A ROTAÇÃO ORIGINAL
+	# ======================================================
+
+	var tween_volta = create_tween()
+
+	tween_volta.tween_property(
+		self,
+		"rotation",
+		rotacao_original,
+		0.20
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	await tween_volta.finished
+
+
+	# ======================================================
+	# RECUPERAÇÃO
 	# ======================================================
 
 	await get_tree().create_timer(
