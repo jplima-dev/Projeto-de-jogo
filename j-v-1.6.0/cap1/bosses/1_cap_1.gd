@@ -83,6 +83,16 @@ var usb = null
 @export var ataque_3_distancia_maxima := 500.0
 @export var ataque_3_tempo_preparacao := 0.4
 @export var ataque_3_tempo_recuperacao := 0.5
+@export var ataque_3_tempo_fim := 0.5
+
+# ==========================================================
+# ANIMAÇÃO DO ATAQUE 3
+# ==========================================================
+
+@export var ataque_3_tempo_carga := 0.20
+@export var ataque_3_inclinacao_tras := 15.0
+@export var ataque_3_inclinacao_frente := 20.0
+@export var ataque_3_tempo_golpe := 10
 
 
 # ==========================================================
@@ -769,114 +779,141 @@ func ataque_3():
 	if !is_instance_valid(player):
 		return
 
-
-	if !is_instance_valid(usb):
-
-		usb = get_tree().get_first_node_in_group("usb")
-
-
-	if !is_instance_valid(usb):
-		return
-
-
-	estado = Estado.TONTO
-	velocity = Vector2.ZERO
-
-
-	# ======================================================
-	# GUARDA A ROTAÇÃO ORIGINAL
-	# ======================================================
-
 	var rotacao_original: float = rotation
 
 
 	# ======================================================
-	# MIRA NO PLAYER
+	# DESCOBRE DE QUE LADO O PLAYER ESTÁ
 	# ======================================================
 
-	var direcao_ataque: Vector2 = (
-		player.global_position
-		- global_position
-	).normalized()
-
-
-	var rotacao_alvo: float = (
-		direcao_ataque.angle()
-		+ deg_to_rad(offset_rotacao)
+	var diferenca_x: float = (
+		player.global_position.x
+		- global_position.x
 	)
 
+	var inclinacao: float = 0.0
 
-	var tween = create_tween()
 
-	tween.tween_property(
+	# Player à direita -> inclina para a esquerda
+	if diferenca_x > 0.0:
+
+		inclinacao = -15.0
+
+
+	# Player à esquerda -> inclina para a direita
+	elif diferenca_x < 0.0:
+
+		inclinacao = 15.0
+
+
+	# ======================================================
+	# CARREGA O GOLPE
+	# ======================================================
+
+	var tween_carga = create_tween()
+
+	tween_carga.tween_property(
 		self,
 		"rotation",
-		rotacao_alvo,
-		ataque_3_tempo_preparacao
+		rotacao_original
+		+ deg_to_rad(inclinacao),
+		0.15
 	).set_trans(
 		Tween.TRANS_QUAD
 	).set_ease(
 		Tween.EASE_OUT
 	)
 
-	await tween.finished
+	await tween_carga.finished
 
 
 	# ======================================================
-	# CONFIGURA O CHICOTE
+	# DIREÇÃO DO CHICOTE
 	# ======================================================
+	#
+	# O boss calcula a direção do player neste momento.
+	# A ponta recebe essa direção.
+	#
 
-	usb.velocidade_chicote = ataque_3_velocidade
-	usb.distancia_maxima_chicote = ataque_3_distancia_maxima
-	usb.dano_chicote = ataque_3_dano
-
-
-	# ======================================================
-	# LANÇA O CHICOTE
-	# ======================================================
-
-	if usb.has_method("iniciar_chicote"):
-
-		usb.iniciar_chicote(player)
+	var direcao_chicote: Vector2 = (
+		player.global_position
+		- global_position
+	).normalized()
 
 
 	# ======================================================
-	# ESPERA O CHICOTE VOLTAR
+	# INICIA O CHICOTE
 	# ======================================================
 
-	if usb.has_signal("chicote_finalizado"):
+	var usb = get_tree().get_first_node_in_group("usb")
 
-		await usb.chicote_finalizado
+	if is_instance_valid(usb):
+
+		if usb.has_method("iniciar_chicote"):
+
+			usb.iniciar_chicote(
+				player,
+				direcao_chicote
+			)
 
 
 	# ======================================================
-	# VOLTA PARA A ROTAÇÃO ORIGINAL
+	# GOLPE PARA FRENTE
 	# ======================================================
 
-	var tween_volta = create_tween()
+	var tween_golpe = create_tween()
 
-	tween_volta.tween_property(
+	tween_golpe.tween_property(
 		self,
 		"rotation",
-		rotacao_original,
-		0.20
+		rotacao_original
+		- deg_to_rad(inclinacao),
+		0.08
 	).set_trans(
 		Tween.TRANS_BACK
 	).set_ease(
 		Tween.EASE_OUT
 	)
 
-	await tween_volta.finished
+	await tween_golpe.finished
 
 
 	# ======================================================
-	# RECUPERAÇÃO
+	# VOLTA AO NORMAL
 	# ======================================================
+
+	var tween_retorno = create_tween()
+
+	tween_retorno.tween_property(
+		self,
+		"rotation",
+		rotacao_original,
+		0.15
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	await tween_retorno.finished
+
+
+	# ======================================================
+	# TEMPO EXTRA NO ATAQUE
+	# ======================================================
+	#
+	# Dá tempo para a ponta do cabo voltar para perto
+	# do mouse antes de liberar o próximo ciclo.
+	#
 
 	await get_tree().create_timer(
-		ataque_3_tempo_recuperacao
+		ataque_3_tempo_fim
 	).timeout
 
+
+	# ======================================================
+	# FINAL DO ATAQUE
+	# ======================================================
 
 	estado = Estado.IDLE
 	

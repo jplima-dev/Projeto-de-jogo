@@ -14,6 +14,7 @@ extends CharacterBody2D
 # ==========================================================
 # CHICOTE
 # ==========================================================
+var direcao_chicote: Vector2 = Vector2.RIGHT
 
 var em_chicote := false
 var retornando_chicote := false
@@ -64,6 +65,7 @@ var angulo_orbita := 0.0
 # ==========================================================
 
 var mouse = null
+
 
 
 # ==========================================================
@@ -447,32 +449,34 @@ func parar_orbita():
 # ==========================================================
 
 func iniciar_chicote(
-	alvo: Node2D
+	alvo: Node2D,
+	direcao: Vector2
 ):
 
 	if alvo == null:
-
 		return
-
 
 	if em_chicote or retornando_chicote:
-
 		return
 
 
-	# Desativa orbital
+	# ======================================================
+	# DESATIVA ÓRBITA
+	# ======================================================
 
 	em_orbita = false
 	boss_orbita = null
 
 
-	# Guarda o player
+	# ======================================================
+	# GUARDA O PLAYER
+	# ======================================================
 
 	alvo_chicote = alvo
 
 
 	# ======================================================
-	# GUARDA A POSIÇÃO DO PLAYER UMA ÚNICA VEZ
+	# GUARDA A POSIÇÃO DO PLAYER
 	# ======================================================
 
 	posicao_alvo_chicote = (
@@ -480,22 +484,50 @@ func iniciar_chicote(
 	)
 
 
-	# Guarda onde a ponta estava
+	# ======================================================
+	# GUARDA A POSIÇÃO DA PONTA
+	# ======================================================
 
 	posicao_retorno_chicote = (
 		global_position
 	)
 
 
-	em_chicote = true
+	# ======================================================
+	# RECEBE A DIREÇÃO DO BOSS
+	# ======================================================
 
+	if direcao.length() <= 0.01:
+		return
+
+	direcao_chicote = (
+		direcao.normalized()
+	)
+
+
+	# ======================================================
+	# ATIVA O CHICOTE
+	# ======================================================
+
+	em_chicote = true
 	retornando_chicote = false
 
 	velocity = Vector2.ZERO
 
 
-	# Durante o chicote, não deixa a ponta
-	# ficar presa em colisões.
+	# ======================================================
+	# APONTA PARA A DIREÇÃO DO GOLPE
+	# ======================================================
+
+	rotation = (
+		direcao_chicote.angle()
+		+ deg_to_rad(offset_rotacao_usb)
+	)
+
+
+	# ======================================================
+	# DESATIVA COLISÃO DURANTE O CHICOTE
+	# ======================================================
 
 	collision_mask = 0
 
