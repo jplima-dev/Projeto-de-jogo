@@ -45,7 +45,7 @@ func abrir(novo_alvo: Node2D):
 	tween.tween_property(panel, "scale", Vector2.ONE, 0.25)
 	tween.tween_property(panel, "modulate:a", 1.0, 0.25)
 
-	mudar_time_scale(0.6)
+	mudar_time_scale(0.2)
 
 	await tween.finished
 

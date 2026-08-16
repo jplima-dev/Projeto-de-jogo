@@ -797,13 +797,13 @@ func ataque_3():
 	# Player à direita -> inclina para a esquerda
 	if diferenca_x > 0.0:
 
-		inclinacao = -15.0
+		inclinacao = -35.0
 
 
 	# Player à esquerda -> inclina para a direita
 	elif diferenca_x < 0.0:
 
-		inclinacao = 15.0
+		inclinacao = 35.0
 
 
 	# ======================================================
