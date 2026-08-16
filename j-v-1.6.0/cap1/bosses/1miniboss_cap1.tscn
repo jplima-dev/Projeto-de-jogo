@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cch25spla6wpw" path="res://lab.leandro.png" id="1_6fccd"]
 [ext_resource type="Script" uid="uid://cnj4br7it23ic" path="res://teste_de_bosses.gd" id="1_i80pr"]
 [ext_resource type="Script" uid="uid://0l447vdhh8c5" path="res://camera_boss.gd" id="3_fwskl"]
+[ext_resource type="AudioStream" uid="uid://c2qqvl6ktbkub" path="res://bossfight.mp3" id="4_24hct"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i80pr"]
 texture = ExtResource("1_6fccd")
@@ -4171,3 +4172,7 @@ offset_top = -767.0
 offset_right = 1946.0
 offset_bottom = 1669.0
 color = Color(0, 0, 0, 1)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1151452142]
+stream = ExtResource("4_24hct")
+autoplay = true

@@ -885,7 +885,7 @@ func escolher_ataque_aleatorio():
 	if !is_instance_valid(player):
 		return
 
-	var ataque := randi_range(2, 3)
+	var ataque := 3
 
 	print("Ataque escolhido: ", ataque)
 
