@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://bybrs1erhn2sk" path="res://cap1/bosses/mouse.png" id="2_rxypa"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rxypa"]
+radius = 8.809525
+height = 28.571432
 
 [node name="Node2D" type="CharacterBody2D" unique_id=1084212280 groups=["mouse"]]
 z_index = 2
@@ -13,10 +15,13 @@ tempo_mira = 0.1
 quantidade_pedras = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=467953092]
-scale = Vector2(0.4, 0.376)
+z_index = 1
+position = Vector2(-2, -9)
+scale = Vector2(1.1, 1.034)
 texture = ExtResource("2_rxypa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1890398286]
+z_index = 1
 scale = Vector2(4.2, 4.2)
 shape = SubResource("CapsuleShape2D_rxypa")
 
@@ -29,4 +34,4 @@ collide_with_areas = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2059917481]
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=317130399 groups=["cabo_ponto"]]
-position = Vector2(0, -71)
+position = Vector2(0, -75)

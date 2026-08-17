@@ -24,6 +24,7 @@ var estado = Estado.IDLE
 @export var tempo_tonto := 0.3
 @export var recuo_impacto := 50.0
 @export var tempo_recuo_impacto := 0.5
+@export var tempo_tonto_impacto_final := 0
 
 # Quantidade de dashes antes de voltar ao meio
 @export var quantidade_dashes := 3
@@ -41,10 +42,12 @@ var dash_atual := 0
 @export var velocidade_pedras_max := 500.0
 
 # Tempo que cada pedra permanece viva
-@export var tempo_vida_pedras := 0.3
+@export var tempo_vida_pedras := 0.35
 
 # Abertura do leque das pedras
 @export var spread_pedras := 120.0
+
+@export var intensidade_tremor_parede := 18.0
 
 
 # ==========================================================
@@ -53,16 +56,9 @@ var dash_atual := 0
 
 @export var offset_rotacao := 90.0
 
-# Rotação do terceiro impacto
-@export var velocidade_rotacao_retorno := 25.0
-
-# Margem de erro ao voltar para o centro
-@export var margem_retorno := 40.0
 
 var usb = null
 
-@export var distancia_orbita_usb := 80.0
-@export var velocidade_orbita_usb := 6.0
 
 
 # ==========================================================
@@ -118,6 +114,8 @@ func _ready():
 	$Timer.timeout.connect(_on_timer_timeout)
 
 	$Timer.start(2)
+	
+	timer_segunda_fase()
 
 
 # ==========================================================
@@ -236,7 +234,7 @@ func bateu_parede():
 		var camera = viewport.get_camera_2d()
 
 		if camera != null and camera.has_method("tremer"):
-			camera.tremer(18)
+			camera.tremer(intensidade_tremor_parede)
 
 
 	# ======================================================
@@ -922,7 +920,7 @@ func escolher_ataque_aleatorio():
 	if !is_instance_valid(player):
 		return
 
-	var ataque := 3
+	var ataque: int = randi_range(1, 3)
 
 	print("Ataque escolhido: ", ataque)
 
@@ -933,3 +931,33 @@ func escolher_ataque_aleatorio():
 
 		3:
 			await ataque_3()
+			
+func segunda_fase():
+
+	# ==========================================================
+	# SEGUNDA FASE
+	# ==========================================================
+	
+	velocidade_pedras_max = 800
+	tempo_vida_pedras = 0.25
+	intensidade_tremor_parede = 28.0
+	
+
+	velocidade_dash = 1500.0
+	tempo_tonto = 0.1
+	tempo_tonto_impacto_final = 0.6
+
+	# ==========================================================
+	# MOUSE FICA VERMELHO
+	# ==========================================================
+
+	$Sprite2D.modulate = Color(1.0, 0.2, 0.2)
+
+
+	print("SEGUNDA FASE ATIVADA")
+	
+func timer_segunda_fase():
+
+	await get_tree().create_timer(10.0).timeout
+
+	segunda_fase()

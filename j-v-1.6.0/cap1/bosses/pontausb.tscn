@@ -6,12 +6,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_85hvx"]
 
 [node name="PontaUsb" type="CharacterBody2D" unique_id=245607246 groups=["usb"]]
-z_index = 2
+z_index = 10
 collision_layer = 2
 script = ExtResource("1_yr434")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1926728536]
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_yr434")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1854052783]
@@ -19,4 +19,4 @@ scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_85hvx")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=299263993 groups=["cabo_ponto"]]
-position = Vector2(0, 24)
+position = Vector2(0, 22)
