@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+
 const PEDRA = preload("res://projetilteste.tscn")
 
 
@@ -8,7 +9,9 @@ enum Estado {
 	MIRANDO,
 	DASH,
 	TONTO,
-	RETORNANDO
+	RETORNANDO,
+	GIRANDO_USB,
+	INERCIA_ATAQUE_2
 }
 
 
@@ -32,7 +35,6 @@ var estado = Estado.IDLE
 var dash_atual := 0
 
 
-
 # ==========================================================
 # PEDRAS
 # ==========================================================
@@ -42,12 +44,11 @@ var dash_atual := 0
 @export var velocidade_pedras_max := 500.0
 
 # Tempo que cada pedra permanece viva
-@export var tempo_vida_pedras := 0.35
+@export var tempo_vida_pedras := 0.3
 
 # Abertura do leque das pedras
 @export var spread_pedras := 120.0
-
-@export var intensidade_tremor_parede := 18.0
+@export var intensidade_tremor_parede = 28.0
 
 
 # ==========================================================
@@ -56,9 +57,16 @@ var dash_atual := 0
 
 @export var offset_rotacao := 90.0
 
+# Rotação do terceiro impacto
+@export var velocidade_rotacao_retorno := 25.0
+
+# Margem de erro ao voltar para o centro
+@export var margem_retorno := 40.0
 
 var usb = null
 
+@export var distancia_orbita_usb := 80.0
+@export var velocidade_orbita_usb := 6.0
 
 
 # ==========================================================
@@ -66,8 +74,34 @@ var usb = null
 # ==========================================================
 
 @export var ataque_2_dano := 20
+# Tempo parado antes de começar a girar
 @export var ataque_2_tempo_preparacao := 0.5
-@export var ataque_2_tempo_ativo := 1.0
+# Tempo total girando
+@export var ataque_2_tempo_ativo := 3.0
+# Distância entre o centro da arena e o boss
+@export var ataque_2_raio := 300.0
+# Velocidade do giro
+@export var ataque_2_velocidade := 5.0
+# Quantidade de voltas
+@export var ataque_2_voltas := 3.0
+# Centro da órbita
+var ataque_2_centro := Vector2.ZERO
+# Ângulo atual do boss na circunferência
+var ataque_2_angulo := 0.0
+# Indica se o ataque 2 está acontecendo
+var ataque_2_ativo := false
+
+# ==========================================================
+# ATAQUE 2 - DESLOCAMENTO PARA O CENTRO
+# ==========================================================
+
+var em_ataque_2_deslocando := false
+var em_ataque_2_fixo := false
+
+@export var ataque_2_tremor := 0
+@export var ataque_2_velocidade_inercia := 1500.0
+
+var velocidade_inercia_ataque_2 := Vector2.ZERO
 
 
 # ==========================================================
@@ -80,6 +114,7 @@ var usb = null
 @export var ataque_3_tempo_preparacao := 0.4
 @export var ataque_3_tempo_recuperacao := 0.5
 @export var ataque_3_tempo_fim := 0.5
+
 
 # ==========================================================
 # ANIMAÇÃO DO ATAQUE 3
@@ -114,7 +149,7 @@ func _ready():
 	$Timer.timeout.connect(_on_timer_timeout)
 
 	$Timer.start(2)
-	
+
 	timer_segunda_fase()
 
 
@@ -141,15 +176,65 @@ func _physics_process(delta):
 		Estado.RETORNANDO:
 			velocity = Vector2.ZERO
 
+		Estado.GIRANDO_USB:
 
+			velocity = Vector2.ZERO
+
+			# ==============================================
+			# GIRO DO BOSS AO REDOR DA PONTA USB
+			# ==============================================
+
+			ataque_2_angulo -= (
+				ataque_2_velocidade
+				* delta
+			)
+
+			var nova_posicao: Vector2 = (
+				ataque_2_centro
+				+ Vector2.RIGHT.rotated(
+					ataque_2_angulo
+				)
+				* ataque_2_raio
+			)
+
+			global_position = nova_posicao
+
+			# O mouse aponta na direção do movimento
+			rotation = (
+				ataque_2_angulo
+				- PI / 2.0
+			)
+
+			# Tremida durante o giro
+			var camera: Camera2D = (
+				get_viewport().get_camera_2d()
+			)
+
+			if camera != null and camera.has_method("tremer"):
+
+				camera.tremer(1.5)
+
+			return
+
+
+		Estado.INERCIA_ATAQUE_2:
+
+			# Sai voando na velocidade que ficou registrada
+			velocity = velocidade_inercia_ataque_2
+
+
+	# Movimento normal para DASH e INÉRCIA
 	move_and_slide()
 
 
 	# ======================================================
-	# COLISÃO DURANTE O DASH
+	# COLISÃO DURANTE DASH / INÉRCIA
 	# ======================================================
 
-	if estado == Estado.DASH and !bateu:
+	if (
+		estado == Estado.DASH
+		or estado == Estado.INERCIA_ATAQUE_2
+	) and !bateu:
 
 		for i in get_slide_collision_count():
 
@@ -167,10 +252,13 @@ func _physics_process(delta):
 			if corpo.is_in_group("player"):
 
 				if corpo.has_method("take_damage"):
-					corpo.take_damage(20, direcao)
+
+					corpo.take_damage(
+						20,
+						direcao
+					)
 
 				bateu = true
-
 				velocity = Vector2.ZERO
 
 				await acertou_player()
@@ -183,23 +271,26 @@ func _physics_process(delta):
 			# ==================================================
 
 			bateu = true
-			
-			var normal_parede: Vector2 = colisao.get_normal()
+
+			var normal_parede: Vector2 = (
+				colisao.get_normal()
+			)
 
 			if abs(normal_parede.x) > abs(normal_parede.y):
-				# Parede lateral
+
 				if normal_parede.x > 0:
-					# Bateu na parede da esquerda
+
+					# Parede da esquerda
 					sentido_rotacao = 1.0
+
 				else:
-					# Bateu na parede da direita
+
+					# Parede da direita
 					sentido_rotacao = -1.0
 
 			await bateu_parede()
 
 			return
-
-
 # ==========================================================
 # INICIA UM DASH
 # ==========================================================
@@ -210,6 +301,7 @@ func _on_timer_timeout():
 		return
 
 	await iniciar_dash()
+
 
 # ==========================================================
 # BATEU NA PAREDE
@@ -290,9 +382,6 @@ func bateu_parede():
 	# RECUO SUAVE DOS IMPACTOS
 	# ======================================================
 
-	# O terceiro impacto não usa esse recuo,
-	# pois possui o impacto_final().
-
 	if dash_atual < quantidade_dashes:
 
 		var destino_recuo: Vector2 = (
@@ -320,16 +409,14 @@ func bateu_parede():
 
 	if dash_atual >= quantidade_dashes:
 
-		# Impacto final começa imediatamente.
 		await impacto_final()
 
-		# Tempo de stun depois do impacto final.
 		await get_tree().create_timer(
 			tempo_tonto
 		).timeout
 
-		# Escolhe ataque 2 ou 3.
 		await escolher_ataque_aleatorio()
+
 
 		# ==================================================
 		# REINICIA O CICLO
@@ -339,8 +426,9 @@ func bateu_parede():
 		bateu = false
 		estado = Estado.IDLE
 
-		# Pequena espera antes do próximo conjunto.
-		await get_tree().create_timer(2.0).timeout
+		await get_tree().create_timer(
+			2.0
+		).timeout
 
 		if estado == Estado.IDLE:
 
@@ -363,7 +451,8 @@ func bateu_parede():
 	estado = Estado.IDLE
 
 	$Timer.start(0.2)
-	
+
+
 # ==========================================================
 # IMPACTO FINAL DO TERCEIRO DASH
 # ==========================================================
@@ -403,8 +492,6 @@ func impacto_final():
 
 	tween.set_parallel(true)
 
-
-	# Vai um pouco para trás
 	tween.tween_property(
 		self,
 		"global_position",
@@ -416,20 +503,20 @@ func impacto_final():
 		Tween.EASE_OUT
 	)
 
-
-	# Gira 3 voltas
 	tween.tween_property(
 		self,
 		"rotation",
-		rotacao_inicial + deg_to_rad(15.0) * sentido_rotacao,
+		rotacao_inicial
+		+ deg_to_rad(15.0)
+		* sentido_rotacao,
 		tempo_recuo
 	).set_trans(
 		Tween.TRANS_LINEAR
 	)
 
-
 	await tween.finished
-	
+
+
 	# ======================================================
 	# VOLTA PARA A POSIÇÃO PADRÃO
 	# ======================================================
@@ -450,10 +537,11 @@ func impacto_final():
 	)
 
 	await tween_padrao.finished
-	
+
 	await get_tree().create_timer(0.08).timeout
-	
-			# ======================================================
+
+
+	# ======================================================
 	# CHACOALHADA CARTOON ANTES DO RETORNO
 	# ======================================================
 
@@ -498,7 +586,6 @@ func impacto_final():
 
 	await tween_chacoalhada.finished
 
-	# Pequena pausa antes de sair voando
 	await get_tree().create_timer(0.08).timeout
 
 
@@ -520,7 +607,8 @@ func impacto_final():
 	)
 
 	await tween_final.finished
-	
+
+
 # ==========================================================
 # PEDRAS
 # ==========================================================
@@ -529,9 +617,9 @@ func spawn_pedras():
 
 	var angulo_base: float = direcao.angle() + PI
 
-	# Spread controlado pelo Inspector
-
-	var abertura: float = deg_to_rad(spread_pedras)
+	var abertura: float = deg_to_rad(
+		spread_pedras
+	)
 
 
 	for i in range(quantidade_pedras):
@@ -540,12 +628,9 @@ func spawn_pedras():
 
 		get_tree().current_scene.add_child(pedra)
 
-
-		# Nasce um pouco atrás do mouse,
-		# na direção oposta ao dash.
-
 		pedra.global_position = (
-			global_position + direcao * 20.0
+			global_position
+			+ direcao * 20.0
 		)
 
 
@@ -557,7 +642,9 @@ func spawn_pedras():
 
 		if quantidade_pedras > 1:
 
-			t = float(i) / float(quantidade_pedras - 1)
+			t = float(i) / float(
+				quantidade_pedras - 1
+			)
 
 		else:
 
@@ -597,7 +684,6 @@ func spawn_pedras():
 
 		pedra.life_time = tempo_vida_pedras
 
-
 		pedra.teleguiado = false
 
 
@@ -617,8 +703,9 @@ func acertou_player():
 	# ======================================================
 
 	var viewport = get_viewport()
-	
+
 	if viewport != null:
+
 		var camera = viewport.get_camera_2d()
 
 		if camera != null and camera.has_method("tremer"):
@@ -631,13 +718,13 @@ func acertou_player():
 
 	var rot_original: float = rotation
 
-
 	var tween = create_tween()
 
 	tween.tween_property(
 		self,
 		"rotation",
-		rot_original + deg_to_rad(
+		rot_original
+		+ deg_to_rad(
 			randf_range(-10.0, 10.0)
 		),
 		0.05
@@ -678,7 +765,12 @@ func acertou_player():
 
 
 	$Timer.start(0.2)
-	
+
+
+# ==========================================================
+# INICIA DASH
+# ==========================================================
+
 func iniciar_dash():
 
 	if !is_instance_valid(player):
@@ -697,6 +789,7 @@ func iniciar_dash():
 		player.global_position - global_position
 	).normalized()
 
+
 	# ======================================================
 	# RECUO / ESTICADA
 	# ======================================================
@@ -713,6 +806,7 @@ func iniciar_dash():
 	)
 
 	await tween.finished
+
 
 	# ======================================================
 	# IMPULSO
@@ -738,6 +832,7 @@ func iniciar_dash():
 
 	await tween2.finished
 
+
 	# ======================================================
 	# VOLTA AO NORMAL
 	# ======================================================
@@ -762,10 +857,269 @@ func iniciar_dash():
 
 func ataque_2():
 
-	# Vazio por enquanto.
-	# A implementação será feita depois.
+	# ======================================================
+	# PROCURA A PONTA USB
+	# ======================================================
 
-	pass
+	var usb = get_tree().get_first_node_in_group("usb")
+
+	if !is_instance_valid(usb):
+
+		push_warning(
+			"Ataque 2: não encontrei a pontausb no grupo 'usb'."
+		)
+
+		return
+
+
+	# ======================================================
+	# GUARDA POSIÇÃO E ROTAÇÃO
+	# ======================================================
+
+	var posicao_original: Vector2 = global_position
+	var rotacao_original: float = rotation
+
+
+	# ======================================================
+	# PEGA O CENTRO DA ARENA
+	# ======================================================
+
+	var camera: Camera2D = (
+		get_viewport().get_camera_2d()
+	)
+
+	if camera == null:
+
+		push_warning(
+			"Camera2D não encontrada."
+		)
+
+		return
+
+
+	var centro_arena: Vector2 = (
+		camera.global_position
+	)
+
+
+	ataque_2_centro = centro_arena
+
+
+	# ======================================================
+	# PREPARAÇÃO
+	# ======================================================
+
+	estado = Estado.TONTO
+
+	velocity = Vector2.ZERO
+
+
+	# ======================================================
+	# DESCOBRE DE QUE LADO O CENTRO ESTÁ
+	# ======================================================
+
+	var diferenca_x: float = (
+		centro_arena.x
+		- global_position.x
+	)
+
+	var inclinacao: float = 0.0
+
+
+	if diferenca_x > 0.0:
+
+		# Centro está à direita.
+		# Boss inclina para trás, à esquerda.
+
+		inclinacao = -15.0
+
+	elif diferenca_x < 0.0:
+
+		# Centro está à esquerda.
+		# Boss inclina para trás, à direita.
+
+		inclinacao = 15.0
+
+
+	# ======================================================
+	# INCLINA PARA TRÁS
+	# ======================================================
+
+	var tween_carga = create_tween()
+
+	tween_carga.tween_property(
+		self,
+		"rotation",
+		rotacao_original
+		+ deg_to_rad(inclinacao),
+		0.15
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	await tween_carga.finished
+
+
+	# ======================================================
+	# LANÇA A USB PARA O CENTRO
+	# ======================================================
+
+	await usb.lancar_para_centro(
+		centro_arena
+	)
+
+
+	# ======================================================
+	# GARANTE O ÂNGULO INICIAL DO GIRO
+	# ======================================================
+
+	var vetor_inicial: Vector2 = (
+		global_position
+		- ataque_2_centro
+	)
+
+	if vetor_inicial.length() > 0.01:
+
+		ataque_2_angulo = (
+			vetor_inicial.angle()
+		)
+
+	else:
+
+		ataque_2_angulo = 0.0
+
+
+	# ======================================================
+	# AJUSTA O RAIO
+	# ======================================================
+
+	ataque_2_raio = max(
+		ataque_2_raio,
+		vetor_inicial.length()
+	)
+
+
+	# ======================================================
+	# VOLTA O BOSS PARA A ROTAÇÃO NORMAL
+	# ======================================================
+
+	var tween_pre_giro = create_tween()
+
+	tween_pre_giro.tween_property(
+		self,
+		"rotation",
+		rotacao_original,
+		0.12
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	await tween_pre_giro.finished
+
+
+	# ======================================================
+	# COMEÇA O GIRO
+	# ======================================================
+
+	ataque_2_ativo = true
+
+	estado = Estado.GIRANDO_USB
+	
+	# ======================================================
+	# TREMIDA DURANTE O GIRO
+	# ======================================================s
+
+	if camera != null and camera.has_method("tremer"):
+
+		camera.tremer(0)
+
+	print("ATAQUE 2 - GIRO USB")
+
+
+	# ======================================================
+	# TEMPO DO GIRO
+	# ======================================================
+
+	await get_tree().create_timer(
+		ataque_2_tempo_ativo
+	).timeout
+
+
+	# ======================================================
+	# PARA O GIRO
+	# ======================================================
+
+	ataque_2_ativo = false
+
+	estado = Estado.TONTO
+
+	velocity = Vector2.ZERO
+
+
+	# ======================================================
+	# LIBERA A USB
+	# ======================================================
+
+	if is_instance_valid(usb):
+
+		if usb.has_method(
+			"liberar_do_centro"
+		):
+
+			usb.liberar_do_centro()
+
+
+	# ======================================================
+	# VOLTA PARA A ROTAÇÃO ORIGINAL
+	# ======================================================
+
+	var tween_rotacao = create_tween()
+
+	tween_rotacao.tween_property(
+		self,
+		"rotation",
+		rotacao_original,
+		0.15
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	await tween_rotacao.finished
+
+
+	# ======================================================
+	# VOLTA PARA A POSIÇÃO ORIGINAL
+	# ======================================================
+
+	var tween_retorno = create_tween()
+
+	tween_retorno.tween_property(
+		self,
+		"global_position",
+		posicao_original,
+		0.4
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	await tween_retorno.finished
+
+
+	# ======================================================
+	# FINAL
+	# ======================================================
+
+	estado = Estado.IDLE
+
+	print("ATAQUE 2 FINALIZADO")
 
 
 # ==========================================================
@@ -828,10 +1182,6 @@ func ataque_3():
 	# ======================================================
 	# DIREÇÃO DO CHICOTE
 	# ======================================================
-	#
-	# O boss calcula a direção do player neste momento.
-	# A ponta recebe essa direção.
-	#
 
 	var direcao_chicote: Vector2 = (
 		player.global_position
@@ -899,10 +1249,6 @@ func ataque_3():
 	# ======================================================
 	# TEMPO EXTRA NO ATAQUE
 	# ======================================================
-	#
-	# Dá tempo para a ponta do cabo voltar para perto
-	# do mouse antes de liberar o próximo ciclo.
-	#
 
 	await get_tree().create_timer(
 		ataque_3_tempo_fim
@@ -914,13 +1260,18 @@ func ataque_3():
 	# ======================================================
 
 	estado = Estado.IDLE
-	
+
+
+# ==========================================================
+# ESCOLHE ATAQUE
+# ==========================================================
+
 func escolher_ataque_aleatorio():
 
 	if !is_instance_valid(player):
 		return
 
-	var ataque: int = randi_range(1, 3)
+	var ataque := randi_range(2, 3)
 
 	print("Ataque escolhido: ", ataque)
 
@@ -931,33 +1282,49 @@ func escolher_ataque_aleatorio():
 
 		3:
 			await ataque_3()
-			
+
+
+# ==========================================================
+# SEGUNDA FASE
+# ==========================================================
+
 func segunda_fase():
 
-	# ==========================================================
+	# ======================================================
 	# SEGUNDA FASE
-	# ==========================================================
-	
+	# ======================================================
+
 	velocidade_pedras_max = 800
 	tempo_vida_pedras = 0.25
 	intensidade_tremor_parede = 28.0
-	
 
 	velocidade_dash = 1500.0
 	tempo_tonto = 0.1
 	tempo_tonto_impacto_final = 0.6
 
-	# ==========================================================
-	# MOUSE FICA VERMELHO
-	# ==========================================================
 
-	$Sprite2D.modulate = Color(1.0, 0.2, 0.2)
+	# ======================================================
+	# MOUSE FICA VERMELHO
+	# ======================================================
+
+	$Sprite2D.modulate = Color(
+		1.0,
+		0.2,
+		0.2
+	)
 
 
 	print("SEGUNDA FASE ATIVADA")
-	
+
+
+# ==========================================================
+# TIMER DA SEGUNDA FASE
+# ==========================================================
+
 func timer_segunda_fase():
 
-	await get_tree().create_timer(10.0).timeout
+	await get_tree().create_timer(
+		10000.0
+	).timeout
 
 	segunda_fase()

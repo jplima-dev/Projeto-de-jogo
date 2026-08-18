@@ -58,6 +58,7 @@ var em_orbita := false
 var boss_orbita = null
 var distancia_orbita := 80.0
 var angulo_orbita := 0.0
+var fixada_no_centro := false
 
 
 # ==========================================================
@@ -65,6 +66,13 @@ var angulo_orbita := 0.0
 # ==========================================================
 
 var mouse = null
+
+# ==========================================================
+# ATAQUE 2 - MOVIMENTO PARA O CENTRO
+# ==========================================================
+
+var em_ataque_2_deslocando := false
+var em_ataque_2_fixo := false
 
 
 
@@ -80,7 +88,7 @@ func _ready():
 	if mouse == null:
 
 		push_warning(
-			"PontaUSB: Mouse não encontrado no grupo 'mouse'."
+            "PontaUSB: Mouse não encontrado no grupo 'mouse'."
 		)
 
 
@@ -232,6 +240,28 @@ func _physics_process(delta):
 		)
 
 		move_and_slide()
+
+		return
+
+
+	# ==========================================================
+	# ATAQUE 2 - INDO PARA O CENTRO
+	# ==========================================================
+
+	if em_ataque_2_deslocando:
+
+		velocity = Vector2.ZERO
+
+		return
+
+
+	# ==========================================================
+	# ATAQUE 2 - FIXA NO CENTRO
+	# ==========================================================
+
+	if em_ataque_2_fixo:
+
+		velocity = Vector2.ZERO
 
 		return
 
@@ -398,7 +428,6 @@ func _physics_process(delta):
 	# ==========================================================
 
 	move_and_slide()
-
 
 # ==========================================================
 # INICIAR ÓRBITA
@@ -573,5 +602,154 @@ func finalizar_chicote():
 
 
 	emit_signal(
-		"chicote_finalizado"
+        "chicote_finalizado"
 	)
+# ==========================================================
+# FIXAR A PONTA USB NO CENTRO
+# ==========================================================
+
+func fixar_no_centro(posicao_centro: Vector2):
+
+	# Desativa qualquer movimento anterior
+
+	em_orbita = false
+	boss_orbita = null
+
+	em_chicote = false
+	retornando_chicote = false
+
+	velocity = Vector2.ZERO
+
+
+	# Coloca a ponta exatamente no centro
+
+	global_position = posicao_centro
+
+
+	# Impede qualquer movimento
+
+	fixada_no_centro = true
+	
+# ==========================================================
+# LANÇAR USB PARA O CENTRO - ATAQUE 2
+# ==========================================================
+
+func lancar_para_centro(
+	posicao_centro: Vector2
+):
+
+	if em_chicote or retornando_chicote:
+		return
+
+	if em_orbita:
+		em_orbita = false
+		boss_orbita = null
+
+
+	# ======================================================
+	# ATIVA MODO DE DESLOCAMENTO
+	# ======================================================
+
+	em_ataque_2_deslocando = true
+	em_ataque_2_fixo = false
+
+
+	# ======================================================
+	# DIREÇÃO ATÉ O CENTRO
+	# ======================================================
+
+	var vetor: Vector2 = (
+		posicao_centro
+		- global_position
+	)
+
+	if vetor.length() <= 0.01:
+
+		global_position = posicao_centro
+
+		em_ataque_2_deslocando = false
+		em_ataque_2_fixo = true
+
+		rotation = (
+			PI / 2.0
+			+ deg_to_rad(offset_rotacao_usb)
+		)
+
+		return
+
+
+	var direcao: Vector2 = (
+		vetor.normalized()
+	)
+
+
+	# ======================================================
+	# APONTA NA DIREÇÃO DO MOVIMENTO
+	# ======================================================
+
+	rotation = (
+		direcao.angle()
+		+ deg_to_rad(offset_rotacao_usb)
+	)
+
+
+	# ======================================================
+	# MOVIMENTO ATÉ O CENTRO
+	# ======================================================
+
+	var distancia: float = vetor.length()
+
+	var velocidade: float = 1200.0
+
+	var tempo: float = max(
+		distancia / velocidade,
+		0.15
+	)
+
+	var tween = create_tween()
+
+	tween.tween_property(
+		self,
+		"global_position",
+		posicao_centro,
+		tempo
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	await tween.finished
+
+
+	# ======================================================
+	# CHEGOU NO CENTRO
+	# ======================================================
+
+	global_position = posicao_centro
+
+	em_ataque_2_deslocando = false
+
+	em_ataque_2_fixo = true
+
+
+	# ======================================================
+	# APONTA PARA BAIXO
+	# ======================================================
+
+	rotation = (
+		PI / 2.0
+		+ deg_to_rad(offset_rotacao_usb)
+	)
+
+
+# ==========================================================
+# LIBERAR USB DO CENTRO
+# ==========================================================
+
+func liberar_do_centro():
+
+	em_ataque_2_deslocando = false
+	em_ataque_2_fixo = false
+
+	velocity = Vector2.ZERO
