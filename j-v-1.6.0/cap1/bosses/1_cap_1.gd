@@ -199,33 +199,95 @@ func _physics_process(delta):
 
 			global_position = nova_posicao
 
-			# O mouse aponta na direção do movimento
 			rotation = (
 				ataque_2_angulo
 				- PI / 2.0
 			)
-
-			# Tremida durante o giro
-			var camera: Camera2D = (
-				get_viewport().get_camera_2d()
-			)
-
-			if camera != null and camera.has_method("tremer"):
-
-				camera.tremer(1.5)
 
 			return
 
 
 		Estado.INERCIA_ATAQUE_2:
 
-			# Sai voando na velocidade que ficou registrada
+			# Apenas mantém a velocidade da saída do giro.
+			# NÃO pode ter return aqui.
 			velocity = velocidade_inercia_ataque_2
 
 
-	# Movimento normal para DASH e INÉRCIA
+	# ======================================================
+	# MOVIMENTO
+	# ======================================================
+
 	move_and_slide()
 
+
+	# ======================================================
+	# COLISÃO DURANTE DASH OU INÉRCIA
+	# ======================================================
+
+	if (
+		estado == Estado.DASH
+		or estado == Estado.INERCIA_ATAQUE_2
+	) and !bateu:
+
+		for i in get_slide_collision_count():
+
+			var colisao = get_slide_collision(i)
+			var corpo = colisao.get_collider()
+
+			if corpo == null:
+				continue
+
+
+			# ==================================================
+			# ACERTOU O PLAYER
+			# ==================================================
+
+			if corpo.is_in_group("player"):
+
+				if corpo.has_method("take_damage"):
+
+					corpo.take_damage(
+						20,
+						direcao
+					)
+
+				bateu = true
+
+				velocity = Vector2.ZERO
+
+				await acertou_player()
+
+				return
+
+
+			# ==================================================
+			# BATEU NA PAREDE
+			# ==================================================
+
+			bateu = true
+
+			var normal_parede: Vector2 = (
+				colisao.get_normal()
+			)
+
+			if abs(normal_parede.x) > abs(normal_parede.y):
+
+				if normal_parede.x > 0:
+
+					# Parede da esquerda
+					sentido_rotacao = 1.0
+
+				else:
+
+					# Parede da direita
+					sentido_rotacao = -1.0
+
+
+			# USA A MESMA FUNÇÃO DO DASH
+			await bateu_parede()
+
+			return
 
 	# ======================================================
 	# COLISÃO DURANTE DASH / INÉRCIA
@@ -309,6 +371,19 @@ func _on_timer_timeout():
 
 func bateu_parede():
 
+	# ======================================================
+	# DESCOBRE SE O IMPACTO VEIO DA INÉRCIA DO ATAQUE 2
+	# ======================================================
+
+	var era_inercia_ataque_2: bool = (
+		estado == Estado.INERCIA_ATAQUE_2
+	)
+
+
+	# ======================================================
+	# ESTADO INICIAL DO IMPACTO
+	# ======================================================
+
 	estado = Estado.TONTO
 	velocity = Vector2.ZERO
 
@@ -326,11 +401,150 @@ func bateu_parede():
 		var camera = viewport.get_camera_2d()
 
 		if camera != null and camera.has_method("tremer"):
-			camera.tremer(intensidade_tremor_parede)
+
+			camera.tremer(
+				intensidade_tremor_parede
+			)
 
 
 	# ======================================================
-	# ESPREMIDA
+	# IMPACTO DA INÉRCIA DO ATAQUE 2
+	# ======================================================
+	#
+	# A inércia não deve chamar impacto_final(),
+	# porque ela não é o terceiro dash.
+	#
+
+	if era_inercia_ataque_2:
+
+		# Pequena pausa no impacto
+		await get_tree().create_timer(
+			0.10
+		).timeout
+
+
+		# ==================================================
+		# ESPREMIDA MAIS FORTE
+		# ==================================================
+
+		var escala_original_inercia: Vector2 = scale
+
+		var tween_inercia = create_tween()
+
+		tween_inercia.tween_property(
+			self,
+			"scale",
+			Vector2(1.25, 0.65),
+			0.05
+		).set_trans(
+			Tween.TRANS_QUAD
+		).set_ease(
+			Tween.EASE_OUT
+		)
+
+		tween_inercia.tween_property(
+			self,
+			"scale",
+			Vector2(0.90, 1.10),
+			0.07
+		).set_trans(
+			Tween.TRANS_BACK
+		).set_ease(
+			Tween.EASE_OUT
+		)
+
+		tween_inercia.tween_property(
+			self,
+			"scale",
+			escala_original_inercia,
+			0.10
+		).set_trans(
+			Tween.TRANS_BACK
+		).set_ease(
+			Tween.EASE_OUT
+		)
+
+
+		# ==================================================
+		# ESPERA A ANIMAÇÃO
+		# ==================================================
+
+		await tween_inercia.finished
+
+
+		# ==================================================
+		# GARANTE ROTAÇÃO NORMAL
+		# ==================================================
+
+		var tween_rotacao_inercia = create_tween()
+
+		tween_rotacao_inercia.tween_property(
+			self,
+			"rotation",
+			0.0,
+			0.15
+		).set_trans(
+			Tween.TRANS_BACK
+		).set_ease(
+			Tween.EASE_OUT
+		)
+
+		await tween_rotacao_inercia.finished
+
+
+		# ==================================================
+		# PEQUENA CHACOALHADA
+		# ==================================================
+
+		var rotacao_inercia_original: float = rotation
+
+		var tween_chacoalhada_inercia = create_tween()
+
+		tween_chacoalhada_inercia.tween_property(
+			self,
+			"rotation",
+			rotacao_inercia_original + deg_to_rad(12.0),
+			0.04
+		)
+
+		tween_chacoalhada_inercia.tween_property(
+			self,
+			"rotation",
+			rotacao_inercia_original - deg_to_rad(10.0),
+			0.04
+		)
+
+		tween_chacoalhada_inercia.tween_property(
+			self,
+			"rotation",
+			rotacao_inercia_original,
+			0.06
+		)
+
+		await tween_chacoalhada_inercia.finished
+
+
+		# ==================================================
+		# STUN
+		# ==================================================
+
+		await get_tree().create_timer(
+			tempo_tonto
+		).timeout
+
+
+		# ==================================================
+		# LIBERA O BOSS
+		# ==================================================
+
+		bateu = false
+		estado = Estado.IDLE
+
+		return
+
+
+	# ======================================================
+	# IMPACTO NORMAL
 	# ======================================================
 
 	var escala_original: Vector2 = scale
@@ -372,14 +586,14 @@ func bateu_parede():
 
 
 	# ======================================================
-	# PEDRAS SAEM IMEDIATAMENTE
+	# PEDRAS
 	# ======================================================
 
 	spawn_pedras()
 
 
 	# ======================================================
-	# RECUO SUAVE DOS IMPACTOS
+	# RECUO DOS IMPACTOS 1 E 2
 	# ======================================================
 
 	if dash_atual < quantidade_dashes:
@@ -438,7 +652,7 @@ func bateu_parede():
 
 
 	# ======================================================
-	# 1º E 2º DASH
+	# TERMINA O IMPACTO NORMAL
 	# ======================================================
 
 	await tween_impacto.finished
@@ -858,7 +1072,7 @@ func iniciar_dash():
 func ataque_2():
 
 	# ======================================================
-	# PROCURA A PONTA USB
+	# PROCURA A PONTA USB EXISTENTE
 	# ======================================================
 
 	var usb = get_tree().get_first_node_in_group("usb")
@@ -870,10 +1084,12 @@ func ataque_2():
 		)
 
 		return
+	
+	bateu = false
 
 
 	# ======================================================
-	# GUARDA POSIÇÃO E ROTAÇÃO
+	# GUARDA A POSIÇÃO E ROTAÇÃO ORIGINAIS
 	# ======================================================
 
 	var posicao_original: Vector2 = global_position
@@ -901,7 +1117,6 @@ func ataque_2():
 		camera.global_position
 	)
 
-
 	ataque_2_centro = centro_arena
 
 
@@ -910,7 +1125,6 @@ func ataque_2():
 	# ======================================================
 
 	estado = Estado.TONTO
-
 	velocity = Vector2.ZERO
 
 
@@ -1028,14 +1242,6 @@ func ataque_2():
 	ataque_2_ativo = true
 
 	estado = Estado.GIRANDO_USB
-	
-	# ======================================================
-	# TREMIDA DURANTE O GIRO
-	# ======================================================s
-
-	if camera != null and camera.has_method("tremer"):
-
-		camera.tremer(0)
 
 	print("ATAQUE 2 - GIRO USB")
 
@@ -1055,62 +1261,103 @@ func ataque_2():
 
 	ataque_2_ativo = false
 
-	estado = Estado.TONTO
-
-	velocity = Vector2.ZERO
-
-
-	# ======================================================
-	# LIBERA A USB
-	# ======================================================
-
 	if is_instance_valid(usb):
 
-		if usb.has_method(
-			"liberar_do_centro"
-		):
+		if usb.has_method("liberar_do_centro"):
 
 			usb.liberar_do_centro()
+
+
+	# ======================================================
+	# CALCULA A DIREÇÃO DA INÉRCIA
+	# ======================================================
+	#
+	# A velocidade de saída é tangente à circunferência.
+	#
+
+	var direcao_inercia: Vector2 = Vector2(
+		-sin(ataque_2_angulo),
+		cos(ataque_2_angulo)
+	).normalized()
+
+
+	# ======================================================
+	# APLICA A VELOCIDADE DE SAÍDA
+	# ======================================================
+
+	velocidade_inercia_ataque_2 = (
+		direcao_inercia
+		* velocidade_dash
+	)
+
+
+	# ======================================================
+	# SAI DO GIRO COM INÉRCIA
+	# ======================================================
+
+	estado = Estado.INERCIA_ATAQUE_2
+
+	print("ATAQUE 2 - INÉRCIA")
+
+
+	# ======================================================
+	# ESPERA A COLISÃO / SAÍDA DA INÉRCIA
+	# ======================================================
+	#
+	# O bateu_parede() assume o controle quando ele bater.
+	#
+
+	while estado == Estado.INERCIA_ATAQUE_2:
+
+		await get_tree().process_frame
 
 
 	# ======================================================
 	# VOLTA PARA A ROTAÇÃO ORIGINAL
 	# ======================================================
 
-	var tween_rotacao = create_tween()
+	if estado == Estado.TONTO:
 
-	tween_rotacao.tween_property(
-		self,
-		"rotation",
-		rotacao_original,
-		0.15
-	).set_trans(
-		Tween.TRANS_QUAD
-	).set_ease(
-		Tween.EASE_OUT
-	)
+		var tween_rotacao = create_tween()
 
-	await tween_rotacao.finished
+		tween_rotacao.tween_property(
+			self,
+			"rotation",
+			rotacao_original,
+			0.15
+		).set_trans(
+			Tween.TRANS_QUAD
+		).set_ease(
+			Tween.EASE_OUT
+		)
+
+		await tween_rotacao.finished
 
 
 	# ======================================================
 	# VOLTA PARA A POSIÇÃO ORIGINAL
 	# ======================================================
+	#
+	# Se a sua bateu_parede() já fizer o posicionamento,
+	# essa parte pode ser removida depois.
+	#
 
-	var tween_retorno = create_tween()
+	if estado == Estado.TONTO:
 
-	tween_retorno.tween_property(
-		self,
-		"global_position",
-		posicao_original,
-		0.4
-	).set_trans(
-		Tween.TRANS_QUAD
-	).set_ease(
-		Tween.EASE_OUT
-	)
+		var tween_retorno = create_tween()
 
-	await tween_retorno.finished
+		tween_retorno.tween_property(
+			self,
+			"global_position",
+			posicao_original,
+			0.4
+		).set_trans(
+			Tween.TRANS_QUAD
+		).set_ease(
+			Tween.EASE_OUT
+		)
+
+		await tween_retorno.finished
 
 
 	# ======================================================
