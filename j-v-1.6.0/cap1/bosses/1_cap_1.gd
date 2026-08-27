@@ -91,6 +91,8 @@ var ataque_2_angulo := 0.0
 # Indica se o ataque 2 está acontecendo
 var ataque_2_ativo := false
 
+var direcao_inercia_ataque_2: Vector2 = Vector2.ZERO
+
 # ==========================================================
 # ATAQUE 2 - DESLOCAMENTO PARA O CENTRO
 # ==========================================================
@@ -101,7 +103,7 @@ var em_ataque_2_fixo := false
 @export var ataque_2_tremor := 0
 @export var ataque_2_velocidade_inercia := 1500.0
 
-var velocidade_inercia_ataque_2 := Vector2.ZERO
+var velocidade_inercia_ataque_2 : Vector2 = Vector2.ZERO
 
 
 # ==========================================================
@@ -1084,15 +1086,19 @@ func ataque_2():
 		)
 
 		return
-	
+
+
+	# ======================================================
+	# LIBERA A DETECÇÃO DE COLISÃO
+	# ======================================================
+
 	bateu = false
 
 
 	# ======================================================
-	# GUARDA A POSIÇÃO E ROTAÇÃO ORIGINAIS
+	# GUARDA APENAS A ROTAÇÃO ORIGINAL
 	# ======================================================
 
-	var posicao_original: Vector2 = global_position
 	var rotacao_original: float = rotation
 
 
@@ -1142,15 +1148,15 @@ func ataque_2():
 
 	if diferenca_x > 0.0:
 
-		# Centro está à direita.
-		# Boss inclina para trás, à esquerda.
+		# Centro à direita.
+		# Inclina para trás, à esquerda.
 
 		inclinacao = -15.0
 
 	elif diferenca_x < 0.0:
 
-		# Centro está à esquerda.
-		# Boss inclina para trás, à direita.
+		# Centro à esquerda.
+		# Inclina para trás, à direita.
 
 		inclinacao = 15.0
 
@@ -1180,13 +1186,25 @@ func ataque_2():
 	# LANÇA A USB PARA O CENTRO
 	# ======================================================
 
-	await usb.lancar_para_centro(
-		centro_arena
-	)
+	if is_instance_valid(usb):
+
+		if usb.has_method("lancar_para_centro"):
+
+			await usb.lancar_para_centro(
+				centro_arena
+			)
+
+		else:
+
+			push_warning(
+				"Ataque 2: lancar_para_centro() não existe na pontausb."
+			)
+
+			return
 
 
 	# ======================================================
-	# GARANTE O ÂNGULO INICIAL DO GIRO
+	# CALCULA O ÂNGULO INICIAL DO GIRO
 	# ======================================================
 
 	var vetor_inicial: Vector2 = (
@@ -1216,7 +1234,7 @@ func ataque_2():
 
 
 	# ======================================================
-	# VOLTA O BOSS PARA A ROTAÇÃO NORMAL
+	# VOLTA À ROTAÇÃO NORMAL
 	# ======================================================
 
 	var tween_pre_giro = create_tween()
@@ -1240,7 +1258,6 @@ func ataque_2():
 	# ======================================================
 
 	ataque_2_ativo = true
-
 	estado = Estado.GIRANDO_USB
 
 	print("ATAQUE 2 - GIRO USB")
@@ -1261,6 +1278,11 @@ func ataque_2():
 
 	ataque_2_ativo = false
 
+
+	# ======================================================
+	# LIBERA A USB DO CENTRO
+	# ======================================================
+
 	if is_instance_valid(usb):
 
 		if usb.has_method("liberar_do_centro"):
@@ -1269,25 +1291,22 @@ func ataque_2():
 
 
 	# ======================================================
-	# CALCULA A DIREÇÃO DA INÉRCIA
+	# CALCULA A DIREÇÃO TANGENCIAL DA INÉRCIA
 	# ======================================================
-	#
-	# A velocidade de saída é tangente à circunferência.
-	#
 
-	var direcao_inercia: Vector2 = Vector2(
-		-sin(ataque_2_angulo),
-		cos(ataque_2_angulo)
-	).normalized()
+	var direcao_inercia_ataque_2: Vector2 = Vector2(
+	-sin(ataque_2_angulo),
+	cos(ataque_2_angulo)
+).normalized()
 
 
 	# ======================================================
-	# APLICA A VELOCIDADE DE SAÍDA
+	# CALCULA A VELOCIDADE DE SAÍDA
 	# ======================================================
 
 	velocidade_inercia_ataque_2 = (
-		direcao_inercia
-		* velocidade_dash
+		direcao_inercia_ataque_2
+		* ataque_2_velocidade_inercia
 	)
 
 
@@ -1301,10 +1320,12 @@ func ataque_2():
 
 
 	# ======================================================
-	# ESPERA A COLISÃO / SAÍDA DA INÉRCIA
+	# ESPERA A COLISÃO COM A PAREDE
 	# ======================================================
 	#
-	# O bateu_parede() assume o controle quando ele bater.
+	# O _physics_process() continua movendo o boss.
+	# Quando a parede for atingida, bateu_parede()
+	# muda o estado para outro estado e este loop termina.
 	#
 
 	while estado == Estado.INERCIA_ATAQUE_2:
@@ -1313,61 +1334,10 @@ func ataque_2():
 
 
 	# ======================================================
-	# VOLTA PARA A ROTAÇÃO ORIGINAL
+	# ATAQUE TERMINOU
 	# ======================================================
-
-	if estado == Estado.TONTO:
-
-		var tween_rotacao = create_tween()
-
-		tween_rotacao.tween_property(
-			self,
-			"rotation",
-			rotacao_original,
-			0.15
-		).set_trans(
-			Tween.TRANS_QUAD
-		).set_ease(
-			Tween.EASE_OUT
-		)
-
-		await tween_rotacao.finished
-
-
-	# ======================================================
-	# VOLTA PARA A POSIÇÃO ORIGINAL
-	# ======================================================
-	#
-	# Se a sua bateu_parede() já fizer o posicionamento,
-	# essa parte pode ser removida depois.
-	#
-
-	if estado == Estado.TONTO:
-
-		var tween_retorno = create_tween()
-
-		tween_retorno.tween_property(
-			self,
-			"global_position",
-			posicao_original,
-			0.4
-		).set_trans(
-			Tween.TRANS_QUAD
-		).set_ease(
-			Tween.EASE_OUT
-		)
-
-		await tween_retorno.finished
-
-
-	# ======================================================
-	# FINAL
-	# ======================================================
-
-	estado = Estado.IDLE
 
 	print("ATAQUE 2 FINALIZADO")
-
 
 # ==========================================================
 # ATAQUE 3
@@ -1551,14 +1521,72 @@ func segunda_fase():
 
 
 	# ======================================================
-	# MOUSE FICA VERMELHO
+	# TROCA O SPRITE
 	# ======================================================
 
-	$Sprite2D.modulate = Color(
-		1.0,
-		0.2,
-		0.2
+	var sprite = $Sprite2D
+
+	if is_instance_valid(sprite):
+
+		var novo_sprite: Texture2D = load(
+			"res://cap1/bosses/boss_2.png"
+		)
+
+		if novo_sprite != null:
+
+			sprite.texture = novo_sprite
+
+		else:
+
+			push_warning(
+				"Não foi possível carregar usb_2.png"
+			)
+
+
+	# ======================================================
+	# CHACOALHADA DA TRANSFORMAÇÃO
+	# ======================================================
+
+	var rotacao_original: float = rotation
+
+	var tween_chacoalhada = create_tween()
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rotacao_original + deg_to_rad(34.0),
+		0.05
 	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rotacao_original - deg_to_rad(32.0),
+		0.05
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rotacao_original + deg_to_rad(16.0),
+		0.04
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rotacao_original - deg_to_rad(8.0),
+		0.04
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rotacao_original,
+		0.08
+	)
+
+	await tween_chacoalhada.finished
 
 
 	print("SEGUNDA FASE ATIVADA")
@@ -1571,7 +1599,7 @@ func segunda_fase():
 func timer_segunda_fase():
 
 	await get_tree().create_timer(
-		10000.0
+		1.0
 	).timeout
 
 	segunda_fase()

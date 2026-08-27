@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bm7ykjvl80gva"
-path="res://.godot/imported/pontausb.png-2c12e93ebf1fc02fe37d9426509e98a7.ctex"
+uid="uid://ytamkgodd2iv"
+path="res://.godot/imported/boss_2.png-8149cb439356227a2b05cc7e50906f2f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://cap1/bosses/pontausb.png"
-dest_files=["res://.godot/imported/pontausb.png-2c12e93ebf1fc02fe37d9426509e98a7.ctex"]
+source_file="res://cap1/bosses/boss_2.png"
+dest_files=["res://.godot/imported/boss_2.png-8149cb439356227a2b05cc7e50906f2f.ctex"]
 
 [params]
 

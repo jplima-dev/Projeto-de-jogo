@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://et76seunv4bb"]
 
 [ext_resource type="Script" uid="uid://cxvlympvgy04l" path="res://cap1/bosses/pontausb.gd" id="1_yr434"]
-[ext_resource type="Texture2D" uid="uid://bm7ykjvl80gva" path="res://cap1/bosses/pontausb.png" id="2_yr434"]
+[ext_resource type="Texture2D" uid="uid://iuomfopwky02" path="res://cap1/bosses/usb_boss.png" id="2_yr434"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_85hvx"]
 
@@ -11,7 +11,7 @@ collision_layer = 2
 script = ExtResource("1_yr434")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1926728536]
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("2_yr434")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1854052783]
