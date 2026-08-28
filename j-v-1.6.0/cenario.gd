@@ -7,7 +7,7 @@ var pause_scene = preload ("res://pause.tscn")
 
 
 func _ready():
-	_spawn_enemy()
+	#_spawn_enemy()
 	
 	pause_scene = pause_scene.instantiate()
 	add_child(pause_scene)

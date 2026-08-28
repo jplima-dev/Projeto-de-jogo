@@ -377,3 +377,34 @@ func atualizar_visual():
 
 
 	$Cabo.points = pontos
+
+
+# ==========================================================
+# SEGUNDA FASE
+# ==========================================================
+
+func segunda_fase():
+
+	# Reduz pela metade a distância de cada segmento.
+	# O comprimento total do cabo também fica pela metade.
+
+	distancia_entre_pontos *= 0.5
+
+	comprimento_segmento = distancia_entre_pontos
+
+	print(
+		"CaboUSB: comprimento reduzido para 50%."
+	)
+
+
+# ==========================================================
+# MORRER
+# ==========================================================
+
+func morrer():
+
+	queue_free()
+	
+func esconder_cabo():
+
+	$Cabo.hide()

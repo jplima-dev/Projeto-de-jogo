@@ -104,6 +104,16 @@ func _ready():
 # ==========================================================
 
 func _physics_process(delta):
+	
+		# ======================================================
+	# PONTA FIXADA NO CENTRO
+	# ======================================================
+
+	if fixada_no_centro:
+
+		velocity = Vector2.ZERO
+
+		return
 
 
 	# ==========================================================
@@ -610,7 +620,9 @@ func finalizar_chicote():
 
 func fixar_no_centro(posicao_centro: Vector2):
 
-	# Desativa qualquer movimento anterior
+	# ======================================================
+	# DESATIVA QUALQUER MOVIMENTO ANTERIOR
+	# ======================================================
 
 	em_orbita = false
 	boss_orbita = null
@@ -618,17 +630,34 @@ func fixar_no_centro(posicao_centro: Vector2):
 	em_chicote = false
 	retornando_chicote = false
 
+	em_ataque_2_deslocando = false
+	em_ataque_2_fixo = false
+
 	velocity = Vector2.ZERO
 
 
-	# Coloca a ponta exatamente no centro
+	# ======================================================
+	# COLOCA NO CENTRO
+	# ======================================================
 
 	global_position = posicao_centro
 
 
-	# Impede qualquer movimento
+	# ======================================================
+	# FICA FIXA
+	# ======================================================
 
 	fixada_no_centro = true
+
+
+	# ======================================================
+	# APONTA PARA BAIXO
+	# ======================================================
+
+	rotation = (
+		PI / 2.0
+		+ deg_to_rad(offset_rotacao_usb)
+	)
 	
 # ==========================================================
 # LANÇAR USB PARA O CENTRO - ATAQUE 2
@@ -753,3 +782,7 @@ func liberar_do_centro():
 	em_ataque_2_fixo = false
 
 	velocity = Vector2.ZERO
+	
+func morrer():
+
+	queue_free()

@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://cu43yptn8kjhw"]
 
-[ext_resource type="Texture2D" uid="uid://cch25spla6wpw" path="res://lab.leandro.png" id="1_6fccd"]
-[ext_resource type="Script" uid="uid://cnj4br7it23ic" path="res://teste_de_bosses.gd" id="1_i80pr"]
-[ext_resource type="Script" uid="uid://0l447vdhh8c5" path="res://camera_boss.gd" id="3_fwskl"]
-[ext_resource type="AudioStream" uid="uid://c2qqvl6ktbkub" path="res://bossfight.mp3" id="4_24hct"]
+[ext_resource type="Script" uid="uid://cnj4br7it23ic" path="res://teste_de_bosses.gd" id="1_67d23"]
+[ext_resource type="Texture2D" uid="uid://cch25spla6wpw" path="res://lab.leandro.png" id="2_g6g42"]
+[ext_resource type="Script" uid="uid://0l447vdhh8c5" path="res://camera_boss.gd" id="3_ct5tj"]
+[ext_resource type="AudioStream" uid="uid://c2qqvl6ktbkub" path="res://bossfight.mp3" id="4_782jn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i80pr"]
-texture = ExtResource("1_6fccd")
+texture = ExtResource("2_g6g42")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -4128,7 +4128,7 @@ size = Vector2(915, 1096)
 size = Vector2(761, 1675.5)
 
 [node name="Node2D" type="Node2D" unique_id=385897475]
-script = ExtResource("1_i80pr")
+script = ExtResource("1_67d23")
 
 [node name="TileMap" type="TileMap" parent="." unique_id=1787960578]
 z_index = 1
@@ -4139,7 +4139,7 @@ layer_0/tile_data = PackedInt32Array(131080, 262144, 8, 196616, 262144, 24, 2621
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1404865859]
 position = Vector2(487, 362)
 zoom = Vector2(1.4, 1.4)
-script = ExtResource("3_fwskl")
+script = ExtResource("3_ct5tj")
 
 [node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1693978419]
 position = Vector2(197, 114)
@@ -4174,5 +4174,5 @@ offset_bottom = 1669.0
 color = Color(0, 0, 0, 1)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1151452142]
-stream = ExtResource("4_24hct")
+stream = ExtResource("4_782jn")
 autoplay = true

@@ -16,6 +16,7 @@ enum Estado {
 
 
 var estado = Estado.IDLE
+var segunda_fase_ativa := false
 
 
 # ==========================================================
@@ -28,6 +29,7 @@ var estado = Estado.IDLE
 @export var recuo_impacto := 50.0
 @export var tempo_recuo_impacto := 0.5
 @export var tempo_tonto_impacto_final := 0
+@export var velocidade_atual_dash := 0.0
 
 # Quantidade de dashes antes de voltar ao meio
 @export var quantidade_dashes := 3
@@ -152,7 +154,7 @@ func _ready():
 
 	$Timer.start(2)
 
-	timer_segunda_fase()
+	#timer_segunda_fase()
 
 
 # ==========================================================
@@ -170,7 +172,14 @@ func _physics_process(delta):
 			velocity = Vector2.ZERO
 
 		Estado.DASH:
-			velocity = direcao * velocidade_dash
+
+			velocidade_atual_dash = move_toward(
+			velocidade_atual_dash,
+			velocidade_dash,
+			4000.0 * delta
+			)
+
+			velocity = direcao * velocidade_atual_dash
 
 		Estado.TONTO:
 			velocity = Vector2.ZERO
@@ -998,6 +1007,7 @@ func iniciar_dash():
 		dash_atual = 0
 
 	dash_atual += 1
+	velocidade_atual_dash = 0.0
 
 	estado = Estado.MIRANDO
 
@@ -1072,6 +1082,9 @@ func iniciar_dash():
 # ==========================================================
 
 func ataque_2():
+	
+	if segunda_fase_ativa:
+		return
 
 	# ======================================================
 	# PROCURA A PONTA USB EXISTENTE
@@ -1344,6 +1357,9 @@ func ataque_2():
 # ==========================================================
 
 func ataque_3():
+	
+	if segunda_fase_ativa:
+		return
 
 	if !is_instance_valid(player):
 		return
@@ -1488,6 +1504,9 @@ func escolher_ataque_aleatorio():
 	if !is_instance_valid(player):
 		return
 
+	if segunda_fase_ativa:
+		return
+
 	var ataque := randi_range(2, 3)
 
 	print("Ataque escolhido: ", ataque)
@@ -1500,7 +1519,6 @@ func escolher_ataque_aleatorio():
 		3:
 			await ataque_3()
 
-
 # ==========================================================
 # SEGUNDA FASE
 # ==========================================================
@@ -1508,7 +1526,14 @@ func escolher_ataque_aleatorio():
 func segunda_fase():
 
 	# ======================================================
-	# SEGUNDA FASE
+	# ATIVA SEGUNDA FASE
+	# ======================================================
+
+	segunda_fase_ativa = true
+
+
+	# ======================================================
+	# NOVOS ATRIBUTOS
 	# ======================================================
 
 	velocidade_pedras_max = 800
@@ -1521,76 +1546,69 @@ func segunda_fase():
 
 
 	# ======================================================
-	# TROCA O SPRITE
+	# ESCONDE A PONTA USB
 	# ======================================================
 
-	var sprite = $Sprite2D
+	var ponta_usb = get_tree().get_first_node_in_group("usb")
 
-	if is_instance_valid(sprite):
+	if is_instance_valid(ponta_usb):
 
-		var novo_sprite: Texture2D = load(
-			"res://cap1/bosses/boss_2.png"
+		var camera = get_viewport().get_camera_2d()
+
+		if camera != null:
+
+			var centro = camera.global_position
+
+			await ponta_usb.lancar_para_centro(centro)
+		
+	var cabo_usb = get_tree().get_first_node_in_group("cabo_usb")
+
+	if is_instance_valid(cabo_usb):
+
+		
+		cabo_usb.visible = false
+
+		#if cabo_usb.has_method("segunda_fase"):
+#
+			#cabo_usb.segunda_fase()
+
+
+	# ======================================================
+	# TROCA PARA O SPRITE DA SEGUNDA FASE
+	# ======================================================
+
+	var novo_sprite: Texture2D = load(
+		"res://cap1/bosses/boss_2.png"
+	)
+
+	if novo_sprite != null:
+
+		$Sprite2D.texture = novo_sprite
+
+	else:
+
+		push_warning(
+			"Não foi possível carregar usb_2.png"
 		)
 
-		if novo_sprite != null:
 
-			sprite.texture = novo_sprite
-
-		else:
-
-			push_warning(
-				"Não foi possível carregar usb_2.png"
-			)
+	# ======================================================
+	# CABO
+	# ======================================================
+	#
+	# Aqui deixamos o cabo com metade do comprimento.
+	#
+	# A implementação exata depende de como seu cabousb.gd
+	# calcula o comprimento.
+	#
 
 
 	# ======================================================
-	# CHACOALHADA DA TRANSFORMAÇÃO
+	# MOUSE FICA VERMELHO
 	# ======================================================
-
-	var rotacao_original: float = rotation
-
-	var tween_chacoalhada = create_tween()
-
-	tween_chacoalhada.tween_property(
-		self,
-		"rotation",
-		rotacao_original + deg_to_rad(34.0),
-		0.05
-	)
-
-	tween_chacoalhada.tween_property(
-		self,
-		"rotation",
-		rotacao_original - deg_to_rad(32.0),
-		0.05
-	)
-
-	tween_chacoalhada.tween_property(
-		self,
-		"rotation",
-		rotacao_original + deg_to_rad(16.0),
-		0.04
-	)
-
-	tween_chacoalhada.tween_property(
-		self,
-		"rotation",
-		rotacao_original - deg_to_rad(8.0),
-		0.04
-	)
-
-	tween_chacoalhada.tween_property(
-		self,
-		"rotation",
-		rotacao_original,
-		0.08
-	)
-
-	await tween_chacoalhada.finished
 
 
 	print("SEGUNDA FASE ATIVADA")
-
 
 # ==========================================================
 # TIMER DA SEGUNDA FASE
@@ -1599,7 +1617,7 @@ func segunda_fase():
 func timer_segunda_fase():
 
 	await get_tree().create_timer(
-		1.0
+		12.0
 	).timeout
 
 	segunda_fase()
