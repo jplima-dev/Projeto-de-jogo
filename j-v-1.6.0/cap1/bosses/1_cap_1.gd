@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 
 const PEDRA = preload("res://projetilteste.tscn")
+const PARTICLE = preload("res://ParticleManager/Particle.tscn")
+const DASH_PARTICLE = preload("res://ParticleManager/new_resource.tres")
 
 
 enum Estado {
@@ -17,6 +19,13 @@ enum Estado {
 
 var estado = Estado.IDLE
 var segunda_fase_ativa := false
+
+
+# ==========================================================
+# PARTICULAS DO DASH
+# ==========================================================
+
+var tempo_proxima_particula_dash := 0.0
 
 
 # ==========================================================
@@ -50,7 +59,7 @@ var dash_atual := 0
 
 # Abertura do leque das pedras
 @export var spread_pedras := 120.0
-@export var intensidade_tremor_parede = 28.0
+@export var tremor_parede = 28.0
 
 
 # ==========================================================
@@ -94,6 +103,7 @@ var ataque_2_angulo := 0.0
 var ataque_2_ativo := false
 
 var direcao_inercia_ataque_2: Vector2 = Vector2.ZERO
+
 
 # ==========================================================
 # ATAQUE 2 - DESLOCAMENTO PARA O CENTRO
@@ -154,7 +164,7 @@ func _ready():
 
 	$Timer.start(2)
 
-	#timer_segunda_fase()
+	timer_segunda_fase()
 
 
 # ==========================================================
@@ -174,12 +184,118 @@ func _physics_process(delta):
 		Estado.DASH:
 
 			velocidade_atual_dash = move_toward(
-			velocidade_atual_dash,
-			velocidade_dash,
-			4000.0 * delta
+				velocidade_atual_dash,
+				velocidade_dash,
+				4000.0 * delta
 			)
 
 			velocity = direcao * velocidade_atual_dash
+
+
+			# ======================================================
+			# PARTICULAS DO DASH
+			# ======================================================
+
+			tempo_proxima_particula_dash -= delta
+
+			# Quanto mais rápido o boss estiver,
+			# menor o intervalo entre as partículas.
+
+			var progresso_velocidade: float = (
+			velocidade_atual_dash
+			/ velocidade_dash
+			)
+
+			progresso_velocidade = clamp(
+			progresso_velocidade,
+			0.0,
+			1.0
+			)
+
+			var intervalo_particulas: float = lerp(
+			0.07,
+			0.025,
+			progresso_velocidade
+			)
+
+			if tempo_proxima_particula_dash <= 0.0:
+
+				var particle = PARTICLE.instantiate()
+
+				if particle != null:
+
+					get_tree().current_scene.add_child(
+					particle
+					)
+
+
+					# ==============================================
+					# POSIÇÃO ATRÁS DO BOSS
+					# ==============================================
+
+					var distancia_atras: float = randf_range(
+					15.0,
+					30.0
+					)
+
+					var deslocamento_lateral: float = randf_range(
+					-12.0,
+					12.0
+					)
+
+					var direcao_lateral: Vector2 = Vector2(
+					-direcao.y,
+					direcao.x
+					).normalized()
+
+					particle.global_position = (
+					global_position
+					- direcao * distancia_atras
+					+ direcao_lateral * deslocamento_lateral
+					)
+
+
+					# ==============================================
+					# DIREÇÃO DA PARTICULA
+					# ==============================================
+
+					var direcao_particula: Vector2 = (
+					-direcao
+					)
+
+
+					# Variação maior conforme a velocidade aumenta.
+
+					var abertura: float = lerp(
+					8.0,
+					22.0,
+					progresso_velocidade
+					)
+
+					direcao_particula = direcao_particula.rotated(
+						deg_to_rad(
+							randf_range(
+								-abertura,
+								abertura
+							)
+						)
+					)
+
+
+					# ==============================================
+					# CRIA A PARTICULA
+					# ==============================================
+
+					particle.iniciar(
+						DASH_PARTICLE,
+						direcao_particula
+					)
+
+
+					tempo_proxima_particula_dash = (
+						intervalo_particulas
+					)
+
 
 		Estado.TONTO:
 			velocity = Vector2.ZERO
@@ -300,70 +416,7 @@ func _physics_process(delta):
 
 			return
 
-	# ======================================================
-	# COLISÃO DURANTE DASH / INÉRCIA
-	# ======================================================
 
-	if (
-		estado == Estado.DASH
-		or estado == Estado.INERCIA_ATAQUE_2
-	) and !bateu:
-
-		for i in get_slide_collision_count():
-
-			var colisao = get_slide_collision(i)
-			var corpo = colisao.get_collider()
-
-			if corpo == null:
-				continue
-
-
-			# ==================================================
-			# ACERTOU O PLAYER
-			# ==================================================
-
-			if corpo.is_in_group("player"):
-
-				if corpo.has_method("take_damage"):
-
-					corpo.take_damage(
-						20,
-						direcao
-					)
-
-				bateu = true
-				velocity = Vector2.ZERO
-
-				await acertou_player()
-
-				return
-
-
-			# ==================================================
-			# BATEU NA PAREDE
-			# ==================================================
-
-			bateu = true
-
-			var normal_parede: Vector2 = (
-				colisao.get_normal()
-			)
-
-			if abs(normal_parede.x) > abs(normal_parede.y):
-
-				if normal_parede.x > 0:
-
-					# Parede da esquerda
-					sentido_rotacao = 1.0
-
-				else:
-
-					# Parede da direita
-					sentido_rotacao = -1.0
-
-			await bateu_parede()
-
-			return
 # ==========================================================
 # INICIA UM DASH
 # ==========================================================
@@ -414,17 +467,13 @@ func bateu_parede():
 		if camera != null and camera.has_method("tremer"):
 
 			camera.tremer(
-				intensidade_tremor_parede
+				tremor_parede
 			)
 
 
 	# ======================================================
 	# IMPACTO DA INÉRCIA DO ATAQUE 2
 	# ======================================================
-	#
-	# A inércia não deve chamar impacto_final(),
-	# porque ela não é o terceiro dash.
-	#
 
 	if era_inercia_ataque_2:
 
@@ -514,14 +563,16 @@ func bateu_parede():
 		tween_chacoalhada_inercia.tween_property(
 			self,
 			"rotation",
-			rotacao_inercia_original + deg_to_rad(12.0),
+			rotacao_inercia_original
+			+ deg_to_rad(12.0),
 			0.04
 		)
 
 		tween_chacoalhada_inercia.tween_property(
 			self,
 			"rotation",
-			rotacao_inercia_original - deg_to_rad(10.0),
+			rotacao_inercia_original
+			- deg_to_rad(10.0),
 			0.04
 		)
 
@@ -597,14 +648,14 @@ func bateu_parede():
 
 
 	# ======================================================
-	# PEDRAS
+	# PEDRAS SAEM IMEDIATAMENTE
 	# ======================================================
 
 	spawn_pedras()
 
 
 	# ======================================================
-	# RECUO DOS IMPACTOS 1 E 2
+	# RECUO SUAVE DOS IMPACTOS
 	# ======================================================
 
 	if dash_atual < quantidade_dashes:
@@ -663,7 +714,7 @@ func bateu_parede():
 
 
 	# ======================================================
-	# TERMINA O IMPACTO NORMAL
+	# 1º E 2º DASH
 	# ======================================================
 
 	await tween_impacto.finished
@@ -696,7 +747,8 @@ func impacto_final():
 	var distancia_recuo: float = 140.0
 
 	var destino: Vector2 = (
-		global_position - direcao * distancia_recuo
+		global_position
+		- direcao * distancia_recuo
 	)
 
 
@@ -777,28 +829,32 @@ func impacto_final():
 	tween_chacoalhada.tween_property(
 		self,
 		"rotation",
-		rot_original + deg_to_rad(34.0),
+		rot_original
+		+ deg_to_rad(34.0),
 		0.05
 	)
 
 	tween_chacoalhada.tween_property(
 		self,
 		"rotation",
-		rot_original - deg_to_rad(32.0),
+		rot_original
+		- deg_to_rad(32.0),
 		0.05
 	)
 
 	tween_chacoalhada.tween_property(
 		self,
 		"rotation",
-		rot_original + deg_to_rad(16.0),
+		rot_original
+		+ deg_to_rad(16.0),
 		0.04
 	)
 
 	tween_chacoalhada.tween_property(
 		self,
 		"rotation",
-		rot_original - deg_to_rad(8.0),
+		rot_original
+		- deg_to_rad(8.0),
 		0.04
 	)
 
@@ -1001,18 +1057,27 @@ func iniciar_dash():
 	if !is_instance_valid(player):
 		return
 
+
 	bateu = false
+
 
 	if dash_atual >= quantidade_dashes:
 		dash_atual = 0
 
+
 	dash_atual += 1
+
 	velocidade_atual_dash = 0.0
+
+	tempo_proxima_particula_dash = 0.0
+
 
 	estado = Estado.MIRANDO
 
+
 	direcao = (
-		player.global_position - global_position
+		player.global_position
+		- global_position
 	).normalized()
 
 
@@ -1020,9 +1085,13 @@ func iniciar_dash():
 	# RECUO / ESTICADA
 	# ======================================================
 
-	var pos_original: Vector2 = global_position
+	var pos_original: Vector2 = (
+		global_position
+	)
+
 
 	var tween = create_tween()
+
 
 	tween.tween_property(
 		self,
@@ -1030,6 +1099,7 @@ func iniciar_dash():
 		Vector2(1.0, 1.0),
 		tempo_mira * 0.35
 	)
+
 
 	await tween.finished
 
@@ -1042,6 +1112,7 @@ func iniciar_dash():
 
 	tween2.set_parallel(true)
 
+
 	tween2.tween_property(
 		self,
 		"global_position",
@@ -1049,12 +1120,14 @@ func iniciar_dash():
 		tempo_mira * 0.20
 	)
 
+
 	tween2.tween_property(
 		self,
 		"scale",
 		Vector2(1.0, 0.90),
 		tempo_mira * 0.20
 	)
+
 
 	await tween2.finished
 
@@ -1065,6 +1138,7 @@ func iniciar_dash():
 
 	var tween3 = create_tween()
 
+
 	tween3.tween_property(
 		self,
 		"scale",
@@ -1072,7 +1146,9 @@ func iniciar_dash():
 		tempo_mira * 0.15
 	)
 
+
 	await tween3.finished
+
 
 	estado = Estado.DASH
 
@@ -1161,15 +1237,15 @@ func ataque_2():
 
 	if diferenca_x > 0.0:
 
-		# Centro à direita.
-		# Inclina para trás, à esquerda.
+		# Centro está à direita.
+		# Boss inclina para trás, à esquerda.
 
 		inclinacao = -15.0
 
 	elif diferenca_x < 0.0:
 
-		# Centro à esquerda.
-		# Inclina para trás, à direita.
+		# Centro está à esquerda.
+		# Boss inclina para trás, à direita.
 
 		inclinacao = 15.0
 
@@ -1217,7 +1293,7 @@ func ataque_2():
 
 
 	# ======================================================
-	# CALCULA O ÂNGULO INICIAL DO GIRO
+	# GARANTE O ÂNGULO INICIAL DO GIRO
 	# ======================================================
 
 	var vetor_inicial: Vector2 = (
@@ -1247,7 +1323,7 @@ func ataque_2():
 
 
 	# ======================================================
-	# VOLTA À ROTAÇÃO NORMAL
+	# VOLTA O BOSS PARA A ROTAÇÃO NORMAL
 	# ======================================================
 
 	var tween_pre_giro = create_tween()
@@ -1273,7 +1349,9 @@ func ataque_2():
 	ataque_2_ativo = true
 	estado = Estado.GIRANDO_USB
 
-	print("ATAQUE 2 - GIRO USB")
+	print(
+		"ATAQUE 2 - GIRO USB"
+	)
 
 
 	# ======================================================
@@ -1292,10 +1370,6 @@ func ataque_2():
 	ataque_2_ativo = false
 
 
-	# ======================================================
-	# LIBERA A USB DO CENTRO
-	# ======================================================
-
 	if is_instance_valid(usb):
 
 		if usb.has_method("liberar_do_centro"):
@@ -1308,9 +1382,9 @@ func ataque_2():
 	# ======================================================
 
 	var direcao_inercia_ataque_2: Vector2 = Vector2(
-	-sin(ataque_2_angulo),
-	cos(ataque_2_angulo)
-).normalized()
+		-sin(ataque_2_angulo),
+		cos(ataque_2_angulo)
+	).normalized()
 
 
 	# ======================================================
@@ -1329,17 +1403,14 @@ func ataque_2():
 
 	estado = Estado.INERCIA_ATAQUE_2
 
-	print("ATAQUE 2 - INÉRCIA")
+	print(
+		"ATAQUE 2 - INÉRCIA"
+	)
 
 
 	# ======================================================
 	# ESPERA A COLISÃO COM A PAREDE
 	# ======================================================
-	#
-	# O _physics_process() continua movendo o boss.
-	# Quando a parede for atingida, bateu_parede()
-	# muda o estado para outro estado e este loop termina.
-	#
 
 	while estado == Estado.INERCIA_ATAQUE_2:
 
@@ -1350,7 +1421,10 @@ func ataque_2():
 	# ATAQUE TERMINOU
 	# ======================================================
 
-	print("ATAQUE 2 FINALIZADO")
+	print(
+		"ATAQUE 2 FINALIZADO"
+	)
+
 
 # ==========================================================
 # ATAQUE 3
@@ -1509,7 +1583,10 @@ func escolher_ataque_aleatorio():
 
 	var ataque := randi_range(2, 3)
 
-	print("Ataque escolhido: ", ataque)
+	print(
+		"Ataque escolhido: ",
+		ataque
+	)
 
 	match ataque:
 
@@ -1519,26 +1596,23 @@ func escolher_ataque_aleatorio():
 		3:
 			await ataque_3()
 
+
 # ==========================================================
 # SEGUNDA FASE
 # ==========================================================
 
 func segunda_fase():
 
-	# ======================================================
-	# ATIVA SEGUNDA FASE
-	# ======================================================
-
 	segunda_fase_ativa = true
 
 
 	# ======================================================
-	# NOVOS ATRIBUTOS
+	# ATRIBUTOS DA SEGUNDA FASE
 	# ======================================================
 
 	velocidade_pedras_max = 800
 	tempo_vida_pedras = 0.25
-	intensidade_tremor_parede = 28.0
+	tremor_parede = 28.0
 
 	velocidade_dash = 1500.0
 	tempo_tonto = 0.1
@@ -1546,10 +1620,12 @@ func segunda_fase():
 
 
 	# ======================================================
-	# ESCONDE A PONTA USB
+	# PONTA USB
 	# ======================================================
 
-	var ponta_usb = get_tree().get_first_node_in_group("usb")
+	var ponta_usb = get_tree().get_first_node_in_group(
+		"usb"
+	)
 
 	if is_instance_valid(ponta_usb):
 
@@ -1559,22 +1635,30 @@ func segunda_fase():
 
 			var centro = camera.global_position
 
-			await ponta_usb.lancar_para_centro(centro)
-		
-	var cabo_usb = get_tree().get_first_node_in_group("cabo_usb")
+			if ponta_usb.has_method(
+				"fixar_no_centro"
+			):
 
-	if is_instance_valid(cabo_usb):
-
-		
-		cabo_usb.visible = false
-
-		#if cabo_usb.has_method("segunda_fase"):
-#
-			#cabo_usb.segunda_fase()
+				ponta_usb.fixar_no_centro(
+					centro
+				)
 
 
 	# ======================================================
-	# TROCA PARA O SPRITE DA SEGUNDA FASE
+	# CABO USB
+	# ======================================================
+
+	var cabo_usb = get_tree().get_first_node_in_group(
+		"cabo_usb"
+	)
+
+	if is_instance_valid(cabo_usb):
+
+		cabo_usb.visible = false
+
+
+	# ======================================================
+	# TROCA SPRITE
 	# ======================================================
 
 	var novo_sprite: Texture2D = load(
@@ -1588,27 +1672,14 @@ func segunda_fase():
 	else:
 
 		push_warning(
-			"Não foi possível carregar usb_2.png"
+			"Não foi possível carregar boss_2.png"
 		)
 
 
-	# ======================================================
-	# CABO
-	# ======================================================
-	#
-	# Aqui deixamos o cabo com metade do comprimento.
-	#
-	# A implementação exata depende de como seu cabousb.gd
-	# calcula o comprimento.
-	#
+	print(
+		"SEGUNDA FASE ATIVADA"
+	)
 
-
-	# ======================================================
-	# MOUSE FICA VERMELHO
-	# ======================================================
-
-
-	print("SEGUNDA FASE ATIVADA")
 
 # ==========================================================
 # TIMER DA SEGUNDA FASE
