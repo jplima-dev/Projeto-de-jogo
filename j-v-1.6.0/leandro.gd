@@ -28,6 +28,8 @@ const DASH_DISTANCE = 220.0
 var footstep_timer := 0.0
 
 var pode_controlar := true
+var estava_andando := false
+var ultima_animacao := ""
 
 # ==============================
 # CONTROLE
@@ -76,6 +78,12 @@ var saved_mask = 0
 @onready var som_correr: AudioStreamPlayer2D = $correr
 @onready var som_dash: AudioStreamPlayer2D = $dash
 
+# ==============================
+# TRANSIÇÃO DOS SPRITES
+# ==============================
+var tween_transicao_animacao: Tween
+var escala_animacao_original: Vector2 = Vector2.ONE
+
 
 # ==============================
 # READY
@@ -95,7 +103,7 @@ func _ready():
 
 	if health_bar:
 		health_bar.max_value = max_health
-		health_bar.value = health
+	health_bar.value = health
 
 	blink_timer = Timer.new()
 	blink_timer.wait_time = 0.1
@@ -103,6 +111,7 @@ func _ready():
 	blink_timer.timeout.connect(_toggle_visibility)
 	add_child(blink_timer)
 
+	escala_animacao_original = $AnimatedSprite2D.scale
 
 	$AnimatedSprite2D.frame_changed.connect(_on_frame_changed)
 
@@ -122,7 +131,7 @@ func _physics_process(delta):
 				$AnimatedSprite2D.visible = true
 				$Sprite2D.visible = false
 
-				$AnimatedSprite2D.play("parado_direcional")
+				trocar_animacao("parado_direcional")
 				update_flip()
 
 			else:
@@ -174,6 +183,13 @@ func _physics_process(delta):
 	# PARTÍCULAS DE PASSO
 	# ==========================
 	if moving:
+		if moving:
+
+			if !estava_andando:
+				stretch_ao_andar()
+
+			estava_andando = true
+			
 		spawn_footstep_particles(dir)
 
 	# ==========================
@@ -245,34 +261,36 @@ func _physics_process(delta):
 			if dir.y < 0:
 
 				if Input.is_action_pressed("correr"):
-					$AnimatedSprite2D.play("correr_cima")
+					trocar_animacao("correr_cima")
 				else:
-					$AnimatedSprite2D.play("andar_cima")
+					trocar_animacao("andar_cima")
 
 			elif dir.y > 0:
 
 				if Input.is_action_pressed("correr"):
-					$AnimatedSprite2D.play("correr_baixo")
+					trocar_animacao("correr_baixo")
 				else:
-					$AnimatedSprite2D.play("andar_baixo")
+					trocar_animacao("andar_baixo")
 
 			else:
 
 				if Input.is_action_pressed("correr"):
-					$AnimatedSprite2D.play("correr")
+					trocar_animacao("correr")
 				else:
-					$AnimatedSprite2D.play("andar")
+					trocar_animacao("andar")
 
 				update_flip()
 
 		elif !moving:
+			
+			estava_andando = false
 
 			if facing_direction.x != 0:
 
 				$AnimatedSprite2D.visible = true
 				$Sprite2D.visible = false
 
-				$AnimatedSprite2D.play("parado_direcional")
+				trocar_animacao("parado_direcional")
 
 				update_flip()
 
@@ -283,19 +301,92 @@ func _physics_process(delta):
 
 
 # ==============================
+# TROCAR ANIMAÇÃO
+# ==============================
+func trocar_animacao(nova_animacao: String):
+
+	if $AnimatedSprite2D.animation == nova_animacao:
+		return
+
+	ultima_animacao = nova_animacao
+
+	$AnimatedSprite2D.play(nova_animacao)
+
+	transicao_animacao()
+
+
+# ==============================
+# TRANSIÇÃO ENTRE ANIMAÇÕES
+# ==============================
+func transicao_animacao():
+
+	if tween_transicao_animacao != null:
+		tween_transicao_animacao.kill()
+
+	$AnimatedSprite2D.scale = escala_animacao_original
+
+	$AnimatedSprite2D.scale = (
+		escala_animacao_original
+		* Vector2(0.95, 0.80)
+	)
+
+	tween_transicao_animacao = create_tween()
+
+	tween_transicao_animacao.tween_property(
+		$AnimatedSprite2D,
+		"scale",
+		escala_animacao_original,
+		0.10
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+
+# ==============================
+# STRETCH AO COMEÇAR A ANDAR
+# ==============================
+func stretch_ao_andar():
+
+	var tween = create_tween()
+
+	scale = Vector2(0.95, 0.8)
+
+	tween.tween_property(
+		self,
+		"scale",
+		Vector2.ONE,
+		1.0
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+	
+
+# ==============================
 # FLIP
 # ==============================
 func update_flip():
+
+	var flip_anterior = $AnimatedSprite2D.flip_h
+	var flip_novo = flip_anterior
 
 	var anim = $AnimatedSprite2D.animation
 
 	# andar/parado
 	if anim == "andar" or anim == "parado_direcional":
-		$AnimatedSprite2D.flip_h = facing_direction.x > 0
+		flip_novo = facing_direction.x > 0
 
 	# correr
 	if anim == "correr":
-		$AnimatedSprite2D.flip_h = facing_direction.x < 0
+		flip_novo = facing_direction.x < 0
+
+	$AnimatedSprite2D.flip_h = flip_novo
+
+	if flip_anterior != flip_novo:
+		transicao_animacao()
 
 
 # ==============================
@@ -470,6 +561,8 @@ func die():
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://morte.tscn")
 	queue_free()
+
+
 # ==============================
 # BLINK
 # ==============================
@@ -518,6 +611,7 @@ func set_color(c: Color):
 	if has_node("AnimatedSprite2D"):
 		$AnimatedSprite2D.modulate = c
 
+
 func salvar_jogo():
 
 	Saves.dados["vida"] = health
@@ -530,6 +624,7 @@ func salvar_jogo():
 
 	Saves.salvar()
 	
+
 func spawn_after_images(inicio: Vector2, fim: Vector2):
 
 	for i in range(ghost_count):
@@ -566,6 +661,7 @@ func dash_slowmo():
 	await get_tree().create_timer(0.05, true, false, true).timeout
 	Engine.time_scale = 1.0
 
+
 func get_inimigo_mais_proximo():
 
 	var inimigos = get_tree().get_nodes_in_group("enemies")
@@ -586,6 +682,7 @@ func get_inimigo_mais_proximo():
 
 	return mais_proximo
 	
+
 func spawn_footstep_particles(dir: Vector2):
 
 	if footstep_particle == null:
@@ -626,15 +723,16 @@ func spawn_footstep_particles(dir: Vector2):
 
 		# Pequena variação para parecer mais natural
 		particle.global_position += Vector2(
-	randf_range(
-		-footstep_particle.spawn_randomness,
-		 footstep_particle.spawn_randomness
-	),
-	randf_range(
-		-footstep_particle.spawn_randomness,
-		 footstep_particle.spawn_randomness
-	)
-)
+			randf_range(
+				-footstep_particle.spawn_randomness,
+				 footstep_particle.spawn_randomness
+			),
+			randf_range(
+				-footstep_particle.spawn_randomness,
+				 footstep_particle.spawn_randomness
+			)
+		)
+
 
 func spawn_heal_particles():
 
@@ -653,6 +751,7 @@ func spawn_heal_particles():
 			randf_range(-20,20),
 			randf_range(-10,10)
 		)
+
 
 func spawn_damage_particles(hit_direction: Vector2):
 
