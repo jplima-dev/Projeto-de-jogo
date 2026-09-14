@@ -42,6 +42,7 @@ var posicao_animacao_original: Vector2 = Vector2.ZERO
 @export var transicao_tempo := 0.10
 @export var transicao_escala_x := 0.95
 @export var transicao_escala_y := 0.90
+var tween_stretch_fala: Tween
 
 # ==============================
 # CONTROLE
@@ -826,3 +827,24 @@ func spawn_damage_particles(hit_direction: Vector2):
 
 		particle.iniciar(damage_particle, dir)
 		particle.global_position = global_position + base_dir * 8
+		
+		
+func stretch_ao_falar():
+
+	if tween_stretch_fala != null:
+		tween_stretch_fala.kill()
+
+	scale = Vector2(1,  0.95)
+
+	tween_stretch_fala = create_tween()
+
+	tween_stretch_fala.tween_property(
+		self,
+		"scale",
+		Vector2.ONE,
+		0.08
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)

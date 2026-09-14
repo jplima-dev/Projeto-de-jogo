@@ -117,3 +117,7 @@ func tocar_som_letra():
 
 	audio_letra.pitch_scale = randf_range(0.85, 1.0)
 	audio_letra.play()
+	
+	if is_instance_valid(alvo):
+		if alvo.has_method("stretch_ao_falar"):
+			alvo.stretch_ao_falar()
