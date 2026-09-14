@@ -32,6 +32,18 @@ var estava_andando := false
 var ultima_animacao := ""
 
 # ==============================
+# TRANSIÇÃO ENTRE ANIMAÇÕES
+# ==============================
+var tween_transicao_animacao: Tween
+var escala_animacao_original: Vector2 = Vector2.ONE
+var posicao_animacao_original: Vector2 = Vector2.ZERO
+
+@export var transicao_distancia := 4.0
+@export var transicao_tempo := 0.10
+@export var transicao_escala_x := 0.95
+@export var transicao_escala_y := 0.90
+
+# ==============================
 # CONTROLE
 # ==============================
 var pode_mexer = true
@@ -78,17 +90,15 @@ var saved_mask = 0
 @onready var som_correr: AudioStreamPlayer2D = $correr
 @onready var som_dash: AudioStreamPlayer2D = $dash
 
-# ==============================
-# TRANSIÇÃO DOS SPRITES
-# ==============================
-var tween_transicao_animacao: Tween
-var escala_animacao_original: Vector2 = Vector2.ONE
 
 
 # ==============================
 # READY
 # ==============================
 func _ready():
+	
+	escala_animacao_original = $AnimatedSprite2D.scale
+	posicao_animacao_original = $AnimatedSprite2D.position
 	
 	if Saves.carregando_save:
 
@@ -324,25 +334,65 @@ func transicao_animacao():
 		tween_transicao_animacao.kill()
 
 	$AnimatedSprite2D.scale = escala_animacao_original
+	$AnimatedSprite2D.position = posicao_animacao_original
+
+	var deslocamento := Vector2.ZERO
+
+	var anim = $AnimatedSprite2D.animation
+
+	if anim == "andar" or anim == "correr" or anim == "parado_direcional":
+
+		if facing_direction.x > 0.0:
+			deslocamento = Vector2(transicao_distancia, 0.0)
+
+		elif facing_direction.x < 0.0:
+			deslocamento = Vector2(-transicao_distancia, 0.0)
+
+	elif anim == "andar_cima" or anim == "correr_cima":
+
+		deslocamento = Vector2(0.0, -transicao_distancia)
+
+	elif anim == "andar_baixo" or anim == "correr_baixo":
+
+		deslocamento = Vector2(0.0, transicao_distancia)
 
 	$AnimatedSprite2D.scale = (
 		escala_animacao_original
-		* Vector2(0.95, 0.80)
+		* Vector2(
+			transicao_escala_x,
+			transicao_escala_y
+		)
+	)
+
+	$AnimatedSprite2D.position = (
+		posicao_animacao_original + deslocamento
 	)
 
 	tween_transicao_animacao = create_tween()
+
+	tween_transicao_animacao.set_parallel(true)
 
 	tween_transicao_animacao.tween_property(
 		$AnimatedSprite2D,
 		"scale",
 		escala_animacao_original,
-		0.10
+		transicao_tempo
 	).set_trans(
 		Tween.TRANS_BACK
 	).set_ease(
 		Tween.EASE_OUT
 	)
 
+	tween_transicao_animacao.tween_property(
+		$AnimatedSprite2D,
+		"position",
+		posicao_animacao_original,
+		transicao_tempo
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
 
 # ==============================
 # STRETCH AO COMEÇAR A ANDAR
@@ -351,7 +401,7 @@ func stretch_ao_andar():
 
 	var tween = create_tween()
 
-	scale = Vector2(0.95, 0.8)
+	scale = Vector2(0.95, 0.9)
 
 	tween.tween_property(
 		self,

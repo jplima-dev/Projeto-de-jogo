@@ -238,6 +238,8 @@ script = ExtResource("1_puacl")
 heal_particle = ExtResource("2_6ectu")
 footstep_particle = ExtResource("2_gvfrn")
 damage_particle = ExtResource("4_nqm1x")
+transicao_distancia = 8.0
+transicao_escala_y = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1967357645]
 z_index = 894
