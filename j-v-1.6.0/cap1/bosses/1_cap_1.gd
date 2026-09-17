@@ -46,6 +46,12 @@ var tempo_proxima_particula_dash := 0.0
 var dash_atual := 0
 
 
+@export var chance_grito_terceiro_dash := 0.35
+
+var grito_proximo_impacto := false
+var intensidade_ataque_atual := 0.0
+var primeira_randomizacao_fase_2 := true
+
 # ==========================================================
 # PEDRAS
 # ==========================================================
@@ -59,7 +65,7 @@ var dash_atual := 0
 
 # Abertura do leque das pedras
 @export var spread_pedras := 120.0
-@export var tremor_parede = 28.0
+@export var tremor = 28.0
 
 
 # ==========================================================
@@ -78,6 +84,13 @@ var usb = null
 
 @export var distancia_orbita_usb := 80.0
 @export var velocidade_orbita_usb := 6.0
+
+var transicao_segunda_fase_ativa := false
+var transicao_segunda_fase_tempo := 0.0
+
+@export var transicao_fase_2_duracao := 1.5
+@export var transicao_fase_2_velocidade_max := 14.0
+@export var transicao_fase_2_tremor := 2.0
 
 
 # ==========================================================
@@ -309,9 +322,7 @@ func _physics_process(delta):
 
 			velocity = Vector2.ZERO
 
-			# ==============================================
-			# GIRO DO BOSS AO REDOR DA PONTA USB
-			# ==============================================
+			var camera: Camera2D = get_viewport().get_camera_2d()
 
 			ataque_2_angulo -= (
 				ataque_2_velocidade
@@ -333,8 +344,26 @@ func _physics_process(delta):
 				- PI / 2.0
 			)
 
-			return
+			# ==============================================
+			# TREMOR AUMENTA COM A VELOCIDADE DO GIRO
+			# ==============================================
 
+			var progresso_giro: float = clamp(
+				ataque_2_velocidade / 14.0,
+				0.0,
+				1.0
+			)
+
+			var tremor_giro: float = lerp(
+				0.1,
+				2.0,
+				progresso_giro
+			)
+
+			if camera != null and camera.has_method("tremer"):
+				camera.tremer(tremor_giro)
+
+			return
 
 		Estado.INERCIA_ATAQUE_2:
 
@@ -429,6 +458,176 @@ func _on_timer_timeout():
 		return
 
 	await iniciar_dash()
+	
+
+func randomizar_atributos_segunda_fase():
+
+	if !segunda_fase_ativa:
+		return
+		
+	var intensidade_anterior: float = intensidade_ataque_atual
+
+	intensidade_ataque_atual = randf_range(
+		0.0,
+		1.0
+	)
+
+	# ======================================================
+	# VERIFICA SE O NOVO ATAQUE FICOU MAIS FORTE
+	# ======================================================
+
+	if primeira_randomizacao_fase_2:
+
+		grito_proximo_impacto = false
+		primeira_randomizacao_fase_2 = false
+
+	else:
+
+		grito_proximo_impacto = (
+			intensidade_ataque_atual
+			> intensidade_anterior
+		)
+
+	# ======================================================
+	# VELOCIDADE DO BOSS
+	# ======================================================
+
+	velocidade_dash = lerp(
+		1200.0,
+		1800.0,
+		intensidade_ataque_atual
+	)
+
+	# ======================================================
+	# QUANTIDADE DE DASHES
+	# ======================================================
+
+	quantidade_dashes = roundi(
+		lerp(
+			4.0,
+			8.0,
+			intensidade_ataque_atual
+		)
+	)
+
+	# ======================================================
+	# INTENSIDADE DO ATAQUE
+	# ======================================================
+
+	var intensidade: float = randf_range(
+		0.0,
+		1.0
+	)
+
+	# ======================================================
+	# VELOCIDADE DO BOSS
+	# ======================================================
+
+	velocidade_dash = lerp(
+		1200.0,
+		1800.0,
+		intensidade
+	)
+
+	# ======================================================
+	# QUANTIDADE DE DASHES
+	# ======================================================
+
+	quantidade_dashes = roundi(
+		lerp(
+			4.0,
+			8.0,
+			intensidade
+		)
+	)
+
+	# ======================================================
+	# TREMOR
+	# ======================================================
+
+	tremor = lerp(
+		16.0,
+		35.0,
+		intensidade
+	)
+
+	# ======================================================
+	# PEDRAS
+	# ======================================================
+
+	quantidade_pedras = roundi(
+		lerp(
+			7.0,
+			15.0,
+			intensidade
+		)
+	)
+
+	# ======================================================
+	# VELOCIDADE DAS PEDRAS
+	# ======================================================
+
+	velocidade_pedras_min = lerp(
+		300.0,
+		600.0,
+		intensidade
+	)
+
+	velocidade_pedras_max = lerp(
+		550.0,
+		1000.0,
+		intensidade
+	)
+
+	# ======================================================
+	# TEMPO DE VIDA DAS PEDRAS
+	# ======================================================
+
+	tempo_vida_pedras = lerp(
+		0.40,
+		0.15,
+		intensidade
+	)
+
+	# ======================================================
+	# TEMPO TONTO
+	# ======================================================
+
+	tempo_tonto = lerp(
+		0.10,
+		0.03,
+		intensidade
+	)
+
+	tempo_tonto_impacto_final = lerp(
+		0.30,
+		0.10,
+		intensidade
+	)
+
+	# ======================================================
+	# LEQUE DAS PEDRAS
+	# ======================================================
+
+	spread_pedras = lerp(
+		90.0,
+		160.0,
+		intensidade
+	)
+
+	print("================================")
+	print("NOVO ATAQUE DA SEGUNDA FASE")
+	print("Velocidade: ", velocidade_dash)
+	print("Dashes: ", quantidade_dashes)
+	print("Pedras: ", quantidade_pedras)
+	print("Velocidade pedras: ",
+		velocidade_pedras_min,
+		" - ",
+		velocidade_pedras_max
+	)
+	print("Vida pedras: ", tempo_vida_pedras)
+	print("Tremor: ", tremor)
+	print("================================")
 
 
 # ==========================================================
@@ -468,9 +667,7 @@ func bateu_parede():
 
 		if camera != null and camera.has_method("tremer"):
 
-			camera.tremer(
-				tremor_parede
-			)
+			camera.tremer(tremor)
 
 
 	# ======================================================
@@ -695,6 +892,25 @@ func bateu_parede():
 
 		await escolher_ataque_aleatorio()
 
+		# ==========================================
+		# NOVO ATAQUE
+		# ==========================================
+		if segunda_fase_ativa:
+			randomizar_atributos_segunda_fase()
+
+		dash_atual = 0
+		bateu = false
+		estado = Estado.IDLE
+
+		await get_tree().create_timer(
+			2.0
+		).timeout
+
+		if estado == Estado.IDLE:
+			await iniciar_dash()
+
+		return
+
 
 		# ==================================================
 		# REINICIA O CICLO
@@ -870,6 +1086,29 @@ func impacto_final():
 	await tween_chacoalhada.finished
 
 	await get_tree().create_timer(0.08).timeout
+	
+	# ======================================================
+	# GRITO
+	# ======================================================
+
+	var deve_gritar := false
+
+	if segunda_fase_ativa:
+
+		if grito_proximo_impacto:
+			deve_gritar = true
+
+			grito_proximo_impacto = false
+
+	else:
+
+		if randf() <= chance_grito_terceiro_dash:
+			deve_gritar = true
+
+
+	if deve_gritar:
+
+		await grito_boss()
 
 
 	# ======================================================
@@ -1606,21 +1845,105 @@ func escolher_ataque_aleatorio():
 func segunda_fase():
 
 	segunda_fase_ativa = true
+	
+	randomizar_atributos_segunda_fase()
 
 
 	# ======================================================
 	# ATRIBUTOS DA SEGUNDA FASE
 	# ======================================================
-	
-	quantidade_dashes = 6
 
-	velocidade_pedras_max = 800
-	tempo_vida_pedras = 0.25
-	tremor_parede = 28.0
+	# Sorteia a velocidade do boss
+	velocidade_dash = randf_range(
+		1200.0,
+		1800.0
+	)
 
-	velocidade_dash = 1500.0
-	tempo_tonto = 0.05
-	tempo_tonto_impacto_final = 0.2
+	# Normaliza a velocidade entre 0 e 1
+	var intensidade: float = inverse_lerp(
+		1200.0,
+		1800.0,
+		velocidade_dash
+	)
+
+	# ======================================================
+	# QUANTIDADE DE DASHES
+	# ======================================================
+
+	quantidade_dashes = randi_range(
+		4,
+		8
+	)
+
+	# ======================================================
+	# TREMOR DA PAREDE
+	# Quanto mais rápido, mais forte
+	# ======================================================
+
+	tremor = lerp(
+		16.0,
+		35.0,
+		intensidade
+	)
+
+	# ======================================================
+	# PEDRAS
+	# Quanto mais rápido, mais pedras
+	# ======================================================
+
+	quantidade_pedras = roundi(
+		lerp(
+			7.0,
+			15.0,
+			intensidade
+		)
+	)
+
+	# ======================================================
+	# VELOCIDADE DAS PEDRAS
+	# Quanto mais rápido o boss,
+	# mais rápidas as pedras
+	# ======================================================
+
+	velocidade_pedras_min = lerp(
+		300.0,
+		600.0,
+		intensidade
+	)
+
+	velocidade_pedras_max = lerp(
+		550.0,
+		1000.0,
+		intensidade
+	)
+
+	# ======================================================
+	# VIDA DAS PEDRAS
+	# Quanto mais rápido,
+	# mais rápido elas desaparecem
+	# ======================================================
+
+	tempo_vida_pedras = lerp(
+		0.40,
+		0.15,
+		intensidade
+	)
+
+	# ======================================================
+	# OUTROS ATRIBUTOS
+	# ======================================================
+
+	tempo_tonto = lerp(
+		0.10,
+		0.03,
+		intensidade
+	)
+
+	tempo_tonto_impacto_final = lerp(
+		0.30,
+		0.10,
+		intensidade
+	)
 
 
 	# ======================================================
@@ -1684,7 +2007,32 @@ func segunda_fase():
 		"SEGUNDA FASE ATIVADA"
 	)
 
+	print(
+		"Velocidade do boss: ",
+		velocidade_dash
+	)
 
+	print(
+		"Tremor: ",
+		tremor
+	)
+
+	print(
+		"Quantidade de pedras: ",
+		quantidade_pedras
+	)
+
+	print(
+		"Velocidade das pedras: ",
+		velocidade_pedras_min,
+		" - ",
+		velocidade_pedras_max
+	)
+
+	print(
+		"Vida das pedras: ",
+		tempo_vida_pedras
+	)
 # ==========================================================
 # TIMER DA SEGUNDA FASE
 # ==========================================================
@@ -1695,7 +2043,8 @@ func timer_segunda_fase():
 		12.0
 	).timeout
 
-	segunda_fase()
+	iniciar_transicao_segunda_fase()
+	
 func introducao_boss():
 
 	var camera: Camera2D = get_viewport().get_camera_2d()
@@ -1801,9 +2150,183 @@ func introducao_boss():
 		await get_tree().process_frame
 
 		tempo_grito += get_process_delta_time()
+		
+	# ==========================================
+	# CHACOALHADA FINAL
+	# ==========================================
+
+	global_position = posicao_spawn
+
+	var rot_original: float = rotation
+
+	var tween_chacoalhada = create_tween()
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rot_original
+		+ deg_to_rad(34.0),
+		0.05
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rot_original
+		- deg_to_rad(32.0),
+		0.05
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rot_original
+		+ deg_to_rad(16.0),
+		0.04
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rot_original
+		- deg_to_rad(8.0),
+		0.04
+	)
+
+	tween_chacoalhada.tween_property(
+		self,
+		"rotation",
+		rot_original,
+		0.08
+	)
+
+	await tween_chacoalhada.finished
 
 	# ==========================================
 	# FIM DA INTRO
 	# ==========================================
 	global_position = posicao_spawn
 	scale = escala_original
+	
+func grito_boss():
+
+	var camera: Camera2D = get_viewport().get_camera_2d()
+
+	var posicao_grito: Vector2 = global_position
+
+	var tempo := 0.0
+
+	while tempo < 1.0:
+
+		global_position = posicao_grito + Vector2(
+			randf_range(-4.0, 4.0),
+			randf_range(-4.0, 4.0)
+		)
+
+		if camera != null and camera.has_method("tremer"):
+
+			var intensidade := 5.0
+
+			# suaviza o tremor nos últimos 0.25s
+			if tempo > 0.75:
+
+				intensidade = lerp(
+					5.0,
+					0.0,
+					(tempo - 0.75) / 0.25
+				)
+
+			camera.tremer(intensidade)
+
+		await get_tree().process_frame
+
+		tempo += get_process_delta_time()
+
+	global_position = posicao_grito
+
+func iniciar_transicao_segunda_fase():
+
+	if segunda_fase_ativa:
+		return
+
+	# ==========================================
+	# ESPERA O ATAQUE 2 ESTAR GIRANDO
+	# ==========================================
+
+	while estado != Estado.GIRANDO_USB:
+
+		await get_tree().process_frame
+
+		if segunda_fase_ativa:
+			return
+
+	# ==========================================
+	# ACELERAÇÃO DO GIRO
+	# ==========================================
+
+	var tween_velocidade = create_tween()
+
+	tween_velocidade.tween_property(
+		self,
+		"ataque_2_velocidade",
+		14.0,
+		1.5
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_IN
+	)
+
+	await tween_velocidade.finished
+
+	# ==========================================
+	# CABO ROMPE
+	# ==========================================
+
+	var cabo_usb = get_tree().get_first_node_in_group(
+		"cabo_usb"
+	)
+
+	if is_instance_valid(cabo_usb):
+
+		if cabo_usb.has_method("morrer"):
+			cabo_usb.morrer()
+		else:
+			cabo_usb.visible = false
+
+	# ==========================================
+	# CALCULA A DIREÇÃO DA SAÍDA
+	# ==========================================
+
+	var direcao_saida: Vector2 = Vector2(
+		-sin(ataque_2_angulo),
+		cos(ataque_2_angulo)
+	).normalized()
+
+	velocidade_inercia_ataque_2 = (
+		direcao_saida
+		* ataque_2_velocidade_inercia
+	)
+
+	# ==========================================
+	# SAI VOANDO
+	# ==========================================
+
+	estado = Estado.INERCIA_ATAQUE_2
+
+	while estado == Estado.INERCIA_ATAQUE_2:
+
+		await get_tree().process_frame
+
+	# ==========================================
+	# AGORA CHAMA A SEGUNDA FASE
+	# ==========================================
+
+	chamar_segunda_fase()
+	
+func chamar_segunda_fase():
+
+	if segunda_fase_ativa:
+		return
+
+	segunda_fase()

@@ -11,7 +11,9 @@ height = 28.571432
 z_index = 2
 collision_layer = 4
 script = ExtResource("1_w6vbe")
-tempo_mira = 0.1
+tempo_mira = 0.0
+tempo_tonto = 0.0
+quantidade_dashes = 10
 quantidade_pedras = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=467953092]
