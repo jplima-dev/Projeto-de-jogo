@@ -19,7 +19,7 @@ enum Estado {
 
 var estado = Estado.IDLE
 var segunda_fase_ativa := false
-
+var introducao_ativa := false
 
 # ==========================================================
 # PARTICULAS DO DASH
@@ -162,9 +162,11 @@ func _ready():
 
 	$Timer.timeout.connect(_on_timer_timeout)
 
-	$Timer.start(2)
-
 	timer_segunda_fase()
+	
+	await introducao_boss()
+	
+	$Timer.start(0.5)
 
 
 # ==========================================================
@@ -1609,14 +1611,16 @@ func segunda_fase():
 	# ======================================================
 	# ATRIBUTOS DA SEGUNDA FASE
 	# ======================================================
+	
+	quantidade_dashes = 6
 
 	velocidade_pedras_max = 800
 	tempo_vida_pedras = 0.25
 	tremor_parede = 28.0
 
 	velocidade_dash = 1500.0
-	tempo_tonto = 0.1
-	tempo_tonto_impacto_final = 0.6
+	tempo_tonto = 0.05
+	tempo_tonto_impacto_final = 0.2
 
 
 	# ======================================================
@@ -1692,3 +1696,114 @@ func timer_segunda_fase():
 	).timeout
 
 	segunda_fase()
+func introducao_boss():
+
+	var camera: Camera2D = get_viewport().get_camera_2d()
+
+	if camera == null:
+		return
+
+	var posicao_spawn: Vector2 = camera.global_position
+
+	global_position = posicao_spawn
+
+	var escala_original: Vector2 = scale
+
+	# ==========================================
+	# 0.5s PARADO
+	# ==========================================
+	await get_tree().create_timer(0.5).timeout
+
+	# ==========================================
+	# SQUASH LENTO
+	# ==========================================
+	var tween_squash = create_tween()
+
+	tween_squash.tween_property(
+		self,
+		"scale",
+		Vector2(
+			escala_original.x,
+			escala_original.y * 0.90
+		),
+		2.0
+	).set_trans(
+		Tween.TRANS_SINE
+	).set_ease(
+		Tween.EASE_IN_OUT
+	)
+
+	# Tremor sutil durante os 2 segundos
+	var tempo_squash := 0.0
+
+	while tempo_squash < 2.0:
+
+		if camera.has_method("tremer"):
+			camera.tremer(0.8)
+
+		await get_tree().process_frame
+
+		tempo_squash += get_process_delta_time()
+
+	# ==========================================
+	# GARANTE QUE O SQUASH TERMINOU
+	# ==========================================
+	scale = Vector2(
+		escala_original.x,
+		escala_original.y * 0.90
+	)
+
+	# ==========================================
+	# VOLTA RAPIDAMENTE AO NORMAL
+	# ==========================================
+	var tween_estouro = create_tween()
+
+	tween_estouro.tween_property(
+		self,
+		"scale",
+		escala_original,
+		0.10
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	await get_tree().create_timer(0.10).timeout
+
+	# ==========================================
+	# GRITO
+	# ==========================================
+	var tempo_grito := 0.0
+
+	while tempo_grito < 1.5:
+
+		# Intensidade do tremor vai diminuindo no final
+		var intensidade_grito: float = 5.0
+
+		if tempo_grito > 1.1:
+			intensidade_grito = lerp(
+				5.0,
+				0.0,
+				(tempo_grito - 1.1) / 0.4
+			)
+
+		# Tremor do boss
+		global_position = posicao_spawn + Vector2(
+			randf_range(-4.0, 4.0),
+			randf_range(-4.0, 4.0)
+		)
+
+		# Tremor da câmera
+		if camera.has_method("tremer"):
+			camera.tremer(intensidade_grito)
+
+		await get_tree().process_frame
+
+		tempo_grito += get_process_delta_time()
+
+	# ==========================================
+	# FIM DA INTRO
+	# ==========================================
+	global_position = posicao_spawn
+	scale = escala_original
